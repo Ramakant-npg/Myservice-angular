@@ -1,0 +1,188 @@
+<div>
+<p><small >Are you planning to install any of these?</small></p>
+
+<!---PhotoVoltaic section ---->
+<section >
+<button mat-button class="btn" [ngClass]="(isShowPvPhotoVoltaicForm || pvFormData) ? 'btn-danger' : 'btn-secondary'" (click)="showFormBasedOnOption('pv')"  [disabled]="disabledPvButton" >
+<small>PV (PhotoVoltaic)</small>
+</button>
+<p>
+<small class="text-muted">Including photovoltaic panels </small>
+<!-- <i><em class="fa fa-info-circle bg bg-info ">i</em></i> -->
+<mat-icon aria-hidden="false" matTooltip="What is PV generation?" (click)="isPvInfo=!isPvInfo">info</mat-icon>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="isPvInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is PV?</p>
+    <p> PV Photovoltaic Solar panels use light energy (photons) from the sun to generate electricity through the photovoltaic effect. These solar panels are fitted by an approved electrician to the roof of your home. The energy they generate can be used alongside your electricity supply as a cost effective way to bring energy into your premises.</p>
+</div>
+<mat-divider class="my-3"></mat-divider>
+<div class="installationForm" *ngIf="isShowPvPhotoVoltaicForm">
+
+<button mat-button class="btn " class="btn-danger deselect" (click)="deSelectOption()"><small>Deselect This Section</small>
+</button>
+<app-three-kw-installation-form 
+[validatedForm] ="formValidtoChild"
+[parentToChildFormData] ="parentToChildFormData"
+[installationFormName]="formName"
+(enableOtherFormsOnValid)="isEnabledorDisabledForm($event)"
+(installationFormData)="getInstallationFormData($event)">
+</app-three-kw-installation-form >
+</div>
+</section>
+
+<!---Wind section ---->
+<section>
+<!-- {{disabledWindButton}} -->
+<button mat-button class="btn "  [ngClass]="(isShowWindForm || windFormData) ? 'btn-danger' : 'btn-secondary'" (click)="showFormBasedOnOption('wind')"
+ [disabled]="disabledWindButton">
+<small>Wind</small>
+</button>
+<p>
+<small class="text-muted">Including small garden turbines</small>
+<!-- <i><em class="fa fa-info-circle bg bg-info ">i</em></i> -->
+<mat-icon aria-hidden="false" matTooltip="What is wind generation?" (click)="isWindInfo=!isWindInfo">info</mat-icon>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="isWindInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is wind?</p>
+    <p>A wind turbine is a device that converts kinetic energy from the wind, also called wind energy, into mechanical energy; a process known as wind power. If the mechanical energy is used to produce electricity, the device may be called a wind turbine or wind power plant.</p>
+</div>
+<mat-divider class="my-3"></mat-divider>
+<div class="installationForm" *ngIf="isShowWindForm">
+<button mat-button class="btn btn-danger deselect" (click)="deSelectOption()"><small>Deselect This Section</small></button>
+<app-three-kw-installation-form 
+[validatedForm] ="formValidtoChild"
+[parentToChildFormData] ="parentToChildFormData"
+[installationFormName]="formName"
+(enableOtherFormsOnValid)="isEnabledorDisabledForm($event)"
+(installationFormData)="getInstallationFormData($event)">
+</app-three-kw-installation-form >
+</div>
+</section>
+
+<!---Hydro section ---->
+<section>
+<button mat-button class="btn " [disabled]="disabledHydroButton" [ngClass]="(isShowHydroForm || hydroFormData) ? 'btn-danger' : 'btn-secondary'" (click)="showFormBasedOnOption('hydro')">
+<small>Hydro</small>
+</button>
+<p>
+<small class="text-muted">Including water wheels, underground hydroelectric plant</small>
+<!-- <i><em class="fa fa-info-circle bg bg-info ">i</em></i> -->
+<mat-icon aria-hidden="false" matTooltip="What is hydro generation?" (click)="isHydroInfo=!isHydroInfo">info</mat-icon>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="isHydroInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is Hydro?</p>
+    <p> Hydropower or water power is power derived from the energy of falling water, which may be harnessed for useful purposes.</p>
+</div>
+<mat-divider class="my-3"></mat-divider>
+<div class="installationForm" *ngIf="isShowHydroForm">
+<button mat-button class="btn btn-danger deselect" (click)="deSelectOption()"><small>Deselect This Section</small></button>
+<app-three-kw-installation-form  
+[validatedForm] ="formValidtoChild" 
+[installationFormName]="formName"
+[parentToChildFormData] ="parentToChildFormData"
+(enableOtherFormsOnValid)="isEnabledorDisabledForm($event)"
+(installationFormData)="getInstallationFormData($event)"></app-three-kw-installation-form >
+</div>
+</section>
+
+<!---Biomass section ---->
+<section>
+<button mat-button class="btn " [disabled]="disabledBiomassButton" [ngClass]="(isShowBiomassForm || bioMassFormData) ? 'btn-danger' : 'btn-secondary'" (click)="showFormBasedOnOption('biomass')">
+<small>Biomass</small>
+</button>
+<p>
+<small class="text-muted">Including wood, slurry and biofuel burners </small>
+<!-- <i><em class="fa fa-info-circle bg bg-info ">i</em></i> -->
+<mat-icon aria-hidden="false" matTooltip="What is biomass generation?" (click)="isBiomassInfo=!isBiomassInfo">info</mat-icon>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="isBiomassInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is Biomass?</p>
+    <p> Biomass is plant matter used to generate electricity with steam turbines & gasifiers or produce heat, usually by direct combustion. Examples include forest residues (such as dead trees, branches and tree stumps), yard clippings, wood chips and even municipal solid waste.</p>
+</div>
+<mat-divider class="my-3"></mat-divider>
+<div class="installationForm" *ngIf="isShowBiomassForm">
+<button mat-button class="btn btn-danger deselect" (click)="deSelectOption()"><small>Deselect This Section</small></button>
+<app-three-kw-installation-form 
+[validatedForm] ="formValidtoChild"
+[parentToChildFormData] ="parentToChildFormData"
+[installationFormName]="formName"
+(enableOtherFormsOnValid)="isEnabledorDisabledForm($event)"
+(installationFormData)="getInstallationFormData($event)">
+</app-three-kw-installation-form >
+</div>
+</section>
+
+<!---CHP (Combined Heat & Power) section ---->
+<section>
+<button mat-button class="btn "   [disabled]="disabledChpButton"  [ngClass]="(isShowChpForm || chpFormData) ? 'btn-danger' : 'btn-secondary'" (click)="showFormBasedOnOption('chp')">
+<small>CHP (Combined Heat & Power) </small>
+</button>
+<p>
+<small class="text-muted">Including gas turbines </small>
+<!-- <i><em class="fa fa-info-circle bg bg-info ">i</em></i> -->
+<mat-icon aria-hidden="false" matTooltip="What is CHP generation?" (click)="isChpInfo=!isChpInfo">info</mat-icon>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="isChpInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is CHP?</p>
+    <p>Combined heat and power, CHP also - Cogeneration is the use of a heat engine or a power station to simultaneously generate both electricity and useful heat. All thermal power plants emit a certain amount of heat during electricity generation. This can be released into the natural environment through cooling towers, flue gas, or by other means. Large office and apartment buildings, hotels and stores commonly generated their own power and used waste steam for building heat.</p>
+</div>
+<mat-divider class="my-3"></mat-divider>
+<div class="installationForm" *ngIf="isShowChpForm">
+<button mat-button class="btn " class="btn-danger deselect" (click)="deSelectOption()"><small>Deselect This Section</small></button>
+<app-three-kw-installation-form 
+[validatedForm] ="formValidtoChild"
+[parentToChildFormData] ="parentToChildFormData"
+[installationFormName]="formName"
+(enableOtherFormsOnValid)="isEnabledorDisabledForm($event)"
+(installationFormData)="getInstallationFormData($event)">
+</app-three-kw-installation-form >
+</div>
+</section>
+
+<!---Energy Storage section ---->
+<section>
+<button mat-button class="btn "  [disabled]="disabledEnergyButton"   [ngClass]="(isShowEniergyForm || energyFormData)? 'btn-danger' : 'btn-secondary'" (click)="showFormBasedOnOption('energy')">
+<small>Energy Storage</small>
+</button>
+<p>
+<small class="text-muted">Including Lithium Ion (LI-ION), NickelCadmium (NI-CD), Sodium Sulphur (NAS) batteries, fly wheel, micro pump hydro and CAES etc. </small>
+<!-- <i><em class="fa fa-info-circle bg bg-info ">i</em></i> -->
+<mat-icon aria-hidden="false" matTooltip="What is energy storage generation?" (click)="isEnergyStorageInfo=!isEnergyStorageInfo">info</mat-icon>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="isEnergyStorageInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is Energy Storage?</p>
+    <p>Examples include Lithium Ion (LI-ION), NickelCadmium (NI-CD), Sodium Sulphur (NAS) batteries, fly wheel, micro pump hydro and CAES etc.</p>
+</div>
+<mat-divider class="my-3"></mat-divider>
+<div class="installationForm" *ngIf="isShowEniergyForm">
+<button mat-button class="btn btn-danger deselect" (click)="deSelectOption()"><small>Deselect This Section</small></button>
+<!-- <app-three-kw-installation-form [validatedForm] ="formValidtoChild"  [installationFormName]="formName" (installationFormData)="getInstallationFormData($event)"></app-three-kw-installation-form > -->
+    <app-energy-storage
+    [installationFormName]="formName"
+    (installationFormData)="getInstallationFormData($event)"
+    (enableOtherFormsOnValid)="isEnabledorDisabledForm($event)"
+    [parentToChildFormData] ="parentToChildFormData" 
+    ></app-energy-storage>
+</div>
+</section>
+
+<!---Other section ---->
+<section>
+<button mat-button class="btn "  [disabled]="disabledOtherButton"  [ngClass]="(isShowOtherForm  || otherFormData)? 'btn-danger' : 'btn-secondary'" (click)="showFormBasedOnOption('other')">
+Other
+</button>
+<mat-divider class="my-3"></mat-divider>
+<div class="installationForm" *ngIf="isShowOtherForm">
+<button mat-button class="btn btn-danger deselect" (click)="deSelectOption()"><small>Deselect This Section</small></button>
+<app-three-kw-installation-form 
+[validatedForm] ="formValidtoChild"
+[parentToChildFormData] ="parentToChildFormData"
+[installationFormName]="formName"
+(enableOtherFormsOnValid)="isEnabledorDisabledForm($event)"
+(installationFormData)="getInstallationFormData($event)">
+</app-three-kw-installation-form >
+</div>
+</section>
+
+</div>
+

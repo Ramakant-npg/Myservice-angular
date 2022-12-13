@@ -1,0 +1,96 @@
+<div class="container" style="max-width:1020px;">
+    <div style="margin-bottom: 20px;font-size: 9;">
+        STEP 4 Of  11
+    </div>
+    <div style="margin-bottom: 20px;">
+        <span style="color:#ab1236">*</span> 
+        Signifies mandatory fields
+    </div>
+    <p><span class="validation-style" *ngIf="Poc_Export_Mpan==null && formSubmitted && Poc_Generation_Connected === 0">
+         Please provide us with your existing Export MPAN number</span></p>
+    <p><span class="validation-style" *ngIf="Poc_Import_Mpan == null && formSubmitted && Poc_Generation_Connected === 0">
+         Please provide us with your existing Import MPAN number</span></p>
+     <p><span class="validation-style" *ngIf="formSubmitted && matchmpanImportPattern ">
+        Import MPAN number must be 13 characters long</span></p> 
+        <p><span class="validation-style" *ngIf="formSubmitted && matchmpanExportPattern ">
+            Import MPAN number must be 13 characters long</span></p> 
+    <p><span class="validation-style" *ngIf="mpanStartsWith">
+        MPAN number must begin with either 15 or 23. (if your MPAN does not, you are not in our area and need to contact your Distribution Network Operator)
+        </span></p>
+
+    <form #generationForm="ngForm">
+
+        <div class="form-group mb-2">
+            <p class="titleHeading">Would you like a new point of connection or additional load for an existing point of connection?</p>
+            <mat-radio-group
+                    aria-labelledby="example-radio-group-label"
+                    class="example-radio-group"
+                    name="connectionType"
+                    #connectionType="ngModel"
+                    [(ngModel)]="Poc_Generation_Connected">
+                    <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option.value">
+                        {{option.name}}
+                    </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="increasedLoad" style="margin-top: 20px;" *ngIf="Poc_Generation_Connected === 0 ">
+            <p  class="titleHeading">For this generation what is the:</p>
+            <div >
+                <div style="display:flex;" >
+                    <div class="form-group" style="margin-right:40px">
+                        <label>Max Export (kW) </label>
+                         <input type="number" class="form-control" name="Max_Export" 
+                         #Max_Export="ngModel"  [(ngModel)]="Poc_Max_Export">
+                    </div>
+                    <div class="form-group" style="margin-right:40px">
+                        <label>Rated Current (amps) </label>
+                         <input type="number" class="form-control" name="Rated_Current" 
+                         #Rated_Current="ngModel" [(ngModel)]="Poc_Rated_Current">
+                    </div>
+                    <div class="form-group" style="margin-right:40px">
+                        <label>Rated Voltage (volts) </label>
+                         <input type="number" class="form-control" name="Rated_Voltage" 
+                         #Rated_Voltage="ngModel" [(ngModel)]="Poc_Rated_Voltage">
+                    </div>
+                    <div class="form-group">
+                        <label>Type of Generation </label>
+                         <input type="number" class="form-control" name="Type_Of_Generation" 
+                         #Type_Of_Generation="ngModel" [(ngModel)]="Poc_Type_Of_Generation">
+                    </div>
+                </div>
+                <div style="display:flex;" >
+                    <div class="form-group" style="margin-right:40px">
+                        <label>Existing Export MPAN<span style="color: red">*</span> </label>                         
+                         <input type="number" class="form-control"
+                         [ngClass]="{'inputError': (Export_Mpan?.errors?.['required'] && formSubmitted)
+                          || (Export_Mpan.dirty && Export_Mpan?.errors?.['pattern'] && formSubmitted) }"
+                            [(ngModel)]="Poc_Export_Mpan"  name="Export_Mpan" 
+                            #Export_Mpan="ngModel" [pattern]="mpanPattern"  required>
+                    </div>
+                    <div class="form-group" style="margin-right:40px">
+                        <label>Existing Import MPAN<span style="color: red">*</span> </label>
+                         <input type="number" class="form-control" name="Import_Mpan" 
+                         #Import_Mpan="ngModel" [(ngModel)]="Poc_Import_Mpan" [pattern]="mpanPattern" 
+                         [ngClass]="{'inputError': (Import_Mpan?.errors?.['required'] && formSubmitted)
+                          || (Import_Mpan.dirty && Import_Mpan?.errors?.['pattern'] && formSubmitted) }"
+                          required >
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="action-btns my-3">
+        <button  mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSubmit('isSubmit', 'InProgress')">
+         SAVE AND CONTINUE
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="backToPreviousTemplate()" *ngIf="navIndex!==0">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="onSubmit('saveForLater', 'Paused');">
+         SAVE FOR LATER
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<!----part 2 html-->
+<div>
+<p class="mb-0"><span>Will you be installing any welders?</span>
+    <em class="fa fa-info-circle float-right px-3" matTooltip="Why do we need to know about welders?" (click)="welderInfo=!welderInfo"></em>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="welderInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">How does this information help?</p>
+    <p>Any equipment that uses a large amount of power can sometimes cause dips in supply for other customers connected to our network. Electric motors and welders usually will cause this on start-up.</p>
+</div>
+<p class="mb-0"><small>Types of welders include: MIG, TIG, plasma cutters, stud welders, machine tools and large power tools</small></p>
+</div>
+<div class="btn-group mb-2">
+<button  mat-button class="btn" [ngClass]="isShowWelderForm ? 'btn-danger' : 'btn-secondary'"  (click)="showWelderForm(true); changeValues()" [disabled]="enableDisableWelderButton">Yes</button>
+<button  mat-button class="btn" [ngClass]="!isShowWelderForm ? 'btn-danger' : 'btn-secondary'"  (click)="showWelderForm(false); changeValues()" [disabled]="enableDisableWelderButton">No</button>
+</div>
+<div class="error" *ngFor="let err of welderFormArray.controls; let i=index">
+    <p *ngIf="formSubmitted && err.get('Current_Welder').value === null">Please specify an input current for Welder #{{i+1}}</p>
+    <p *ngIf="formSubmitted && err.get('Rating_Welder').value === null">Please specify a rating for Welder #{{i+1}}</p>
+    <p *ngIf="formSubmitted && err.get('Voltage_Welder').value === null">Please specify a voltage for Welder #{{i+1}}</p>
+</div>
+<ng-container *ngIf="isShowWelderForm">
+<p><small id="welderCount" class="form-text text-muted">How many welders do you plan to install?</small></p>
+
+</ng-container>
+<ng-container *ngIf="wanttoShowWelderForm === true">
+    <form  [formGroup]="welderForm">
+        <div class="numberofPump my-2">
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="reduceWelderForm(); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+                </button>
+            </div>
+        
+            <div class="d-inline-block">
+            <input id="welderCountInput" name="welderCount" 
+            type="number" class="form-control input-group-text" formControlName="No_Welder" readonly="true">
+            </div>
+        
+            <div class="d-inline-block">
+            <button mat-icon-button (click)="addWelderForm(); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+            </div>
+        
+        </div>
+        <div formArrayName="welderFormArray"  *ngIf="welderCount>0">
+            <div class="repeatedForm row g-3"  *ngFor="let gen of welderFormArray.controls; let i=index" [formGroupName]="i">
+
+                <div class="col-md-4">
+                    <label for="voltage" class="form-label text-muted">Input Voltage (volts)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="voltageInput" placeholder="0" min="0"  (input)="changeValues()"  formControlName="Voltage_Welder" class="form-control input-group-text" >
+                </div>
+                <div class="col-md-4">
+                    <label for="startingCurrent" class="form-label text-muted">Input Current (Amps per phase)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="startingCurrentInput" placeholder="0" min="0"  (input)="changeValues()"  formControlName="Current_Welder" class="form-control input-group-text" >
+                </div>
+                <div class="col-md-4">
+                    <label for="rating" class="form-label text-muted">Rating (KW)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="ratingInput" placeholder="0" min="0"  (input)="changeValues()"  formControlName="Rating_Welder"  class="form-control input-group-text">
+                </div>
+                <div class="col-md-4">
+                    <label for="model" class="form-label text-muted">Welds per minute</label>
+                    <input type="number" id="weldsInput" placeholder="0" min="0"  (input)="changeValues()" formControlName="Weld_Per_Minute" class="form-control input-group-text">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="phase" class="form-label text-muted ">Phase</label>
+    
+                    <div class="dropdown">
+                        <select formControlName="Phase_Welder" class="form-control input-group-text"  (change)="changeValues()">
+                            <option *ngFor="let phase of phaseTypeList" [ngValue]="phase.id"> {{phase.name}}</option>
+                        </select>
+    
+                    </div>
+                </div>
+                
+                <hr>
+            </div>
+        </div>
+    </form>
+</ng-container>

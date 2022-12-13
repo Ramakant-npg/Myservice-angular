@@ -1,0 +1,61 @@
+.step, .mandate {
+    margin-top: 10px;
+}
+textarea {
+    background-color: #ebebeb;
+    border: none;
+    margin-top: 5px;
+    padding: 8px 0px 10px 10px;
+}
+.btnStyle {
+    background-color:#ab1236;
+    color:white;
+    margin: 10px 10px 10px 0px;
+    border: none; 
+    font-size: 14px; 
+    font-weight: 560;
+}
+textarea:focus {
+    outline: none !important;
+    border:none;
+  }
+.firstQuest {
+    margin-top: 40px !important;
+}
+.validation-style {
+    color: #ab1236;
+    font-size: 12px;
+}
+.form-group p {
+    margin-top: 15px;
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+.borderCss {
+    padding: 9px 9px 9px 9px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+:host ::ng-deep .mat-radio-label-content {
+    margin-top: 50px;
+    margin-left: -27px;
+    width: 100px;  
+    color: #737373; 
+    font-size: 13px;
+}
+:host ::ng-deep .mat-radio-ripple {
+    display: none;
+}
+:host ::ng-deep .mat-radio-outer-circle {
+    background-color: #ebebeb;
+    border: none;
+    width: 23px;
+    height: 23px;
+}
+:host ::ng-deep .mat-radio-inner-circle {
+    background-color: #c81841 !important;
+    width: 35px;
+    height: 35px;
+    margin-top:-6px;
+    margin-left: -6px;
+}

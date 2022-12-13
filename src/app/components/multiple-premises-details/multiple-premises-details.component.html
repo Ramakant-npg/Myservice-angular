@@ -1,0 +1,232 @@
+<div class="container" style="max-width:1020px">
+    <div style="margin-bottom: 10px;"><span style="color:#ab1236">*</span> Signifies mandatory fields</div>
+    <div class="errors-container" *ngIf="Premises === 0">
+        <p *ngIf="showPremisesError || formSubmitted">Please select No of premises attached</p>
+    </div>
+    <div class="errors-container" *ngIf="Premises >= 1">
+        <div *ngFor="let item of premisesDetails.controls; let i=index">
+            <p *ngIf="item.get('Type')?.errors?.['required'] && formSubmitted">Please provide the type for premises #{{i+1}}</p>
+            <p *ngIf="item.get('Site_Name')?.errors?.['required'] && formSubmitted">
+                Please provide us with the address site name / plot number for premises #{{i+1}}
+            </p>
+            <p *ngIf="item.get('Site_City')?.errors?.['required'] && formSubmitted">
+                Please provide us with the address city / region for premises #{{i+1}}
+            </p>
+            <p *ngIf="item.get('Registred_Capacity')?.errors?.['required'] && formSubmitted">
+                Please specify the Micro-generator registered capacity in kW at 230V AC for premises {{i+1}}
+            </p>
+            <p *ngIf="item.get('No_Of_Phases')?.errors?.['required'] && formSubmitted">
+                Please specify the number of phases for premises {{i+1}}
+            </p>
+            <p *ngIf="item.get('Installation_Year')?.value == '--Please Choose--' && formSubmitted">
+                Please provide the proposed installation date (year) for premises #{{i+1}}
+            </p>
+            <p *ngIf="item.get('Installation_Qtr')?.value == '--Please Choose--' && formSubmitted">
+                Please provide the proposed installation date (quarter) for premises #{{i+1}}
+            </p>
+            <p *ngIf="item.get('Site_Street')?.errors?.['required'] && formSubmitted">
+                Please provide us with the address site street for premises #{{i+1}}
+            </p>
+            <p *ngIf="item.get('Site_Postcode')?.errors?.['required'] && formSubmitted">
+                Please provide us with the address postcode for premises #{{i+1}}
+            </p>
+            <p *ngIf="showinvalidPostcodeError && formSubmitted">
+                Invalid Postcode
+            </p>
+            <p *ngIf="item.get('Ref_Number')?.errors?.['required'] && formSubmitted">
+                Please specify the manufacturers type test reference number for premises {{i+1}}
+            </p>
+            <p *ngIf="!showMpanCharLimitError && showMpanError && formSubmitted">
+                MPAN number must begin with either 15 or 23 for premises #1. (if your MPAN does not, you are not in our area and need to contact your Distribution Network Operator).
+            </p>
+            <p *ngIf="showMpanCharLimitError && formSubmitted">
+                MPAN number must be 13 characters long for premises #{{i+1}}
+            </p>
+        </div>
+    </div>
+    
+    <h2>How many premises are you proposing to connect generation at? <span style="color:#ab1236">*</span></h2>
+    <p style="margin-bottom:20px;">Please provide address details of each premises</p>
+    <p style="margin-bottom:0px;">All premises must be within 500m of each other (for example NE1 3RE, NE1 3RF)</p>
+    <p>If this is not the case, please create a separate application for all postcode groups, or contact the
+        connections team to discuss.</p>
+
+    <button mat-icon-button style="margin-left: -10px;"
+        (click)="decreasedValue()">
+        <mat-icon>keyboard_double_arrow_left</mat-icon>
+    </button>
+    <input name="premises" type="number" #premises="ngModel" class="textfield--standard" [(ngModel)]="Premises">
+    <button mat-icon-button (click)="increasedValue()">
+        <mat-icon>keyboard_double_arrow_right</mat-icon>
+    </button>
+    <form [formGroup]="premisesForm">
+        <div *ngIf="Premises >= 1" formArrayName="premisesDetails">
+            <div class="form-container" style=" margin-top: 20px;" *ngFor="let item of premisesDetails.controls; let i=index" [formGroupName]="i">
+                <div>
+
+                </div>
+                <h2>Premises #{{i + 1}}
+                    <button *ngIf="i !== 0" (click)="copyForm(i)" style="background-color:#ab1236;color:white;padding: 5px 10px;margin-top: 20px;border: none;font-size: 14px;">
+                        COPY FROM PREMISES#{{i}}
+                    </button>
+                </h2>
+                <div style="display:flex;">
+                    <div class="form-group" style="margin-right:15px;width: 49%;">
+                        <label>Type<span style="color:#ab1236">*</span></label>
+                        <div style="margin-top:5px;">
+                            <input type="text" formControlName="Type" #Type (keyup)="checkAlphabetAndDot(Type.value, 'qual')"
+                                style="border: none;padding: 10px;background-color: #ebebeb;margin-bottom: 20px;">
+                                <small *ngIf="item.get('Type')?.value != '' && !qualCheck " style="color:red">
+                                    Special Character now allowed
+                                </small>
+                        </div>
+                    </div>
+                    <div class="form-group" style="width: 50%;">
+                        <label >MPAN</label>
+                        <button mat-icon-button style="margin-top:-10px;" color="primary" matTooltip="MPAN Info" (click)="mpanInfo=!mpanInfo">
+                            <mat-icon>info</mat-icon>
+                        </button>
+                        <div style="margin-top:5px;">
+                            <input type="number" formControlName="mpan"
+                                style="border: none;padding: 10px;background-color: #ebebeb;margin-bottom: 20px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="mpanInfo" *ngIf="mpanInfo"  [@slideInOut]>
+                    <p style="font-weight: bold;">What is an MPAN?</p>
+                    <p>An MPAN (Meter Point Administration Number) is a unique number to the property’s electricity meter, a sort of reference number for your meter. It is found on the electricity bill issued by your supplier. This is sometimes called a Supply Number but it should not be confused by your customer reference number. If you don’t have a bill you can call your supplier and ask for you MPAN number, they should be able to either tell you the full 21 digit MPAN or arrange to send it to you.</p>
+                </div>
+                <div style="display:flex;">
+                    <div class="left-content" style="width:50%">
+                        <div class="form-group" style="margin-right:15px;">
+                            <label>Site name/Plot number<span style="color:#ab1236">*</span></label>
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" formControlName="Site_Name" #siteName (keyup)="checkAddress(siteName.value, 'site')"
+                                    style="border: none;padding: 10px;background-color: #ebebeb;">
+                                    <small *ngIf="item.get('Site_Name')?.errors?.['required'] && formSubmitted" style="color:red">
+                                        mandatory field.
+                                    </small>
+                                    <small *ngIf="item.get('Site_Name')?.value != '' && !siteCheck " style="color:red">
+                                        Only Alphabet, Numbers, / , ., - are allowed
+                                    </small> 
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-right:15px;">
+                            <label>City/Region<span style="color:#ab1236">*</span></label>
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" formControlName="Site_City" #siteCity  (keyup)="checkAlphabet(siteCity.value, 'city')"
+                                    style="border: none;padding: 10px;background-color: #ebebeb;width: 100%;">
+                                    <small *ngIf="item.get('Site_City')?.errors?.['required'] && formSubmitted" style="color:red">
+                                        mandatory field.
+                                    </small>
+                                    <small *ngIf="item.get('Site_City')?.value != '' && !cityCheck " style="color:red">
+                                        Only Alphabet, Numbers, / , ., - are allowed
+                                    </small> 
+                            </div> 
+                        </div>
+                        <div style="display:flex">
+                            <div class="form-group" style="margin-right:25px;">
+                                <label>Micro-generator registered capacity in kW at 230V AC<span style="color:#ab1236">*</span></label>
+                                <div style="margin-bottom: 20px;display:flex">
+                                    <input type="number" formControlName="Registred_Capacity"
+                                        style="border: none;padding: 10px;background-color: #ebebeb;width: 50%;margin-right: -20px;">
+                                    <span style="float:left;margin-top:5px;margin-left:28px;">kW</span>  
+                                </div> 
+                            </div>
+                            <div class="form-group" style="margin-right:15px;">
+                                <label style="margin-bottom:25px">Number of phases<span style="color:#ab1236">*</span></label>
+                                <div style="margin-bottom: 20px;">
+                                    <input type="number" formControlName="No_Of_Phases"
+                                        style="border: none;padding: 10px;background-color: #ebebeb;width:90%;">  
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:flex">
+                            <div class="form-group" style="margin-right:25px;">
+                                <label>Proposed installation Date (Year)<span style="color:#ab1236">*</span></label>
+                                <div style="margin-bottom: 20px;">
+                                    <select formControlName="Installation_Year" class="select--standard">
+                                        <option> --Please Choose-- </option>
+                                        <option *ngFor="let item of proposedIntYearList" [value]="item.year"> {{item.year}}</option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="form-group" style="margin-right:15px;">
+                                <label>Proposed installation Date (Qtr)<span style="color:#ab1236">*</span></label>
+                                <div style="margin-bottom: 20px;">
+                                    <select formControlName="Installation_Qtr" class="select--standard">
+                                        <option> --Please Choose-- </option>
+                                        <option *ngFor="let item of proposedIntQtrList" [value]="item.qtr"> {{item.qtr}}</option>
+                                    </select>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-content" style="width:50%">
+                        <div class="form-group">
+                            <label>Site street<span style="color:#ab1236">*</span></label>
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" formControlName="Site_Street" #siteStreet (keyup)="checkAddress(siteStreet.value, 'street')"
+                                    style="border: none;padding: 10px;background-color: #ebebeb;">
+                                    <small *ngIf="item.get('Site_Street')?.errors?.['required'] && formSubmitted" style="color:red">
+                                        mandatory field.
+                                    </small>
+                                    <small *ngIf="item.get('Site_Street')?.value != '' && !streetCheck " style="color:red">
+                                        Only Alphabet, Numbers, / , ., - are allowed
+                                    </small> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Site Postcode<span style="color:#ab1236">*</span></label>
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" formControlName="Site_Postcode" #sitePostcode (keyup)="checkPostcode(sitePostcode.value)"
+                                    style="border: none;padding: 10px;background-color: #ebebeb;width: 100%;" [maxlength]="8"
+                                    [ngClass]="{'input-error': item.get('Site_Postcode')?.errors?.['required'] && formSubmitted}" required>
+                                    <small *ngIf="item.get('Site_Postcode')?.errors?.['required'] && formSubmitted" style="color:red">
+                                        mandatory field.
+                                    </small>
+                                    <small *ngIf="item.get('Site_Postcode')?.value != '' && !postCheck " style="color:red">
+                                        invalid postcode.
+                                    </small>
+                            </div>  
+                        </div>
+                        <div style="display:flex">
+                            <div class="form-group" style="margin-right:20px;">
+                                <label>Manufacturers Type Test Reference Number<span style="color:#ab1236">*</span></label>
+                                <div style="margin-bottom: 20px;">
+                                    <input type="number" formControlName="Ref_Number"
+                                        style="border: none;padding: 10px;background-color: #ebebeb;width: 65%;"> 
+                                </div> 
+                            </div>
+                            <div class="form-group" style="margin-right:15px;">
+                                <label style="margin-bottom:25px;">Rating of the inverter</label>
+                                <div style="margin-bottom: 20px;">
+                                    <input type="number" formControlName="Inverter_Rating"
+                                        style="border: none;padding: 10px;background-color: #ebebeb;width: 50%;">
+                                    <span style="float:left;margin-top:-34px;margin-left:129px;">amps</span>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </form>
+    <div class="action-btns my-2">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress')"
+        [disabled]=" !siteCheck || !streetCheck || !cityCheck || !postCheck || !qualCheck"
+         >
+         SAVE AND CONTINUE
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0"  (click)="backToPreviousTemplate()">Back</button>
+        
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('saveForLater', 'Paused');"
+        [disabled]="!siteCheck || !streetCheck || !cityCheck || !postCheck || !qualCheck">
+         SAVE FOR LATER
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

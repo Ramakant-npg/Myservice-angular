@@ -1,0 +1,300 @@
+<div class="container">
+    <div style="margin-bottom: 10px;"><span style="color:#ab1236">*</span> Signifies mandatory fields</div>
+    <div class="errors-container">
+        <p *ngIf="FirstName?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer first name
+        </p>
+        <p *ngIf="Surname?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer surname
+        </p>
+        <p *ngIf="companyName?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer company name
+        </p>
+        <p *ngIf="natureOfBusiness?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer nature of business
+        </p>
+        <p *ngIf="siteName.errors?.['required'] && formSubmitted">
+            Please provide us with the installer address site name / plot number
+        </p>
+        <p *ngIf="SiteStreet.errors?.['required'] && formSubmitted">
+            Please provide us with the installer address site street
+        </p>
+        <p *ngIf="City.errors?.['required'] && formSubmitted">
+            Please provide us with the installer address city / region
+        </p>
+        <p *ngIf="Postcode?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer address postcode
+        </p>
+        <!-- <p *ngIf="Postcode?.errors?.['pattern'] && formSubmitted">
+            Invalid installer address postcode
+        </p> -->
+        <p *ngIf="Telephone?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer contact telephone
+        </p>
+        <p *ngIf="Telephone?.errors?.['pattern'] && formSubmitted">
+            Invalid installer contact telephone
+        </p>
+        <p *ngIf="Telephone?.errors?.['minlength'] && formSubmitted">
+            Installer contact telephone should be minimum 10 digits
+        </p>
+        <p *ngIf="mobileNo?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer mobile
+        </p>
+        <p *ngIf="mobileNo?.errors?.['pattern'] && formSubmitted">
+            Invalid installer mobile
+        </p>
+        <p *ngIf="mobileNo?.errors?.['minlength'] && formSubmitted">
+            Installer mobile shule be minimum 10 digits
+        </p>
+        <p *ngIf="email?.errors?.['required'] && formSubmitted">
+            Please provide us with the installer email
+        </p>
+        <p *ngIf="email?.errors?.['pattern'] && formSubmitted">
+            Invalid installer email
+        </p>
+    </div>
+    <div class="ref-container">
+        <h2>Do you have your own internal reference that you would like us to use to refer to your project?</h2>
+        <input type="text" class="form-control" name="customerRef" (keyup)="checkAlphabetAndDot(Multiple_customer_Reference, 'proj')"
+         [(ngModel)]="Multiple_customer_Reference"
+            placeholder="E.g. Project 123abc"/>
+            <p *ngIf="Multiple_customer_Reference != '' && !projectCheck" style="color: red;">
+                Only Alphabet and Number are allowed
+            </p>
+    </div>
+    <div class="installer-details-form">
+        <div class="" style="display:flex;justify-content:flex-start;">
+            <div class="installer-form" style="width: 50%; margin-right: 30px;">
+                <h2 style="margin-bottom: 10px;">Installer Details</h2>
+                <p>The address of the installer.</p>
+                <div class="installerContainer" style="margin-bottom:30px;">
+                    <form #multipleInstallerForm="ngForm">
+                        <div class="form-group">
+                            <label>Installer title</label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkTitle(multipleInstallerDetail.Multiple_Installer_Title)"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Title" name="title">
+                                    <small *ngIf="multipleInstallerDetail?.Multiple_Installer_Title != '' && !titleCheck" style="color:red">
+                                        Please provide a suitable title 
+                                    </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Installer first name <span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(multipleInstallerDetail.Multiple_Installer_First_Name, 'first')"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_First_Name" name="FirstName" #FirstName="ngModel"
+                                    [ngClass]="{'input-error': FirstName?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="FirstName?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Installer_First_Name != '' && !alphaCheckFirst" style="color:red">
+                                    Only Alphabet and Number are Allowed.
+                                </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Installer surname <span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(multipleInstallerDetail.Multiple_Installer_Surname, 'sur')"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Surname" name="Surname" #Surname="ngModel"
+                                    [ngClass]="{'input-error': Surname?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="Surname?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Installer_Surname != '' && !alphaCheckLast" style="color:red">
+                                    Only Alphabet and Number are Allowed.
+                                </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Company name<span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(multipleInstallerDetail.Multiple_Installer_Company_Name, 'comp')"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Company_Name" name="companyName" #companyName="ngModel"
+                                    [ngClass]="{'input-error': companyName?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="companyName?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Installer_Company_Name != '' && !compCheck" style="color:red">
+                                    Special Characters not allowed
+                                </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Nature of business<span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkNature(multipleInstallerDetail.Multiple_Nature_Of_Business)"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Nature_Of_Business" name="natureOfBusiness" #natureOfBusiness="ngModel"
+                                    [ngClass]="{'input-error': natureOfBusiness?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="natureOfBusiness?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Nature_Of_Business != '' && !natureBusinessCheck" style="color:red">
+                                    Only Alphabet and Number are Allowed.
+                                </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Site name/number<span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkAddress(multipleInstallerDetail.Multiple_Installer_Site_Name, 'site')"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Site_Name" name="siteName" #siteName="ngModel" 
+                                    [ngClass]="{'input-error': siteName.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="siteName.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small> 
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Installer_Site_Name != '' && !siteCheck " style="color:red">
+                                    Only Alphabet, Numbers, / , ., - are allowed
+                                </small> 
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Site street<span style="color:#ab1236">*</span></label>
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkAddress(multipleInstallerDetail.Multiple_Installer_Street, 'street')"
+                                 [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Street"
+                                 name="SiteStreet" #SiteStreet="ngModel" [ngClass]="{'input-error': SiteStreet?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="SiteStreet.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Installer_Street != '' && !streetCheck " style="color:red">
+                                    Only Alphabet, Numbers, / , ., - are allowed
+                                </small> 
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Site city/region<span style="color:#ab1236">*</span></label>
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkAlphabet(multipleInstallerDetail.Multiple_Installer_City_Region, 'city')" 
+                                 [(ngModel)]="multipleInstallerDetail.Multiple_Installer_City_Region" name="City"
+                                    #City="ngModel" 
+                                    [ngClass]="{'input-error': City?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="City.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>  
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Installer_City_Region != '' && !cityCheck" style="color:red">
+                                    Only Alphabet Allowed.
+                                </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Site postcode<span style="color:#ab1236">*</span></label>
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" class="form-control" (keyup)="checkPostCode(multipleInstallerDetail.Multiple_Installer_Postcode)"
+                                 [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Postcode"
+                                    [maxlength]="8" name="Postcode" #Postcode="ngModel"  
+                                    [ngClass]="{'input-error': Postcode?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="Postcode?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="multipleInstallerDetail?.Multiple_Installer_Postcode != '' && !postCodeCheck" style="color:red">Invalid Postcode</small> 
+                            </div>  
+                        </div>
+                        <div class="form-group">
+                            <label>Installer telephone <span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Telephone" name="Telephone" #Telephone="ngModel"
+                                    [minlength]="10" [maxlength]="11" [pattern]="mobilePattern" 
+                                    [ngClass]="{'input-error': Telephone?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="Telephone?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="Telephone?.errors?.['pattern']" style="color:red">
+                                    invalid telephone number
+                                </small>
+                                <small *ngIf="Telephone?.errors?.['minlength'] || Telephone?.errors?.['maxlength'] " style="color:red">
+                                    Numbers should be between 10-11
+                                </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Installer mobile <span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Mobile" name="mobileNo" #mobileNo="ngModel"
+                                    [minlength]="10" [maxlength]="11" [pattern]="mobilePattern" 
+                                    [ngClass]="{'input-error': mobileNo?.errors?.['required'] && formSubmitted}" required>
+                                <small *ngIf="mobileNo?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                <small *ngIf="mobileNo?.errors?.['pattern']" style="color:red">
+                                    invalid telephone number
+                                </small>
+                                <small *ngIf="mobileNo?.errors?.['minlength'] || mobileNo?.errors?.['maxlength'] " style="color:red">
+                                    Numbers should be between 10-11
+                                </small>
+                            </div> 
+                        </div>
+                        <div class="form-group">
+                            <label>Installer email address<span style="color:#ab1236">*</span></label>
+                            <div style="margin-top:5px;margin-bottom: 20px;">
+                                <input type="email" class="form-control" 
+                                    [(ngModel)]="multipleInstallerDetail.Multiple_Installer_Email_Address" name="email" #email="ngModel" 
+                                    [ngClass]="{'input-error': email?.errors?.['required'] && formSubmitted}" [pattern]="emailPattern" required>
+                                <small *ngIf="email?.errors?.['required'] && formSubmitted" style="color:red">
+                                    mandatory field.
+                                </small>
+                                
+                                <small *ngIf="email?.errors?.['pattern']" style="color:red">
+                                    Invalid email 
+                                </small>
+                            </div> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="address-actions">
+                <h2  style="margin-bottom: 20px;">Would you like to use your contact details as the installer address details?</h2>
+                <button  mat-button  class="btn btn-danger text-uppercase btn-sm m-2 d-none">CHANGE MY ADDRESS</button>
+                <span class="d-none"> (opens in new window)</span>
+                <div>
+                    <button  mat-button  class="btn btn-danger text-uppercase btn-sm m-2" (click)="contactDetailClick()">
+                        USE MY CORRESPONDENCE ADDRESS
+                    </button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h2>Your contact details</h2>
+                    <div>
+                      {{contactDetail?.title}}  {{contactDetail?.custFirstName}} {{contactDetail?.custSurName}}
+                    </div>
+                    <div>{{contactDetail?.custCompanyName}}</div>
+                    <div>{{contactDetail?.custContactTel}}</div>
+                    <div>{{contactDetail?.email}}</div>
+                    <div>{{contactDetail?.Site_Name}}</div>
+                    <div>{{contactDetail?.Site_Street}}</div>
+                    <div>{{contactDetail?.Site_City}}</div>
+                    <div>{{contactDetail?.Site_Postcode}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="action-btns">
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  
+            (click)="onSave('isSubmit', 'InProgress')"
+            [disabled]="!projectCheck || !titleCheck || !alphaCheckFirst || !alphaCheckLast
+            || !compCheck || !natureBusinessCheck || !siteCheck || !streetCheck || !cityCheck
+            || !postCodeCheck || Telephone?.errors?.['pattern']
+            || Telephone?.errors?.['minlength'] || Telephone?.errors?.['maxlength']
+            || mobileNo?.errors?.['minlength'] || mobileNo?.errors?.['maxlength'] || mobileNo?.errors?.['pattern'] 
+            || email?.errors?.['pattern']">
+             SAVE AND CONTINUE
+            </button>
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0" (click)="backToPreviousTemplate()">Back</button>
+        
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('saveForLater', 'Paused');"
+            [disabled]="!projectCheck || !titleCheck || !alphaCheckFirst || !alphaCheckLast
+            || !compCheck || !natureBusinessCheck || !siteCheck || !streetCheck || !cityCheck
+            || !postCodeCheck || Telephone?.errors?.['pattern']
+            || Telephone?.errors?.['minlength'] || Telephone?.errors?.['maxlength']
+            || mobileNo?.errors?.['pattern'] || mobileNo?.errors?.['minlength'] || mobileNo?.errors?.['maxlength']
+            || email?.errors?.['pattern']">
+             SAVE FOR LATER
+            </button>
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+             REQUEST A CALLBACK 
+            </button>
+        </div>
+    </div>
+</div>

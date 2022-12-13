@@ -1,0 +1,17 @@
+<div class="container">
+    <!----electric equipment html-->
+    <!-- <p class="bg bg-danger text-white p-2 rounded my-2"><small>Electrical equipment you are going to connect</small></p> -->
+    <app-electric-shower-heater  (enableElectricShower)="enableElectricOtherFields($event)" [enableDisableElectricButton]="disableElectricOtherField" [formSubmitted]="validateForm" (electricShowerFormData)="electricShowerFormData($event)"></app-electric-shower-heater>
+    <app-ground-source-heat-pump (enableGroundButton)="enableGroundOtherFields($event)" [enableDisableGroundButton]="disableGroundOtherField" [formSubmitted]="validateForm" (grounSourcePumpData)="grounSourcePumpData($event)"></app-ground-source-heat-pump>
+    <app-air-source-heat-pump (enableAirSource)="enableAirSourceHeatOtherFields($event)" [enableDisableAirSourceButton]="disableAirHeatOtherField" [formSubmitted]="validateForm" (airSourceFormData)=" airSourceFormData($event)"></app-air-source-heat-pump>
+    <app-motor (enableMotor)="enableMotorButtonOtherFields($event)" [enableDisableMotorButton]="disableMotorOtherField" [formSubmitted]="validateForm" (motorFormData)="motorFormData($event)"></app-motor>
+    <app-welder (enableWelder)="enableWelderButtonOtherFields($event)" [enableDisableWelderButton]="disabledWelderOtherField" [formSubmitted]="validateForm" (welderFormData)="welderFormData($event)"></app-welder>
+    <app-harmonic (enableHarmonic)="enableHarmonicButtonOtherFields($event)" [enableDisableHarmonicButton]="disableHarmonicOtherField" [formSubmitted]="validateForm" (harmonicFormData)="harmonicFormData($event)"></app-harmonic>
+    <div class="">
+        <button   mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="saveData('isSubmit', 'InProgress')">Save and Continue</button>
+        <button   mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="backToPreviousTemplate()">Back</button>
+        <button   mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="saveData('saveForLater', 'Paused')">Save for later</button>
+        <button   mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="goToCallBackTemplate()">Request A Callback</button>
+      </div>
+</div>
+

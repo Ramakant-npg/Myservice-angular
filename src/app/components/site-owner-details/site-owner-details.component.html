@@ -1,0 +1,388 @@
+<div class="container">
+    <div class="mandate"><span style="color:#ab1236">*</span> Signifies mandatory fields
+    </div>
+    <div class="firstQuest">
+    <p class="headingTypText">
+        Do you have your own internal reference that you would like us to use to refer to your project?
+    </p>
+    <input type="text" name="siteOwnerRef" (keyup)="checkName(Customer_Reference, 'project')"
+    [(ngModel)]="Customer_Reference" placeholder="Eg. Project 123abc"/>
+    <p *ngIf="Customer_Reference != '' && !projectCheck" style="color: red;">
+        Only Alphabet and Number are allowed
+    </p>
+    </div>
+    
+    <div class="secondQuest">
+        <div class="microGeneratorDetails">
+            <div class="errors">
+                <p><span class="validation-style" *ngIf="CityRegion?.errors?.['required'] && formSubmitted">Please provide us with the Micro-generator installation address city / region</span></p>
+                <p><span class="validation-style" *ngIf="customerContactTel?.errors?.['required'] && formSubmitted">Please provide us with the customer contact telephone</span></p>
+                <p><span class="validation-style" *ngIf="customerFirstName?.errors?.['required'] && formSubmitted">Please provide us with the customer first name</span></p>
+                <p><span class="validation-style" *ngIf="Surname?.errors?.['required'] && formSubmitted">Please provide us with the customer surname</span></p>
+                <p><span class="validation-style" *ngIf="SiteName?.errors?.['required'] && formSubmitted">Please provide us with the Micro-generator installation address site name / plot number</span></p>
+                <p><span class="validation-style" *ngIf="SiteStreet?.errors?.['required'] && formSubmitted">Please provide us with the Micro-generator installation address site street</span></p>
+               <p><span class="validation-style" *ngIf="mpan?.errors?.['required'] && formSubmitted">Please provide us with your MPAN number</span></p> 
+                 <!-- <p><span class="validation-style" *ngIf="formSubmitted && Postcode?.errors?.['required']">Please provide us with the Micro-generator installation address postcode</span></p>
+                <p><span class="validation-style" *ngIf="formSubmitted && mpan.dirty && mpan?.errors?.['pattern']">MPAN number must be 13 characters long</span></p>
+                <p><span class="validation-style" *ngIf="formSubmitted && Postcode.dirty && Postcode?.errors?.['pattern']">Invalid Micro-generator installation address postcode</span></p>-->
+                <p><span class="validation-style" *ngIf="mpanStartsWith">MPAN number must begin with either 15 or 23. (if your MPAN does not, you are not in our area and need to contact your Distribution Network Operator)</span></p>
+            </div>
+            <p class="headingTypText">Micro-generator Installation Address Details</p>
+            <p>The address where your generation has been installed.</p>
+
+                <form class="microGenStyle" #microGeneratorInfoForm="ngForm">
+                    <div class="form-group">
+                        <label>Customer title</label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkTitle(Customer_Title)"
+                                [(ngModel)]="Customer_Title" name="customerTitle">
+                                <small *ngIf="Customer_Title != '' && !titleCheck" style="color:red">
+                                    Please provide a suitable title 
+                                </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Customer first name <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(Customer_First_Name, 'first')"
+                                name="customerFirstName" #customerFirstName="ngModel" [(ngModel)]="Customer_First_Name"  required>
+                                <small *ngIf="customerFirstName?.errors?.['required'] && formSubmitted" style="color:red">
+                                    Customer First name is required.
+                                </small>
+                                <small *ngIf="Customer_First_Name != '' && !custCheckFirst" style="color:red">
+                                    Only Alphabet and Number are Allowed.
+                                </small>
+                                
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Customer surname <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(Customer_Surname, 'sur')"
+                                [(ngModel)]="Customer_Surname" name="Surname" #Surname="ngModel" required>
+                            <small *ngIf="Surname?.errors?.['required'] && formSubmitted" style="color:red">
+                                Customer surname is required.
+                            </small>
+                            <small *ngIf="Customer_Surname != '' && !custCheckLast" style="color:red">
+                                Only Alphabet and Number are Allowed.
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Customer contact telephone <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control"
+                                [(ngModel)]="Customer_Contact_Telephone" name="customerContactTel" 
+                                #customerContactTel="ngModel" [minlength]="10" [maxlength]="11"
+                                [pattern]="mobilePattern" required>
+                            <small *ngIf="customerContactTel?.errors?.['required'] && formSubmitted" style="color:red">
+                                Please give the customer contact telephone
+                            </small>
+                            <small *ngIf="customerContactTel?.errors?.['pattern']" style="color:red">
+                                invalid telephone
+                            </small>
+                            <small *ngIf="customerContactTel?.errors?.['minlength'] || customerContactTel?.errors?.['maxlength'] " style="color:red">
+                                Numbers should be between 10-11
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Site name / Plot number <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAddress(Site_Address1, 'site')"
+                                [(ngModel)]="Site_Address1" name="SiteName" #SiteName="ngModel" required>
+                            <small *ngIf="SiteName?.errors?.['required'] && formSubmitted" style="color:red">
+                                Site name / Plot number is required.
+                            </small>
+                            <small *ngIf="Site_Address1 != '' && !custsiteCheck " style="color:red">
+                                Only Alphabet, Numbers, / , ., - are allowed
+                            </small> 
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Site street  <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAddress(Site_Address2, 'street')"
+                                [(ngModel)]="Site_Address2" name="SiteStreet" #SiteStreet="ngModel" required>
+                            <small *ngIf="SiteStreet?.errors?.['required'] && formSubmitted" style="color:red">
+                                Site street is required.
+                            </small>
+                            <small *ngIf="Site_Address2 != '' && !custstreetCheck " style="color:red">
+                                Only Alphabet, Numbers, / , ., - are allowed
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>City / Region <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAlphabet(Site_Address3, 'city')" 
+                                [(ngModel)]="Site_Address3" name="CityRegion" #CityRegion="ngModel" required>
+                            <small *ngIf="CityRegion?.errors?.['required'] && formSubmitted" style="color:red">
+                                City / Region is required.
+                            </small>
+                            <small *ngIf="Site_Address3 != '' && !custcityCheck" style="color:red">
+                                Only Alphabet Allowed.
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Postcode<span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkPostCode(Site_Postcode, 'sitePostCode')"
+                                [(ngModel)]="Site_Postcode" name="Postcode" #Postcode="ngModel" required>
+                            <small *ngIf="formSubmitted && Postcode?.errors?.['required']" style="color:red">
+                                Postcode is required.
+                            </small>
+                            <!-- <small *ngIf="Postcode.dirty && Postcode?.errors?.['pattern']" style="color:red">
+                                Invalid Postcode</small> -->
+                            <small *ngIf="Site_Postcode != '' && !sitePostCodeCheck" style="color:red">
+                                Invalid Postcode
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>13 digit MPAN number <span style="color:#ab1236">*</span></label>
+                        <button mat-icon-button color="primary" matTooltip="What is my MPAN number and how do I find it?" (click)="mpanInfo=!mpanInfo">
+                            <mat-icon>info</mat-icon>
+                        </button>
+                        
+                        <div class="microGenStyleCss">
+                            <input type="number" class="form-control"
+                                [(ngModel)]="Mpan" name="mpan" #mpan="ngModel" [pattern]="mpanPattern"  required>
+                            <small *ngIf="mpan?.errors?.['required'] && formSubmitted" style="color:red">
+                                MPAN is required
+                            </small>
+                            <small *ngIf="mpan.dirty && mpan?.errors?.['pattern']" style="color:red">MPAN number must be 13 characters long</small>
+                            <p><small *ngIf="mpanStartsWith" style="color:red">MPAN number must begin with either 15 or 23. (if your MPAN does not, you are not in our area and need to contact your Distribution Network Operator)</small></p>
+                        </div>
+                        
+                    </div>
+                    <div class="heatingInfo" *ngIf="mpanInfo"  [@slideInOut]>
+                        <p style="font-weight: bold;">What is an MPAN?</p>
+                        <p>An MPAN (Meter Point Administration Number) is a unique number to the property’s electricity meter, a sort of reference number for your meter. It is found on the electricity bill issued by your supplier. This is sometimes called a Supply Number but it should not be confused by your customer reference number. If you don’t have a bill you can call your supplier and ask for you MPAN number, they should be able to either tell you the full 21 digit MPAN or arrange to send it to you.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Previous Reference </label>
+                        <button mat-icon-button color="primary" matTooltip="Not sure?" (click)="prevRefInfo=!prevRefInfo">
+                            <mat-icon>info</mat-icon>
+                        </button>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(Previous_Reference, 'prev')"
+                                [(ngModel)]="Previous_Reference" name="previousRef" #previousRef="ngModel" >
+                                <small *ngIf="Previous_Reference != '' && !prevRef" style="color:red">
+                                    Special Characters not allowed
+                                </small>
+                        </div>
+                        
+                    </div>
+                    <div class="heatingInfo" *ngIf="prevRefInfo"  [@slideInOut]>
+                        <p style="font-weight: bold;">What Reference?</p>
+                        <p>If this notification follows an approval to connect, please provide the Northern Powergrid quotation reference.</p>
+                    </div>
+                </form>
+        </div>
+        <div class="microgneeratorHelper">
+            <div class="form-group">
+                <p class="headingTypText">Would you like to use your contact details as the Micro-generator installation address details?</p>
+            </div>
+            <div class="form-group">
+                <button  mat-button  class="btn btn-danger text-uppercase btn-sm m-2 d-none">
+                    CHANGE MY ADDRESS
+                   </button>
+                   <span class="d-none">(Opens in new window)</span>
+            </div>
+            <div class="form-group">
+                <button  mat-button  class="btn btn-danger text-uppercase btn-sm m-2" (click)="populateDetails()">
+                 USE MY CONTACT DETAILS
+                </button>
+            </div>
+            <div class="form-group">
+                <p class="connections-caption">Your contact details</p>
+                <p class="contactDetailsNameCss"> {{dummyContactDetails?.title}} {{dummyContactDetails?.custFirstName}} {{dummyContactDetails?.custSurName}}</p>
+                <p class="contactDetailsNameCss">{{dummyContactDetails?.custCompanyName}}</p>
+                <p class="contactDetailsNameCss">{{dummyContactDetails?.custContactTel}}</p>
+                <p class="contactDetailsNameCss">{{dummyContactDetails?.email}}</p>
+                <p class="contactDetailsNameCss">{{dummyContactDetails?.siteAddr1}}</p>
+                <p class="contactDetailsNameCss">{{dummyContactDetails?.siteAddr2}}</p>
+                <p class="contactDetailsNameCss">{{dummyContactDetails?.siteAddr3}}</p>
+                <p class="contactDetailsNameCss">{{dummyContactDetails?.postCode}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="thirdQuest">
+        <div class="microOwnerDetails">
+            <p class="headingTypText">Micro-generator Owner Address Details</p>
+            <p>If different from installation address.</p>
+            <form class="microGenStyle" #ownerInfoForm="ngForm">
+                <div class="form-group">
+                    <label>Owner title</label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" (keyup)="checkOwnerTitle(Owner_Title)"
+                            [(ngModel)]="Owner_Title" name="ownerTitle">
+                            <small *ngIf="Owner_Title != '' && !ownerTitleCheck" style="color:red">
+                                Please provide a suitable title 
+                            </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Owner first name </label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(Owner_First_Name, 'ofirst')"
+                            name="ownerFirstName" [(ngModel)]="Owner_First_Name" >
+                            <small *ngIf="Owner_First_Name != '' && !ownerCheckFirst" style="color:red">
+                                Only Alphabet and Number are Allowed.
+                            </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Owner surname </label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" (keyup)="checkAlphabetAndDot(Owner_Surname, 'osur')"
+                            [(ngModel)]="Owner_Surname" name="ownerSurname">
+                            <small *ngIf="Owner_Surname != '' && !ownerCheckLast" style="color:red">
+                                Only Alphabet and Number are Allowed.
+                            </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Owner contact telephone </label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" 
+                            [(ngModel)]="Owner_Contact_Telephone" [minlength]="10" [maxlength]="11" 
+                            name="ownerContactTel"  #ownerContactTel="ngModel"
+                            [pattern]="mobilePattern" required>
+                            <small *ngIf="ownerContactTel?.errors?.['pattern']" style="color:red">
+                                invalid telephone
+                            </small>
+                            <small *ngIf="ownerContactTel?.errors?.['minlength'] || ownerContactTel?.errors?.['maxlength'] " style="color:red">
+                                Numbers should be between 10-11
+                            </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Site name / number </label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" (keyup)="checkAddress(Owner_Site_Address1, 'osite')"
+                            [(ngModel)]="Owner_Site_Address1" name="ownerSiteName">
+                            <small *ngIf="Owner_Site_Address1 != '' && !ownersiteCheck " style="color:red">
+                                Only Alphabet, Numbers, / , ., - are allowed
+                            </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Street </label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" (keyup)="checkAddress(Owner_Site_Address2, 'ostreet')"
+                            [(ngModel)]="Owner_Site_Address2" name="ownerStreet"> 
+                            <small *ngIf="Owner_Site_Address2 != '' && !ownerstreetCheck " style="color:red">
+                                Only Alphabet, Numbers, / , ., - are allowed
+                            </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>City / Region </label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" (keyup)="checkAlphabet(Owner_Site_Address3, 'ocity')" 
+                            [(ngModel)]="Owner_Site_Address3" name="ownerCity">
+                            <small *ngIf="Owner_Site_Address3 != '' && !ownercityCheck " style="color:red">
+                                Only Alphabet, Numbers, / , ., - are allowed
+                            </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Postcode </label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <!-- <input 
+                        [(ngModel)]="Owner_Site_Postcode" type="text" class="form-control" name="v" #ownerPostCode="ngModel" 
+                        [pattern]="postCodePattern"> -->
+                        <input type="text" class="form-control" (keyup)="checkPostCode(Owner_Site_Postcode, 'ownerSitePostCode')"
+                            [(ngModel)]="Owner_Site_Postcode" name="ownerPostCode" #ownerPostCode="ngModel"  required>
+                            <small *ngIf="Owner_Site_Postcode != '' && !ownerSitePostCodeCheck" style="color:red">
+                                Invalid Postcode</small>
+                    </div> 
+                </div>
+                <!-- <div class="form-group">
+                    <label>Postcode<span style="color:#ab1236">*</span></label>
+                    <div class="microGenStyleCss">
+                        <input type="text" class="form-control" 
+                            [(ngModel)]="Site_Postcode" name="Postcode" #Postcode="ngModel" [pattern]="postCodePattern" required>
+                        <small *ngIf="formSubmitted && Postcode?.errors?.['required']" style="color:red">
+                            Postcode is required.
+                        </small>
+                        <small *ngIf="Postcode.dirty && Postcode?.errors?.['pattern']" style="color:red">
+                            Invalid Postcode</small>
+                    </div> 
+                </div> -->
+            </form>
+        </div>
+        <div class="microOwnerHelper">
+            <div class="form-group">
+                <p class="headingTypText">Would you like to use your contact details as the Micro-generator owner address details?</p>
+            </div>
+            <div class="form-group">
+                <button mat-button color="warn" class="btnStyle" (click)="populateOwnerInfo()">
+                    USE MY CONTACT DETAILS
+                   </button>
+            </div>
+            <div class="form-group">
+                <p class="headingTypText">Would you like to use the installation details as the Micro-generator owner address details?</p>
+            </div>
+            <div class="form-group">
+                <button mat-button color="warn" class="btnStyle" (click)="populateInstallationInfo()">
+                    USE INSTALLATION DETAILS
+                   </button>
+            </div>
+        </div>
+    </div>
+    <div class="action-btns">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" 
+        (click)="onSubmit('isSubmit', 'InProgress')"
+        [disabled]="!projectCheck || !titleCheck || !custCheckFirst
+        || !custCheckLast || !sitePostCodeCheck
+        || !custsiteCheck || !custstreetCheck || !custcityCheck 
+        || !prevRef || !ownerTitleCheck || !ownerCheckLast || !ownerCheckFirst
+        || !ownersiteCheck || !ownerstreetCheck || !ownercityCheck || !ownerSitePostCodeCheck
+        || ownerContactTel?.errors?.['minlength'] || ownerContactTel?.errors?.['maxlength']
+        || customerContactTel?.errors?.['minlength'] || customerContactTel?.errors?.['maxlength'] ">
+         SAVE AND CONTINUE
+        </button>
+        <!-- <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" 
+        (click)="onSubmit('isSubmit', 'InProgress')"
+        [disabled]="!projectCheck || !titleCheck || !custCheckFirst
+        || !custCheckLast || customerContactTel?.errors?.['pattern'] || customerContactTel?.errors?.['minlength'] || customerContactTel?.errors?.['maxlength']
+        || !custsiteCheck || !custstreetCheck || !custcityCheck || Postcode?.errors?.['pattern'] || mpan?.errors?.['pattern']
+        || !prevRef || !ownerTitleCheck || !ownerCheckLast || !ownerCheckFirst
+        || ownerContactTel?.errors?.['pattern'] || ownerContactTel?.errors?.['minlength'] || ownerContactTel?.errors?.['maxlength']
+        || !ownersiteCheck || !ownerstreetCheck || !ownercityCheck || (ownerPostCode.dirty && ownerPostCode?.errors?.['pattern'])">
+         SAVE AND CONTINUE
+        </button> -->
+        <button *ngIf="navIndex!==0" mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="backToPreviousTemplate()">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" 
+        (click)="onSubmit('saveForLater', 'Paused');"
+        [disabled]="!projectCheck || !titleCheck || !custCheckFirst
+        || !custCheckLast || !sitePostCodeCheck
+        || !custsiteCheck || !custstreetCheck || !custcityCheck 
+        || !prevRef || !ownerTitleCheck || !ownerCheckLast || !ownerCheckFirst
+        || !ownersiteCheck || !ownerstreetCheck || !ownercityCheck || !ownerSitePostCodeCheck
+        || ownerContactTel?.errors?.['minlength'] || ownerContactTel?.errors?.['maxlength']
+        || customerContactTel?.errors?.['minlength'] || customerContactTel?.errors?.['maxlength'] 
+         ">
+         SAVE FOR LATER
+        </button>
+        <!-- <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" 
+        (click)="onSubmit('saveForLater', 'Paused');"
+        [disabled]="!projectCheck || !titleCheck || !custCheckFirst
+        || !custCheckLast || customerContactTel?.errors?.['pattern'] || customerContactTel?.errors?.['minlength'] || customerContactTel?.errors?.['maxlength']
+        || !custsiteCheck || !custstreetCheck || !custcityCheck || Postcode?.errors?.['pattern'] || mpan?.errors?.['pattern']
+        || !prevRef || !ownerTitleCheck || !ownerCheckLast || !ownerCheckFirst
+        || ownerContactTel?.errors?.['pattern'] || ownerContactTel?.errors?.['minlength'] || ownerContactTel?.errors?.['maxlength']
+        || !ownersiteCheck || !ownerstreetCheck || !ownercityCheck || (ownerPostCode.dirty && ownerPostCode?.errors?.['pattern'])">
+         SAVE FOR LATER
+        </button> -->
+        <button  mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+
+         
+    </div>
+</div>

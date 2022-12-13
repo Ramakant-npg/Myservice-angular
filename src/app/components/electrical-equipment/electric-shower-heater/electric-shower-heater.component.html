@@ -1,0 +1,126 @@
+<div style="color:red; font-size: 12px;" *ngIf="formSubmitted && isShowElectricShowerForm === true">
+    <p *ngIf="electricShowerForm.get('No_Electric_Shower').value === null">you have indicated your heating type to be electric, please specify at least one type of heating</p>
+</div>
+<!----part 1 html-->
+<!-- <p class="mb-0"><span>Please provide us with details of your electric heating, including electric showers and water heaters </span> <i class="fa fa-info-circle float-right">*</i></p>  -->
+<p class="mb-0"><span>Will you be installing any electric heating, including electric showers and water heaters?</span>
+    <em class="fa fa-info-circle float-right px-3" matTooltip="Why do we need to know about electric heating?" (click)="heatingInfo=!heatingInfo"></em>
+</p>
+
+<div class="bg-grey p-2 my-2" *ngIf="heatingInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">How does this information help?</p>
+    <p> Electric showers, water heaters and electric heaters require more electricity than appliances such as TVs, washing machines, cookers etc and your connection needs to be capable of providing this.</p>
+</div>
+<div class="btn-group mb-2">
+<button  mat-button class="btn"  [ngClass]="(isShowElectricShowerForm === true) ? 'btn-danger' : 'btn-secondary'" (click)="showElectricShowerForm(true); changeValues()" [disabled]="enableDisableElectricButton">Yes</button>
+<button  mat-button class="btn " [ngClass]="(isShowElectricShowerForm === false) ? 'btn-danger' : 'btn-secondary'" (click)="showElectricShowerForm(false); changeValues()" [disabled]="enableDisableElectricButton">No</button>
+</div>
+<ng-container *ngIf="wanttoShowElectricShowerForm">
+<div>
+    <small id="electricShowerCountErrr" class="form-text text-muted">
+        Please provide the load for each permises for any electric heating you plan on installing. <br/>
+    If you need to provide information on individual permises, Please upload addtional information below.
+    </small>
+</div>
+<form  [formGroup]="electricShowerForm" >
+<table class="table table-borderless">
+    <thead>
+    <tr>
+        <th></th>
+        <th class="text-muted font-weight-light">Number of</th>
+        <th class="text-muted font-weight-light">Load</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="height-65px">
+        <td>Electric shower</td>
+        <td> 
+            <div class="form-group">
+            <input id="electricShowerCountInput" (input)="changeValues()" type="text" name="electricShowerCount" formControlName="No_Electric_Shower"  class="form-control input-group-text"  aria-describedby="electricShowerCount">
+            <span  class="text-danger error-msg" *ngIf="!electricShowerForm.controls.No_Electric_Shower.valid">Enter number only</span>
+        </div>
+        </td>
+        <td> 
+            <div class="input-group">
+            <input id="electricShowerLoadInput" type="text" formControlName="Load_Electric_Shower" class="form-control input-group-text"  aria-describedby="electricShowerLoad">
+            <div class="input-group-append">
+            <span class="p-2 ">KW</span>
+            </div>
+            </div>  
+            <div  class="text-danger  error-msg" *ngIf="!electricShowerForm.controls.Load_Electric_Shower.valid">Enter number only</div>
+
+        </td>
+    </tr>
+    <tr class="height-65px">
+
+        <td>Water heaters</td>
+        <td> 
+            <div class="form-group">
+            <input id="waterHeaterCountInput" type="Number" formControlName="No_Water_Heater" class="form-control input-group-text"  aria-describedby="waterHeaterCount">
+            </div>
+        </td>
+        <td> 
+            <div class="input-group">
+            <input id="waterHeaterLoadInput" type="Number" formControlName="Load_Water_Heater" class="form-control input-group-text"  aria-describedby="waterHeaterLoad">
+            <div class="input-group-append">
+            <span class="p-2 ">KW</span>
+            </div>
+            </div>    
+        </td>
+    </tr>
+    <tr class="height-65px">
+
+        <td>Storage Heaters</td>
+        <td> 
+            <div class="form-group">
+            <input  id="storageHeaterCountInput" type="Number" formControlName="No_Storage_Heater" class="form-control input-group-text" aria-describedby="storageHeaterCount">
+            </div>
+        </td>
+        <td> 
+            <div class="input-group">
+            <input id="storageHeaterLoadInput" type="Number" formControlName="Load_Storage_Heater" class="form-control input-group-text" aria-describedby="storageHeaterLoad">
+            <div class="input-group-append">
+            <span class="p-2 ">KW</span>
+            </div>
+            </div>    
+        </td>
+    </tr>
+    <tr class="height-65px">
+
+        <td>Direct-Acting Space Heating (DASH)</td>
+        <td> 
+            <div class="form-group">
+            <input type="Number" id="directActingHeatingCountInput" formControlName="No_DASH" class="form-control input-group-text"  aria-describedby="directActingHeatingCount">
+            </div>
+        </td>
+        <td> 
+            <div class="input-group">
+            <input type="Number"   id="directActingHeatingLoadInput" formControlName="Load_DASH" class="form-control input-group-text" aria-describedby="directActingHeatingLoad">
+            <div class="input-group-append">
+            <span class="p-2 ">KW</span>
+            </div>
+            </div>    
+        </td>
+    </tr>
+    <tr class="height-65px">
+
+        <td>Other Electric Heating</td>
+        <td> 
+            <div class="form-group">
+            <input type="Number" id="otherElectricHeatingCountInput" formControlName="No_Other_Heater" class="form-control input-group-text" aria-describedby="otherElectricHeatingCount">
+            </div>
+        </td>
+        <td> 
+            <div class="input-group">
+            <input type="Number" id="otherElectricHeatingLoadInput"  formControlName="Load_Other_Heater" class="form-control input-group-text" aria-describedby="otherElectricHeatingLoad">
+            <div class="input-group-append">
+            <span class="p-2 ">KW</span>
+            </div>
+            </div>    
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</form>
+</ng-container>

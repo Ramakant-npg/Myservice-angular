@@ -1,0 +1,275 @@
+
+
+<form [formGroup]="installationFormName">
+<div class="row g-3" >
+    <div class="col-md-12">
+        <label>Is this request for storage only or storage combined with another technology?</label>
+        <mat-radio-group aria-label="Select an option" id="option" formControlName="Is_Storage_Only_Or_Combined" (change)="changeValues()">
+        <mat-radio-button name="option" value="Yes" class="m-1" ><small class="text-muted">Storage Only</small></mat-radio-button>
+        <mat-radio-button name="option" value="No" class="m-1" ><small class="text-muted">Combined with another technology</small></mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="col-md-12">
+    <label>Please confirm the storage technology? (e.g. Lithium Ion (LI-ION), NickelCadmium (NI-CD), Sodium Sulphur (NAS) batteries, fly wheel, micro pump hydro, CAES etc)</label>
+       <textarea type="text" rows="3" id="Storage_Technology" formControlName="Storage_Technology" (input)="changeValues()" class="form-control input-group-text w-50" ></textarea>
+    </div>
+      
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12">
+    <label>If combined with another technology please confirm the other technology/ies ? (e.g. Solar, Wind, Biomass, Diesel/CHP)</label>
+    <textarea type="text" rows="3" id="Another_Technology" formControlName="Another_Technology" (input)="changeValues()" class="form-control input-group-text w-50" ></textarea>
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12">
+    <label>Nameplate power rating of storage (MW)</label>
+    <input type="text" id="Nameplate_Power_Rating"   formControlName="Nameplate_Power_Rating" (input)="changeValues()" class="form-control input-group-text w-25" >
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12">
+    <label>Registered energy storage capacity (MWh)</label>
+    <input type="text" id="Registered_Energy_Capacity"   formControlName="Registered_Energy_Capacity" (input)="changeValues()" class="form-control input-group-text w-25" >
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12">
+        <label>For the storage element of your installation please confirm the following</label>
+        <br/>
+        <label class="my-2">Export</label>
+        <small class="d-block">Firm</small>
+        <div class="d-inline-flex">
+        <input type="number" min="0" id="Export_Firm_MW"   formControlName="Export_Firm_MW" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">MW</small>
+        <input type="number" min="0" id="Export_Firm_Positive_MVAr"   formControlName="Export_Firm_Positive_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">+MVAr</small>
+        <input type="number" min="0" id="Export_Firm_Negative_MVAr"   formControlName="Export_Firm_Negative_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">-MVAr</small>
+        </div>
+        <small class="d-block">Non-Firm</small>
+        <div class="d-inline-flex">
+        <input type="number" min="0" id="Export_Non_Firm_MW"   formControlName="Export_Non_Firm_MW" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">MW</small>
+        <input type="number" min="0" id="Export_Non_Firm_Positive_MVAr"   formControlName="Export_Non_Firm_Positive_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">+MVAr</small>
+        <input type="number" min="0" id="Export_Non_Firm_Negative_MVAr"   formControlName="Export_Non_Firm_Negative_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">-MVAr</small>
+        </div>
+        <small class="d-block">Total</small>
+        <div class="d-inline-flex">
+        <input type="number" min="0" id="Export_Total_MW"   formControlName="Export_Total_MW" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">MW</small>
+        <input type="number" min="0" id="Export_Total_Positive_MVAr"   formControlName="Export_Total_Positive_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">+MVAr</small>
+        <input type="number" min="0" id="Export_Total_Negative_MVAr"   formControlName="Export_Total_Negative_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">-MVAr</small>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <label class="my-2">Import</label>
+        <small class="d-block">Firm</small>
+        <div class="d-inline-flex">
+        <input type="number" min="0" id="Import_Firm_MW"   formControlName="Import_Firm_MW" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">MW</small>
+        <input type="number" min="0" id="Import_Firm_Positive_MVAr"   formControlName="Import_Firm_Positive_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">+MVAr</small>
+        <input type="number" min="0" id="Import_Firm_Negative_MVAr"   formControlName="Import_Firm_Negative_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">-MVAr</small>
+        </div>
+        <small class="d-block">Non-Firm</small>
+        <div class="d-inline-flex">
+        <input type="number" min="0" id="Import_Non_Firm_MW"   formControlName="Import_Non_Firm_MW" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">MW</small>
+        <input type="number" min="0" id="Import_Non_Firm_Positive_MVAr"   formControlName="Import_Non_Firm_Positive_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">+MVAr</small>
+        <input type="number" min="0" id="Import_Non_Firm_Negative_MVAr"   formControlName="Import_Non_Firm_Negative_MVAr"  (input)="changeValues()"class="form-control input-group-text w-25" ><small class="m-2">-MVAr</small>
+        </div>
+        <small class="d-block">Total</small>
+        <div class="d-inline-flex">
+        <input type="number" min="0" id="Import_Total_MW"   formControlName="Import_Total_MW" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">MW</small>
+        <input type="number" min="0" id="Import_Total_Positive_MVAr"   formControlName="Import_Total_Positive_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">+MVAr</small>
+        <input type="number" min="0" id="Import_Total_Negative_MVAr"   formControlName="Import_Total_Negative_MVAr" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">-MVAr</small>
+        </div>
+    </div>
+      <mat-divider class="my-2"></mat-divider>
+      
+    <div class="col-md-12">
+        <label class="my-2">Details of operating modes/commercial service, we will need copies for each commercial service or mode of operation required</label>
+    </div>
+
+     <div class="col-md-12">
+        <label class="my-2"><small>No. of operating modes/services described</small></label>
+        <input type="number" min="0" id="No_Operating_Modes"   formControlName="No_Operating_Modes" (input)="changeValues()" class="form-control input-group-text w-25" >
+    </div>
+     <div class="col-md-12">
+        <label class="my-2 d-block"><small>Attachment 1</small></label>
+        <div class="fileInput">
+          <!-- formControlName="Operating_Attachment_1" -->
+        <input class="form-control input-group-text text-start" (change)="onChange($event, 'Operating1')"  type="file" id="Operating_Attachment_1"  name="fileUpload" />
+        <span style="position: absolute; top:10px">  {{fileNameOperatingAttachment1 ? fileNameOperatingAttachment1.name : (installationFormName.get('OperatingFile1')?.value ? installationFormName.get('OperatingFile1')?.value : '' )}}</span>
+        </div>
+        <button mat-button color="warn" type="button" 
+        (click)="onUpload('Operating_Attachment_1')" 
+        class="btn btn-danger fileButton text-uppercase btn-sm uploadbtnStyle" 
+        [disabled]="!fileNameOperatingAttachment1?.name" >
+        UPLOAD A FILE
+        </button>
+        <p *ngIf="!isValidFileType" class="text-danger">
+          File type is not valid. Please upload valid file.
+          </p>
+        <p class="m-0"> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+    </div>
+    
+    <div class="col-md-12">
+        <label class="my-2 d-block"><small>Attachment 2</small></label>
+        <div class="fileInput">
+          <!-- formControlName="Operating_Attachment_2" -->
+        <input class="form-control input-group-text text-start"  (change)="onChange($event, 'Operating2')"  type="file" id="Operating_Attachment_2"  name="fileUpload" />
+        <span style="position: absolute; top:10px">  {{fileNameOperatingAttachment2 ? fileNameOperatingAttachment2.name : (installationFormName.get('OperatingFile2')?.value ? installationFormName.get('OperatingFile2')?.value : '')}}</span>
+        </div>
+        <button mat-button color="warn" type="button" 
+        (click)="onUpload('Operating_Attachment_2')" 
+        class="btn btn-danger fileButton text-uppercase btn-sm uploadbtnStyle" 
+        [disabled]="!fileNameOperatingAttachment2?.name" >
+        UPLOAD A FILE
+        </button>
+        <p *ngIf="!isValidFileType" class="text-danger">
+          File type is not valid. Please upload valid file.
+          </p>
+        <p class="m-0"> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12">
+        <label>Is the ESS to operate in conjunction with another generation source or load on the customer private network?</label>
+        <mat-radio-group aria-label="Select an option" id="option" formControlName="ESS_With_Another_Generation" (change)="changeValues()">
+        <mat-radio-button name="option" value="Yes" class="m-1" ><small class="text-muted">yes</small></mat-radio-button>
+        <mat-radio-button name="option" value="No" class="m-1" ><small class="text-muted">No</small></mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="col-md-12">
+    <label>If yes, please provide further details.</label>
+       <textarea type="text" rows="3" id="ESS_Another_Generation_Details" formControlName="ESS_Another_Generation_Details" (input)="changeValues()" class="form-control input-group-text w-50" ></textarea>
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+<div class="col-md-12"><label>Please provide any other supporting information in the space below.</label></div>
+  <div class="col-md-12">
+        <label class="my-2 d-block"><small>Attachment 1</small></label>
+        <div class="fileInput">
+          <!-- formControlName="Supporting_Attachment_1" -->
+        <input class="form-control input-group-text text-start"  (change)="onChange($event, 'Supporting1')"  type="file" id="Supporting_Attachment_1"  name="fileUpload" />
+        <span style="position: absolute; top:10px"> {{fileNameSupportingAttachment1 ? fileNameSupportingAttachment1.name : (installationFormName.get('SupportingFile1')?.value ? installationFormName.get('SupportingFile1')?.value : '')}}</span>
+        </div>
+        <button mat-button color="warn" type="button" 
+        (click)="onUpload('Supporting_Attachment_1')" 
+        class="btn btn-danger fileButton text-uppercase btn-sm uploadbtnStyle" 
+        [disabled]="!fileNameSupportingAttachment1?.name" >
+        UPLOAD A FILE
+        </button>
+        <p *ngIf="!isValidFileType" class="text-danger">
+          File type is not valid. Please upload valid file.
+          </p>
+        <p class="m-0"> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+    </div>
+    
+    <div class="col-md-12">
+        <label class="my-2 d-block"><small>Attachment 2</small></label>
+        <div class="fileInput">
+          <!-- formControlName="Supporting_Attachment_2" -->
+        <input class="form-control input-group-text text-start"  (change)="onChange($event, 'Supporting2')" type="file" id="Supporting_Attachment_2"  name="fileUpload" />
+        <span style="position: absolute; top:10px"> {{fileNameSupportingAttachment2 ? fileNameSupportingAttachment2.name : (installationFormName.get('SupportingFile2')?.value ? installationFormName.get('SupportingFile2')?.value : '')}}</span>
+        </div>
+        <button mat-button color="warn" type="button" 
+        (click)="onUpload('Supporting_Attachment_2')" 
+        class="btn btn-danger fileButton text-uppercase btn-sm uploadbtnStyle" 
+        [disabled]="!fileNameSupportingAttachment2?.name" >
+        UPLOAD A FILE
+        </button>
+        <!-- <p *ngIf="!isValidFileType" class="text-danger">
+        File type is not valid. Please upload valid file.
+        </p> -->
+        <p *ngIf="!isValidFileType" class="text-danger">
+          File type is not valid. Please upload valid file.
+          </p>
+        <p class="m-0"> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12"><label>Description of required operation</label></div>
+    <div class="col-md-12">
+    <small class="d-block">Name of Commercial service and company name</small>
+    <input type="text" id="Commercial_Service_Name"   formControlName="Commercial_Service_Name" (input)="changeValues()" class="form-control input-group-text w-25" >
+    </div>
+    <div class="col-md-12">
+    <small class="d-block">Contact details for service operator</small>
+    <input type="text" id="Commercial_Service_Contact"   formControlName="Commercial_Service_Contact" (input)="changeValues()" class="form-control input-group-text w-25" >
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+    <div class="col-md-12">
+        <label>Is this a service which involves co-ordinated response with other storage devices either on the Distribution System, Transmission System, Private Network or aggregator?</label>
+        <mat-radio-group aria-label="Select an option" id="option" formControlName="Coordinated_Other_Storage" (change)="changeValues()">
+        <mat-radio-button name="option" value="yes" class="m-1" ><small class="text-muted">Yes</small></mat-radio-button>
+        <mat-radio-button name="option" value="No" class="m-1" ><small class="text-muted">No</small></mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="col-md-12">
+    <small>If yes,please provide further details. If not a commercial service please describe the operational mode (e.g. float charge)</small>
+       <textarea type="text" rows="3" id="Coordinated_Storage_Details" formControlName="Coordinated_Storage_Details" (input)="changeValues()" class="form-control input-group-text w-50" ></textarea>
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12">
+    <label>For the storage element of your installation please confirm the following <br/>
+    <label class="my-2">Export</label></label>
+    </div>
+    <div class="col-md-12">
+    <small class="d-block">Power ramp rate (Positive)</small>
+    <input type="number" min="0" id="Export_Power_Ramp_Rate_Positive"   formControlName="Export_Power_Ramp_Rate_Positive" (input)="changeValues()" class="form-control input-group-text w-25" ><small>
+ MW/sec</small>
+    </div>
+    <div class="col-md-12">
+    <small class="d-block">Power ramp rate (Negative)</small>
+    <input type="number" min="0"id="Export_Power_Ramp_Rate_Negative"   formControlName="Export_Power_Ramp_Rate_Negative" (input)="changeValues()" class="form-control input-group-text w-25" ><small>
+ MW/sec</small>
+    </div>
+    <div class="col-md-12">
+    <label class="my-2">Import</label>
+    </div>
+    <div class="col-md-12">
+    <small class="d-block">Power ramp rate (Positive)</small>
+    <input type="number" min="0" id="Import_Power_Ramp_Rate_Positive"   formControlName="Import_Power_Ramp_Rate_Positive" (input)="changeValues()" class="form-control input-group-text w-25" ><small>
+ MW/sec</small>
+    </div>
+    <div class="col-md-12">
+    <small class="d-block">Power ramp rate (Negative)</small>
+    <input type="number" min="0" id="Import_Power_Ramp_Rate_Negative"   formControlName="Import_Power_Ramp_Rate_Negative" (input)="changeValues()" class="form-control input-group-text w-25" ><small>
+ MW/sec</small>
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+
+    <div class="col-md-12">
+        <label class="my-2">If the power swing will transition from import to export or vice versa please state the total magnitude of the power swing.</label>
+    <div class="d-inline-flex">
+        <input type="number" min="0" id="Power_Swing_MW"   formControlName="Power_Swing_MW" (input)="changeValues()" class="form-control input-group-text w-25" ><small class="m-2">MW</small>
+        <small class="m-2">Up</small><input type="number" min="0" id="Power_Swing_Up"   formControlName="Power_Swing_Up" (input)="changeValues()" class="form-control input-group-text w-25" >
+        <small class="m-2">Down</small><input type="number" min="0" id="Power_Swing_Down"   formControlName="Power_Swing_Down" (input)="changeValues()" class="form-control input-group-text w-25" >
+        <small class="m-2">Both</small><input type="number" min="0" id="Power_Swing_Both"   formControlName="Power_Swing_Both" (input)="changeValues()" class="form-control input-group-text w-25" >
+        
+        </div>
+    </div>
+
+      <mat-divider class="my-2"></mat-divider>
+    <div class="col-md-12">
+        <label>Description of Dynamic Requirements</label>
+        <small class="d-block">For this control mode or commercial service, are there any known requirements (other than those thatmay be imposed by the Transmission System Operator) for the scheme to operate at non-unity Power Factor as measured at the POC?</small>
+        <mat-radio-group aria-label="Select an option" id="option" formControlName="Dynamic_Requirements" (change)="changeValues()">
+        <mat-radio-button name="option" value="Yes" class="m-1" ><small class="text-muted">Yes</small></mat-radio-button>
+        <mat-radio-button name="option" value="No" class="m-1" ><small class="text-muted">No</small></mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="col-md-12">
+    <label><small>If yes, please provide further details.</small></label>
+       <textarea type="text" rows="3" id="dynamicRequirementDesc" formControlName="Dynamic_Requirements_Details" (input)="changeValues()" class="form-control input-group-text w-50" ></textarea>
+    </div>
+      <mat-divider class="my-2"></mat-divider>
+
+
+</div>
+</form>

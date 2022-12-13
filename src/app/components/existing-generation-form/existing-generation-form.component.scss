@@ -1,0 +1,48 @@
+.titleHeading {
+    text-align: left;
+    font: normal normal bold 16px/18px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+.innerTitleHeading {
+    text-align: left;
+    font: normal normal bold 16px/17px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+.innerTitleHeading1 {
+    text-align: left;
+    font: normal normal bold 16px/17px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+    margin-top: 15px; 
+}
+.example-radio-button {
+    top: 573px;
+    left: 460px;
+    width: 20%;
+    height: 20px;
+    opacity: 1;
+}
+input{
+    border: none;
+    padding: 10px;
+    background-color: #ebebeb;
+    width: 110%;
+    margin-bottom: 20px;
+}
+input:focus{
+    background-color: #ebebeb;  
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.validation-style {
+    color: #ab1236;
+    font-size: 12px;
+}
+.inputError {
+    border: 1.5px solid #ab1236 !important;
+}

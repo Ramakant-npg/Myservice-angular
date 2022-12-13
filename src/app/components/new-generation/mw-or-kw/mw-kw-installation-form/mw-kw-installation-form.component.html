@@ -1,0 +1,436 @@
+<div class="errors">
+    <p *ngIf="formSubmitted && installationFormName.value.Rated_Apparent_Power === null">please state the apparent power transformer value using numeric characters only</p>
+    <p *ngIf="formSubmitted && installationFormName.value.Max_Reactive_Power_Imp_MVAr === null">please state the max reactive power import value using numeric characters only</p>
+    <p *ngIf="formSubmitted && installationFormName.value.Elec_Stor_Plant_Op_Max_Power_Swing === null">please state the max power swing value using numeric characters only</p>
+    <p *ngIf="formSubmitted && installationFormName.value.No_Generating_Transformer === null">please state the number of generating units connected to the transformer value using numeric characters only</p>
+    <p *ngIf="formSubmitted && installationFormName.value.Positive_Sequence_Reactance === null">please state the positive sequence reactance value using numeric characters only</p>
+    <div *ngFor="let e of installationFormArray.controls; let i=index;"
+    [ngStyle] = "{'display': (isAllGenSameSize === true && i > 0)? 'none': '' }" >
+        <p *ngIf="formSubmitted && e.get('Rated_Terminal_Current').value === null">please state the rated terminal current for the generator you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Apparent_Power_Rating').value === null">please state the apparent rating for the generator you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Min_Active_Power_Exp').value === null">please state the minimum active power for the generator you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Max_Reactive_Power_Exp').value === null">please state the maximum reactive power export (lagging) for the generation set you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Power_Generating_Modules_Name').value === null">please state the power generating modules for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Rated_Terminal_Voltage').value === null">please state the rated terminal voltage for the generator you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Rated_Active_Power').value === null">please state the rated active power for the generator you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && (e.get('Sub_Transient').value === null || e.get('Maximum_Fault_Level').value === null)">Please enter a numeric value in only one of the fields: Sub-transient <strong>OR</strong> maximum fault level contribution for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Registered_Capacity').value === null">please state the registered capactiy for the generator you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Max_Reactive_Power_Imp').value === null">please state the maximum reactive power import (leading) for the generation set you are installing for Generator Set # {{i+1}}</p>
+        <p *ngIf="formSubmitted && e.get('Max_Active_Power_Exp').value === null">please state the maximum active power export for the generation set you are installing for Generator Set # {{i+1}}</p>
+    </div>
+</div>
+
+<p id="note">How many generator sets are you installing?</p>
+<div class="numberofPump my-3">
+    <div class="d-inline-block">
+        <button mat-icon-button (click)="reduceInstallationForm();changeValues()" class="input-group-text">
+        <mat-icon>keyboard_double_arrow_left</mat-icon>
+        </button>
+    </div>
+
+    <div class="d-inline-block">
+    <input id="installationCountInput" name="installationCount" type="number" class="form-control input-group-text" [(ngModel)]="installationCount">
+    </div>
+
+    <div class="d-inline-block">
+    <button mat-icon-button (click)="addInstallationForm();changeValues()" class="input-group-text">
+        <mat-icon>keyboard_double_arrow_right</mat-icon>
+    </button>
+    </div>
+
+</div>
+
+<div class="col-12 mb-3" *ngIf="installationCount > 1">
+    <p class="m-0">Are all the generator sets of the same size?</p>
+    <mat-radio-group aria-label="Select an option" id="option" [(ngModel)]="isAllGenSameSize" (change)= "chooseOption(); changeValues()">
+    <mat-radio-button name="option" [value]=true class="m-1" ><small class="text-muted">Yes</small></mat-radio-button>
+    <mat-radio-button name="option" [value]=false  class="m-1"><small class="text-muted">NO</small></mat-radio-button>
+    </mat-radio-group>
+</div >
+<p class="col-12 mb-3">
+    <small>You must submit a single line diagram of your proposed generation installation with this application, failure to do so may delay your quotation.</small>
+</p>
+
+ <form  [formGroup]="installationFormName">
+        <div formArrayName="installationFormArray"  >
+            <div class="repeatedForm row g-3"  *ngFor="let gen of installationFormArray.controls; let i=index" [formGroupName]="i" 
+            [ngStyle] = "{'display': (isAllGenSameSize === true && i > 0)? 'none': 'flex' }"  >
+                <p style="margin: 10px 0 0 0">Generator Set  #<span>{{i+1}} </span></p>
+
+                <div class="row">
+                <table class="table border-left-1">
+                <thead class="bg bg-danger text-white border border-2 border-danger">
+                <th></th>
+                <th>Number of Generating Units</th>
+                <th>Type of prime movers</th>
+                <th>Energy Source Availability</th>
+                <th>Technology Production Type</th>
+                </thead>
+
+                <tbody class="border border-dark">
+                <tr >
+                <td>Synchronous Power Generating Module</td>
+                <td>
+                    <input type="number" id="No_Generating_Units_Sync-{{i}}"    (input)="changeValues()" formControlName="No_Generating_Units_Sync" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <input type="text" id="Type_Prime_Movers_Sync-{{i}}" (input)="changeValues()" formControlName="Type_Prime_Movers_Sync" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <mat-radio-group aria-label="Select an option" id="option" formControlName="Energy_Source_Availability_Sync" (change)="changeValues()">
+                    <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Intermittent</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">Non-Intermittent</small></mat-radio-button>
+                    </mat-radio-group>
+                </td>
+                 <td>
+                    <input type="text" id="Technology_Production_Type_Sync-{{i}}" (input)="changeValues()" formControlName="Technology_Production_Type_Sync" class="form-control input-group-text w-75" >
+                </td>
+                </tr>
+
+                <tr >
+                <td>Fixed Speed induction Generating Unit</td>
+                <td>
+                    <input type="number" id="No_Generating_Units_Fixed-{{i}}"    (input)="changeValues()" formControlName="No_Generating_Units_Fixed" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <input type="text" id="Type_Prime_Movers_Fixed-{{i}}" (input)="changeValues()" formControlName="Type_Prime_Movers_Fixed" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <mat-radio-group aria-label="Select an option" id="option" formControlName="Energy_Source_Availability_Fixed">
+                    <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Intermittent</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">Non-Intermittent</small></mat-radio-button>
+                    </mat-radio-group>
+                </td>
+                 <td>
+                    <input type="text" id="Technology_Production_Type_Fixed-{{i}}" (input)="changeValues()" formControlName="Technology_Production_Type_Fixed" class="form-control input-group-text w-75" >
+                </td>
+                </tr>
+
+                <tr >
+                <td>Double Fed induction Generating Unit</td>
+                <td>
+                    <input type="number" id="No_Generating_Units_Double-{{i}}"    (input)="changeValues()" formControlName="No_Generating_Units_Double" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <input type="text" id="Type_Prime_Movers_Double-{{i}}" (input)="changeValues()" formControlName="Type_Prime_Movers_Double" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <mat-radio-group aria-label="Select an option" id="option" formControlName="Energy_Source_Availability_Double" (change)="changeValues()">
+                    <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Intermittent</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">Non-Intermittent</small></mat-radio-button>
+                    </mat-radio-group>
+                </td>
+                 <td>
+                    <input type="text" id="Technology_Production_Type_Double-{{i}}" (input)="changeValues()" formControlName="Technology_Production_Type_Double" class="form-control input-group-text w-75" >
+                </td>
+                </tr>
+
+                <tr >
+                <td>Series inverter connected Generating Unit</td>
+                <td>
+                    <input type="number" id="No_Generating_Units_Series-{{i}}"    (input)="changeValues()" formControlName="No_Generating_Units_Series" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <input type="text" id="Type_Prime_Movers_Series-{{i}}" (input)="changeValues()" formControlName="Type_Prime_Movers_Series" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <mat-radio-group aria-label="Select an option" id="option" formControlName="Energy_Source_Availability_Series" (change)="changeValues()">
+                    <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Intermittent</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">Non-Intermittent</small></mat-radio-button>
+                    </mat-radio-group>
+                </td>
+                 <td>
+                    <input type="text" id="Technology_Production_Type_Series-{{i}}" (input)="changeValues()" formControlName="Technology_Production_Type_Series" class="form-control input-group-text w-75" >
+                </td>
+                </tr>
+
+                 <tr >
+                <td>Electricity Storage Generating Unit</td>
+                <td>
+                    <input type="number" id="No_Generating_Units_Elec-{{i}}"    (input)="changeValues()" formControlName="No_Generating_Units_Elec" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <input type="text" id="Type_Prime_Movers_Elec-{{i}}" (input)="changeValues()" formControlName="Type_Prime_Movers_Elec" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <mat-radio-group aria-label="Select an option" id="option" formControlName="Energy_Source_Availability_Elec" (change)="changeValues()">
+                    <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Intermittent</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">Non-Intermittent</small></mat-radio-button>
+                    </mat-radio-group>
+                </td>
+                 <td>
+                    <input type="text" id="Technology_Production_Type_Elec-{{i}}" (input)="changeValues()" formControlName="Technology_Production_Type_Elec" class="form-control input-group-text w-75" >
+                </td>
+                </tr>
+
+                <tr>
+                <td>
+                <label> Other (Please Specify)  </label>
+                <input type="text" id="No_Generating_Units_Other-{{i}}"    (input)="changeValues()" formControlName="Generating_Units_Other" class="form-control input-group-text w-75" >
+                </td>
+
+                <td>
+                    <input type="number" id="No_Generating_Units_Other-{{i}}"    (input)="changeValues()" formControlName="No_Generating_Units_Other" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <input type="text" id="Type_Prime_Movers_Other-{{i}}" (input)="changeValues()" formControlName="Type_Prime_Movers_Other" class="form-control input-group-text w-75" >
+                </td>
+                <td>
+                    <mat-radio-group aria-label="Select an option" id="option" formControlName="Energy_Source_Availability_Other" (change)="changeValues()">
+                    <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Intermittent</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">Non-Intermittent</small></mat-radio-button>
+                    </mat-radio-group>
+                </td>
+                 <td>
+                    <input type="text" id="Technology_Production_Type_Other-{{i}}" (input)="changeValues()" formControlName="Technology_Production_Type_Other" class="form-control input-group-text w-75" >
+                </td>
+                </tr>
+                
+               
+                </tbody>
+                </table>
+
+                <div class="col-md-12">
+                <label class="text-muted">
+                Name(s)/identifiers of Power Generating Modules. Where the Power Generating Modules contains components or products that are type tested, include the type test reference number here
+                </label>
+                    
+                <textarea type="text" rows="2" id="powerGenModuleInput-{{i}}"    (input)="changeValues()" formControlName="Power_Generating_Modules_Name" class="form-control input-group-text w-50" >
+                </textarea>
+                
+                </div>
+
+                <div class="col-md-12  h6 mt-3 ">   Please complete one of the following:   </div>
+                <div class="col-md-6">
+                    <label for="subTransient" class="form-label text-muted">What is the sub-transient (X"d) - unsaturated / saturated? (per unit) </label>
+                    <input type="number" id="subTransientInput-{{i}}"    (input)="changeValues()" formControlName="Sub_Transient" class="form-control input-group-text w-25" >
+                </div>
+
+                <div class="col-md-6">
+                    <label for="faultContribution" class="form-label text-muted">What is the maximum fault level contribution? (MVA)</label>
+                    <input type="number" id="faultContributionInput-{{i}}"    (input)="changeValues()" formControlName="Maximum_Fault_Level"  class="form-control input-group-text w-25">
+                </div>
+
+                <mat-divider class="my-2"></mat-divider>
+
+
+                <div class="col-md-12  h6 "> Generation set Active Power capability</div>
+                <div class="col-md-6">
+                    <label for="subTransient" class="form-label text-muted">Rated terminal voltage (generator) (volts)</label>
+                    <input type="number" id="subTransientsInput-{{i}}"    (input)="changeValues()" formControlName="Rated_Terminal_Voltage" class="form-control input-group-text w-25" >
+                </div>
+
+                <div class="col-md-6">
+                    <label for="faultContribution" class="form-label text-muted">Generation set apparent power rating (to be used as a base for generator parameters) (MVA)</label>
+                    <input type="number" id="faultContributionInput-{{i}}"    (input)="changeValues()" formControlName="Apparent_Power_Rating"  class="form-control input-group-text w-25">
+                </div>
+                 <div class="col-md-6">
+                    <label for="subTransient" class="form-label text-muted">Rated terminal current (generator) (amps)</label>
+                    <input type="number" id="subTransientssInput-{{i}}"    (input)="changeValues()" formControlName="Rated_Terminal_Current" class="form-control input-group-text w-25" >
+                </div>
+
+                <div class="col-md-6">
+                    <label for="faultContribution" class="form-label text-muted">Generation set rated active power (gross at generator terminals) (MW\kW)</label>
+                    <input type="number" id="faultContributionInput-{{i}}"    (input)="changeValues()" formControlName="Rated_Active_Power"  class="form-control input-group-text w-25">
+                </div>
+                <div class="col-md-6">
+                    <label for="subTransient" class="form-label text-muted">Generation set registered capacity (net) (MW/kW)</label>
+                    <input type="number" id="subTransientInput-{{i}}"    (input)="changeValues()" formControlName="Registered_Capacity" class="form-control input-group-text w-25" >
+                </div>
+
+                <div class="col-md-6">
+                    <label for="faultContribution" class="form-label text-muted">Generation unit minimum active power (minimum generation)</label>
+                    <input type="number" id="faultContributionInput-{{i}}"    (input)="changeValues()" formControlName="Min_Active_Power_Exp"  class="form-control input-group-text w-25">
+                </div>
+                 <div class="col-md-6">
+                    <label for="faultContribution" class="form-label text-muted">What will be the maximum active power export? (MW\kW)</label>
+                    <input type="number" id="faultContributionInput-{{i}}"    (input)="changeValues()" formControlName="Max_Active_Power_Exp"  class="form-control input-group-text w-25">
+                </div>
+
+                <mat-divider class="my-2"></mat-divider>
+             
+             <div class="col-md-12  h6 ">Generation set Reactive Power capability at rated Active Power (gross, at generator terminals) </div>
+                <div class="col-md-6">
+                    <label for="subTransient" class="form-label text-muted">Max reactive power export (lagging) (MVAr)</label>
+                    <input type="number" id="subTransientInput-{{i}}"    (input)="changeValues()" formControlName="Max_Reactive_Power_Exp" class="form-control input-group-text w-25" >
+                </div>
+
+                <div class="col-md-6">
+                    <label for="faultContribution" class="form-label text-muted">Max reactive power import (leading) (MVAr) </label>
+                    <input type="number" id="faultContributionInput-{{i}}"    (input)="changeValues()" formControlName="Max_Reactive_Power_Imp"  class="form-control input-group-text w-25">
+                </div>
+
+                <mat-divider class="my-2"></mat-divider>
+
+ 
+            </div>
+            </div>
+        </div>
+
+        <!-----Repeated form array end-->
+
+        <div class="row">
+                <div class="col-md-12  h6 ">Generating Unit maximum fault current contribution</div>
+
+                <div class="col-md-8">
+                <label for="peakShortCircuitLabel" class="form-label text-muted">Peak asymmetrical short circit current at 10ms (ip) for a 3 phase short circuit fault
+                at the Generating Unit Terminals (HV connected generators only) </label>
+                </div>
+                <div class="col-md-4">
+                <input type="number" id="peakShortCircuitId"    (input)="changeValues()" formControlName="Peak_Asymmetrical" class="form-control input-group-text w-25" >
+                </div>
+
+                <div class="col-md-8">
+                <label for="rmsShortCircuit" class="form-label text-muted">RMS value of the initial symmetrical short cicuit current (IK") for a 3 phase short circuit fault
+at the Generating Unit Terminals (HV connected only) </label>
+                </div>
+                <div class="col-md-4">
+                <input type="number" id="rmsShortCircuit"    (input)="changeValues()" formControlName="RMS_Value_Initial_Symmetrical_0ms" class="form-control input-group-text w-25" >
+                </div>
+
+                <div class="col-md-8">
+                <label for="rmsInitialShortCircuit" class="form-label text-muted">RMS value of the initial symmetrical short cicuit current at 100ms (IK(100) for a 3 phase short circuit fault
+at the Generating Unit Terminals </label>
+                </div>
+                <div class="col-md-4">
+                <input type="number" id="rmsInitialShortCircuit"    (input)="changeValues()" formControlName="RMS_Value_Initial_Symmetrical_100ms" class="form-control input-group-text w-25" >
+                </div>
+
+                <mat-divider class="my-2"></mat-divider>
+
+                <div class="col-md-12  h6 ">What security is required for your connection?
+                    <button mat-icon-button><mat-icon >info</mat-icon></button>
+                </div>
+                <div class="col-md-12">
+                <mat-radio-group aria-label="Select an option" id="option" formControlName="Security_Required" (change)="changeValues()">
+                <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Single circuit connection</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">Manually switched alternative connection</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=3 class="m-1" ><small class="text-muted">Automatically switched alternative connection</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=4 class="m-1" ><small class="text-muted">Firm connection (secure for first circuit outage)</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=5 class="m-1" ><small class="text-muted">A flexible or Active Network Management connection (discussion with DNO required)</small></mat-radio-button>
+                </mat-radio-group>
+                </div>
+
+                <mat-divider class="my-2"></mat-divider>
+
+                <div class="col-md-12  h6 ">
+                <label>Will the generation plant supply the electricty to on-site premises</label>
+                <mat-radio-group aria-label="Select an option" id="option" formControlName="Supply_Onsite_Premises" (change)="changeValues()">
+                <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Yes</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">No</small></mat-radio-button>
+                </mat-radio-group>
+                </div>
+
+                 <mat-divider class="my-2"></mat-divider>
+
+                <div class="col-md-12  h6 ">
+                <label>What will be the maximum active power import (kW)?</label>
+                    <input type="number" id="No_Generating_Units_Sync"    (input)="changeValues()" formControlName="Max_Active_Power_Imp" class="form-control input-group-text w-25" >
+                </div>
+
+                 <mat-divider class="my-2"></mat-divider>
+
+                <div class="col-md-12  h6 ">
+                <label>What will be the maximum reactive power import (kW)?</label>
+                    <input type="number" id="No_Generating_Units_Sync"    (input)="changeValues()" formControlName="Max_Reactive_Power_Imp_MVAr" class="form-control input-group-text w-25" >
+                </div>
+
+                 <mat-divider class="my-2"></mat-divider>
+
+
+                <div class="col-md-12 h6">
+                <label for="file" class="form-label text-muted d-block">Please provide us with your on-site operational diagrams.</label>
+                <div class="fileInput">
+                    <!-- formControlName="Onsite_Operational_Diagrams" -->
+                <input class="form-control input-group-text text-start"  (change)="onChange($event, 'OnSite')"
+                  type="file" id="synNoGenUnit"  name="fileUpload" />
+                <span style="position: absolute; top:10px"> {{fileNameOnSiteOperation ? fileNameOnSiteOperation?.name : Operational_Diagrams_File}}</span>
+                </div>
+                <button mat-button color="warn" type="button" 
+                (click)="onUpload('Onsite_Operational_Diagrams'); changeValues()"
+                class="btn btn-danger fileButton text-uppercase btn-sm uploadbtnStyle" 
+                [disabled]="!fileNameOnSiteOperation?.name" >
+                UPLOAD A FILE
+                </button>
+                <!-- <p *ngIf="!isValidFileType" class="text-danger">
+                File type is not valid. Please upload valid file.
+                </p> -->
+                <p class="m-0"> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+                </div>
+                
+                 <mat-divider class="my-2"></mat-divider>
+
+                <div class="col-md-12  h6 ">
+                <label>Are you installing an interface transformer?</label>
+                 <mat-radio-group aria-label="Select an option" id="option" formControlName="Interface_Transformer" (change)="changeValues()">
+                <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Yes</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">No</small></mat-radio-button>
+                </mat-radio-group>
+                </div>
+
+                 <mat-divider class="my-2"></mat-divider>
+
+
+                <div class="col-md-12  h6 ">
+                <label>Do you require an export Meter Point Administration Number (MPAN)</label>
+                 <mat-radio-group aria-label="Select an option" id="option" formControlName="Exp_MPAN" (change)="changeValues()">
+                <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Yes</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">No</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=3  class="m-1"><small class="text-muted">Don't know</small></mat-radio-button>
+                </mat-radio-group>
+                </div>
+
+               <mat-divider class="my-2"></mat-divider>
+
+                 <div class="col-md-12 h6">
+                <label for="file" class="form-label text-muted d-block">Power generating module interface arrangements</label>
+                <div class="fileInput">
+                    <!-- formControlName="Power_Generating_Interface" -->
+                <input class="form-control input-group-text text-start" (input)="changeValues()" (change)="onChange($event, 'Power_Gen')"
+                   type="file" id="synNoGenUnit"  name="fileUpload" />
+                <span style="position: absolute; top:10px"> {{fileNamePowerGenModule ? fileNamePowerGenModule?.name : Power_Generating_File}}</span>
+                </div>
+                <button mat-button color="warn" type="button" 
+                class="btn btn-danger fileButton text-uppercase btn-sm uploadbtnStyle"  (click)="onUpload('Power_Generating_Interface'); changeValues()"
+                [disabled]="!fileNamePowerGenModule?.name">
+                UPLOAD A FILE
+                </button>
+                <!-- <p *ngIf="!isValidFileType" class="text-danger">
+                File type is not valid. Please upload valid file.
+                </p> -->
+                <p class="m-0"> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+                </div>
+
+
+                <div class="col-md-12  h6 ">
+                <label>Electricity Storage Plant Operation</label>
+                <small>Maximum power swing of the storage device (mW)</small>
+                 <input type="number" id="synNoGenUnit"    (input)="changeValues()" formControlName="Elec_Stor_Plant_Op_Max_Power_Swing" class="form-control input-group-text w-25" >
+                </div>
+                <div class="col-md-12  h6 ">
+                <label>Impedance data for fault current contribution calculations</label>
+                <small>Are there any transformers between the Generating Unit and the Connection Point?</small>
+                 <mat-radio-group aria-label="Select an option" id="option" formControlName="Impedance_Data" (change)="changeValues()">
+                <mat-radio-button name="option" [value]=1 class="m-1" ><small class="text-muted">Yes</small></mat-radio-button>
+                <mat-radio-button name="option" [value]=2  class="m-1"><small class="text-muted">No</small></mat-radio-button>
+                </mat-radio-group>
+                </div>
+                <div class="col-md-12  h6 ">
+                <label>Number of generating units connected to the transformer</label>
+                <input type="number" id="synNoGenUnit" (input)="changeValues()" formControlName="No_Generating_Transformer" class="form-control input-group-text w-25" >
+                </div>
+                <div class="col-md-12  h6 ">
+                <label>Rated apparent power of the transformer</label>
+                <input type="number" id="synNoGenUnit"  (input)="changeValues()" formControlName="Rated_Apparent_Power" class="form-control input-group-text w-25" >
+                </div>
+                <div class="col-md-12  h6 ">
+                <label>Positive sequence reactance of the transformer</label>
+                <input type="number" id="synNoGenUnit"  (input)="changeValues()" formControlName="Positive_Sequence_Reactance" class="form-control input-group-text w-25" >
+                </div>
+
+            </div>
+        
+    </form>
+    <!-- <button (click)="validateForm()">Save</button> -->
+
+                <mat-divider class="my-2"></mat-divider>

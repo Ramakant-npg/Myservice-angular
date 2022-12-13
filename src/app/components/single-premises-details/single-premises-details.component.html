@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="mandate"><span style="color:#ab1236">*</span> Signifies mandatory fields
+    <p class="validation-style" *ngIf="formSubmitted && Micro_Generator_Connection == 0">Please select No of Micro-generator devices attached</p>
+    <div *ngFor="let er of microGeneratorArray.controls; let i=index">
+        <p class="validation-style" *ngIf="formSubmitted && er.get('Phase1')?.errors?.['min']">Phase 1 for Micro-generator device {{i+1}} must be greater than zero</p>
+        <p class="validation-style" *ngIf="formSubmitted && er.get('PowerFactor')?.errors?.['required']">Please provide the Power Factor for Micro-generator device {{i+1}}</p>
+        <p class="validation-style" *ngIf="formSubmitted && er.get('PowerFactor')?.errors?.['max']">Please specify the Power Factor for Micro-generator device {{i+1}} which is less than 1</p>
+        <p class="validation-style" *ngIf="formSubmitted && er.get('PrimaryEnergySource')?.errors?.['required']">Please provide the Primary Energy Source for Micro-generator device {{i+1}}</p>
+        <p class="validation-style" *ngIf="formSubmitted && er.get('MicroGenType')?.errors?.['required']">Please provide the type for Micro-generator device #{{i+1}}</p>
+        <p class="validation-style" *ngIf="formSubmitted && er.get('MicroGenType')?.value == 'New' && er.get('TypeTestRef')?.errors?.['required']">Please specify the type test reference for Micro-generator device {{i+1}}</p>
+    </div>
+    </div>
+        <p class="section">How many micro-generators will exist within the premises? <span style="color:#ab1236">*</span></p>
+        <p class="subsection"> Please provide the details of each micro-generator</p>
+        <div class="form-group">
+            <button mat-icon-button (click)="reduceFormField()">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+            </button>
+            <input name="micrGenConnection" type="number" class="textfield--standard" [(ngModel)]="Micro_Generator_Connection">
+            
+            <button mat-icon-button (click)="addFormField()">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+        </div>
+        <form [formGroup]="microForm" class="form">
+        <div formArrayName="microGeneratorArray">
+            <div *ngFor="let gen of microGeneratorArray.controls; let i=index">
+                <div *ngIf="i!=0" class="connections-list"></div>
+                <div class="repeatableForm"  [formGroupName]="i">
+                    <p style="font-weight: 550">Micro-generator device #{{i+1}}</p>
+                    <div class="splitPage">
+                        <div class="oneHalf">
+                            <div style="display: flex;">
+                                <div class="form-group">
+                                    <p style="color: #737373; font-size: 12px;">Type <span style="color:#ab1236">*</span></p>
+                                    <select formControlName="MicroGenType" class="select--standard" style="width: 140%; height: 45%;">
+                                        <option> - Please Select - </option>
+                                        <option *ngFor="let h of microGenTypes" [value]="h.name"> {{h.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-left: 80px;">
+                                    <p style="color: #737373; font-size: 12px;">Phase 1 <span style="color:#ab1236">*</span></p>
+                                    <input  type="number" class="textfield--standard-kw" formControlName="Phase1">
+                                    <span> kW </span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;">
+                                <div class="form-group" *ngIf="gen.get('MicroGenType')?.value == 'New'">
+                                    <label style="color: #737373; font-size: 12px;">Type Test Reference <span style="color:#ab1236">*</span></label>
+                                    <input type="text" class="form-control" formControlName="TypeTestRef" style="width: 70%;">
+                                </div>
+                                <div class="form-group" >
+                                    <label style="color: #737373; font-size: 12px;">Primary Energy Source <span style="color:#ab1236">*</span></label>
+                                    <input type="text" class="form-control" formControlName="PrimaryEnergySource" style="width: 70%;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: #737373; font-size: 12px;">Power Factor <span style="color:#ab1236">*</span></label>
+                                <input type="number" class="form-control" formControlName="PowerFactor" style="width: 70%;">
+                            </div>
+                        </div>
+                        <div class="secondHalf">
+                            <div style="display: flex;">
+                                <div class="form-group">
+                                    <p style="color: #737373; font-size: 12px;">Phase 2</p>
+                                    <input  type="number" class="textfield--standard-kw" formControlName="Phase2">
+                                        <span> kW </span>
+                                </div>
+                                <div class="form-group" style="margin-left: 120px;">
+                                    <p style="color: #737373; font-size: 12px;">Phase 3</p>
+                                    <input  type="number" class="textfield--standard-kw" formControlName="Phase3">
+                                        <span> kW </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        <!-- {{this.microForm.value | json}} -->
+        <div class="connections-list-last"></div>
+        <div class="action-btns">
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress');" >
+             SAVE AND CONTINUE
+            </button>
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0"  (click)="backToPreviousTemplate()">Back</button>
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="onSave('saveForLater', 'Paused');">
+             SAVE FOR LATER
+            </button>
+            <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+             REQUEST A CALLBACK 
+            </button>
+        </div>
+</div>

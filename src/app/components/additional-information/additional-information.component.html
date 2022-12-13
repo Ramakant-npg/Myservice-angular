@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="mainform">
+        <div class="form-group">
+            <p class="titleHeading">Is there anything else that you can tell us that may help us when preparing your notification?</p>
+            <textarea rows="7" [(ngModel)]="Additional_Info_Summary"></textarea>
+        </div>
+        <div class="connections-list"></div>
+        <div class="form-group">
+            <p class="titleHeading">Please upload any additional documentation you think we may find useful.</p>
+            <div class="row" [ngClass]="{'inputError': fileValid && formSubmitted}">
+                <p class="uploadErroMessage" *ngIf="fileValid && formSubmitted">Invalid File extension</p>
+                <div class="oneHalf">
+                    <input class="uploadMessage" type="text" [value]="File_Name" disabled>
+                </div>
+                <div class="secondHalf" >
+                    <input type="file" [pattern]="patternFile" (change)="onChange($event)" hidden #file/>
+                    <button mat-button class="btn btn-danger text-uppercase btn-sm uploadbtnStyle" type="button"  (click)="file.click()">
+                        UPLOAD A FILE
+                    </button>
+                </div>
+                <p style="color: #737373; font-size: 13px; font-family: Arial; margin-left: 12px;">
+                    (allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif")</p>
+            </div>
+            <div class="connections-list"></div>
+        </div>
+    </div>
+    <div class="action-btns">
+	
+<button  *ngIf="(navIndex === templateList?.length-1 )"  mat-button  class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'Submitted')">
+         Submit
+        </button>
+        <button  *ngIf="(navIndex !== templateList?.length-1 )"  mat-button  class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress')">
+         SAVE AND CONTINUE
+        </button>
+        <button mat-button  class="btn btn-danger text-uppercase btn-sm me-2" (click)="backToPreviousTemplate()" *ngIf="navIndex!==0">
+        Back
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('saveForLater', 'Paused');">
+         SAVE FOR LATER
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

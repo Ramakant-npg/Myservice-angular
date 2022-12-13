@@ -1,0 +1,21 @@
+.list-group-item,.list-group-item span, .list-group-item span h3
+{cursor:pointer}
+
+.home-container {
+    padding-right: 10px;
+}
+
+li.list-group-item {
+    width: 25%;
+    text-align: center;
+}
+
+li img {
+    width: 50%;
+}
+li h3 {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 20px;
+    color: #ab1236;
+}

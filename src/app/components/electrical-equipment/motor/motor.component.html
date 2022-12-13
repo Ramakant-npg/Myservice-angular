@@ -1,0 +1,168 @@
+<!----Motor html-->
+<p class="mb-0"><span>Will you be installing any motors including those used for compressor driven air conditioners?</span>
+    <em class="fa fa-info-circle float-right px-3" matTooltip="Why do we need to know about motors?" (click)="motorInfo=!motorInfo"></em>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="motorInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">How does this information help?</p>
+    <p>Any equipment that uses a large amount of power can sometimes cause dips in supply for other customers connected to our network. Electric motors and welders usually will cause this on start-up.</p>
+</div>
+<p class="mb-0"><small>You may be installing motors for things such as: swimming pools, lifts, industrial fans, blowers and pumps, machine tools and large power tools. You don’t have to tell us about standard household appliances like fridge freezers, washing machines and tumble dryers.</small></p>
+<div class="btn-group mb-2">
+<button  mat-button class="btn " [ngClass]="isShowMotorForm ? 'btn-danger' : 'btn-secondary'" (click)="showMotorForm(true); changeValues()" [disabled]="enableDisableMotorButton">Yes</button>
+<button  mat-button class="btn " [ngClass]="!isShowMotorForm ? 'btn-danger' : 'btn-secondary'" (click)="showMotorForm(false); changeValues()" [disabled]="enableDisableMotorButton">No</button>
+</div>
+<div class="error" *ngFor="let err of motorFormArray.controls; let i=index">
+    <p *ngIf="formSubmitted && err.get('Current_Motor').value === null">Please specify a starting current for Motor Source #{{i+1}}</p>
+    <p *ngIf="formSubmitted && err.get('Rating_Motor').value === null">Please specify a pump rating for Motor Source #{{i+1}}</p>
+</div>
+<!-- <div class="error" *ngFor="let err of tempMotorFormArray.controls; let i=index">
+    <p *ngIf="formSubmitted && err.get('startingCurrent').value === null">Please specify a starting current for Temporary Motor Source Supply #{{i+1}}</p>
+    <p *ngIf="formSubmitted && err.get('rating').value === null">Please specify a pump rating for Temporary Motor Source Supply #{{i+1}}</p>
+</div> -->
+<ng-container *ngIf="wanttoShowMotorForm === true">
+<div>
+<p>
+How many motors do you plan to install?
+<small id="motorCount" class="form-text text-muted">We only need the technical details for the two largest.</small>
+</p>
+</div>
+
+</ng-container>
+<ng-container *ngIf="wanttoShowMotorForm === true">
+    
+    <form  [formGroup]="motorSourceForm">
+        <div class="numberofPump my-2">
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="reduceMotorForm('motor'); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+                </button>
+            </div>
+        
+            <div class="d-inline-block">
+            <input id="motorCountInput" name="motorCount" type="number" class="form-control input-group-text"
+            readonly="true" formControlName="No_Motor">
+            </div>
+        
+            <div class="d-inline-block">
+            <button mat-icon-button (click)="addMotorForm('motor'); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+            </div>
+        
+        </div>
+        <div formArrayName="motorFormArray"  *ngIf="motorCount>0" >
+            <div class="repeatedForm row g-3"  *ngFor="let gen of motorFormArray.controls; let i=index" [formGroupName]="i">
+                <div class="col-md-3">
+                    <label for="inputEmail4"  class="form-label text-muted ">Phase</label>
+    
+                 <div class="dropdown">
+                        <select formControlName="Phase_Motor" class="form-control input-group-text"  (change)="changeValues()">
+                            <option id="phase-{{phase.name}}-{{i}}" *ngFor="let phase of phaseList" [ngValue]="phase.id"> {{phase.name}}</option>
+                        </select>
+    
+                    </div> 
+                    <!--<mat-form-field appearance="fill">
+                    <mat-label>Phase</mat-label>
+                    <mat-select formGroupName="phaseType" placeholder="motorFormArray {{i}}">
+                        <mat-option  id="phase-{{phase.name}}-{{i}}" *ngFor="let phase of phaseTypeList" [value]="phase.id">
+                        {{phase.name}}
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field> -->
+                </div>
+                <div class="col-md-3">
+                  <label for="inputEmail4"  class="form-label text-muted ">Type</label>
+                 <div class="dropdown">
+                        <select formControlName="Type_Motor" class="form-control input-group-text"  (change)="changeValues()">
+                            <option id="phase-{{phase.name}}-{{i}}" *ngFor="let phase of phaseTypeList" [ngValue]="phase.id"> {{phase.name}}</option>
+                        </select>
+    
+                    </div> 
+                </div>
+                <div class="col-md-3">
+                    <label for="startingCurrent" class="form-label text-muted">Starting Current (amps)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="startingCurrentInput" min="0"  placeholder="0" (input)="changeValues()" formControlName="Current_Motor" class="form-control input-group-text" >
+                </div>
+                <div class="col-md-3">
+                    <label for="rating" class="form-label text-muted">Rating (KW)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="ratingInput-{{i}}"  min="0"  placeholder="0" (input)="changeValues()" formControlName="Rating_Motor"  class="form-control input-group-text">
+                </div>
+                <div class="col-12">
+                    <section class="example-section">
+                        <mat-checkbox class="example-margin"  (change)="changeValues()" labelPosition="before" formControlName="Hourly_Motor_Start" >Please check the box if this motor starts more than once an hour: </mat-checkbox>
+                    </section>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+
+</form>
+</ng-container>
+<!-- <ng-container style="display:none">
+    
+    <form  [formGroup]="tempMotorSourceForm" *ngIf="isShowMotorForm">
+        <div class="numberofPump my-2">
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="reduceMotorForm('tempMotor'); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+                </button>
+            </div>
+        
+            <div class="d-inline-block">
+            <input id="tempMotorCountInput" name="motorCount" type="number" class="form-control input-group-text" formControlName="tempMotorCount">
+            </div>
+        
+            <div class="d-inline-block">
+            <button mat-icon-button (click)="addMotorForm('tempMotor'); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+            </div>
+        
+        </div>
+        <div formArrayName="tempMotorFormArray" *ngIf="tempMotorCount>0" >
+            <div class="repeatedForm row g-3"  *ngFor="let gen of tempMotorFormArray.controls; let i=index" [formGroupName]="i">
+                <div class="col-md-3">
+                    <label for="inputEmail4"  class="form-label text-muted ">Phase</label>
+    
+                 <div class="dropdown">
+                        <select formControlName="phaseType" class="form-control input-group-text"  (change)="changeValues()">
+                            <option id="phase-{{phase.name}}-{{i}}" *ngFor="let phase of phaseList" [ngValue]="phase.id"> {{phase.name}}</option>
+                        </select>
+    
+                    </div> 
+                </div>
+                <div class="col-md-3">
+                  <label for="inputTempMotorPhaseType-{{i}}"  class="form-label text-muted ">Type</label>
+                 <div class="dropdown">
+                        <select formControlName="phaseType" class="form-control input-group-text"  (change)="changeValues()">
+                            <option id="phase-{{phase.name}}-{{i}}" *ngFor="let phase of phaseTypeList" [ngValue]="phase.id"> {{phase.name}}</option>
+                        </select>
+    
+                    </div> 
+                </div>
+                <div class="col-md-3">
+                    <label for="tempStartingCurrent-{{i}}" class="form-label text-muted">Starting Current (amps)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="startingCurrentInput-{{i}}" placeholder="0" (input)="changeValues()" formControlName="startingCurrent" class="form-control input-group-text" >
+                </div>
+                <div class="col-md-3">
+                    <label for="rating" class="form-label text-muted">Rating (KW)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="ratingInput-{{i}}" placeholder="0" (input)="changeValues()" formControlName="rating"  class="form-control input-group-text">
+                </div>
+                <div class="col-12">
+                    <section class="example-section" >
+                        <mat-checkbox class="example-margin" (change)="changeValues()" labelPosition="before" formControlName="groundSourcePumpComply" >Please check the box if this motor starts more than once an hour: </mat-checkbox>
+                    </section>
+                </div>
+              
+                <hr>
+            </div>
+        </div>
+    </form>
+      {{tempMotorSourceForm.value|json}}
+</ng-container> -->
+

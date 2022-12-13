@@ -1,0 +1,157 @@
+ <ng-container >
+<div *ngFor="let item of installationFormArray.controls; let i = index" class="errorSection text text-danger my-2">
+<p *ngIf="isFormSubmitted && (item.get('Rated_Terminal_Voltage').value === null || item.get('Rated_Terminal_Voltage').value === 0)">Please specify a value for generation set rated terminal voltage #{{i+1}}</p>
+<p *ngIf="isFormSubmitted && (item.get('Power_Rating').value === null  || item.get('Power_Rating').value === 0)">Please specify a value for generation set power rating #{{i+1}}</p>
+<p *ngIf="isFormSubmitted && (item.get('Island_Mode').value === null || item.get('Island_Mode').value === 0)">Please indicate island mode for generation set #{{i+1}}</p>
+<p *ngIf="isFormSubmitted && (item.get('Export_MPAN').value === null || item.get('Export_MPAN').value === 0)">Please indicate if you require an export MPAN for generation set #{{i+1}}</p>
+<p *ngIf="isFormSubmitted && (item.get('Supply_Onsite_Premises').value === null)">Please indicate if generation supplies electircity onsite for generation set #{{i+1}}</p>
+<p *ngIf="isFormSubmitted && (item.get('Rated_Terminal_Current').value === null || item.get('Rated_Terminal_Current').value === 0)">Please specify a value for generation set rated terminal current #{{i+1}}</p>
+<p *ngIf="isFormSubmitted && (item.get('Registered_Capacity').value === null || item.get('Registered_Capacity').value === 0)">Please specify a value for generation set registered capacity #{{i+1}}</p>
+<p *ngIf="(isFormSubmitted && item.get('Supply_Onsite_Premises').value === false) && 
+(item.get('Capacity_Onsite_Premises')?.value === null || item.get('Capacity_Onsite_Premises')?.value === 0)">Please specify a value for generation set onsite capacity #{{i+1}}</p>
+</div>
+
+ <div *ngFor="let invItem of inverterFormArray.controls; let i = index" class="errorSection text text-danger">
+        <p *ngIf="isFormSubmitted && (invItem.get('Inverter_Rating').value === null || invItem.get('Inverter_Rating').value === 0)">Please specify a rating for inverter #{{i+1}}</p>
+</div>
+</ng-container>
+<p id="note">How many generator sets are you installing?</p>
+ <form  [formGroup]="installationFormName">
+        <div class="numberofPump my-3">
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="reduceInstallationForm();changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+                </button>
+            </div>
+
+            <div class="d-inline-block">
+            <input id="installationCountInput" name="installationCount" readonly type="number" class="form-control input-group-text" formControlName="No_Generator_Sets">
+            </div>
+
+            <div class="d-inline-block">
+            <button mat-icon-button (click)="addInstallationForm();changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+            </div>
+
+        </div>
+        <div class="col-12 mb-3" *ngIf="installationCount > 1">
+        <p class="m-0">Are all the generator sets of the same size?</p>
+        <mat-radio-group aria-label="Select an option" id="option" formControlName="Generator_Size" (change)="chooseOption();changeValues()">
+        <mat-radio-button name="option" [value]=true class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+        <mat-radio-button name="option" [value]=false  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+        </mat-radio-group>
+        </div>
+        <div formArrayName="installationFormArray"  >
+ 
+        <div class="repeatedForm row g-3"  *ngFor="let item of installationFormArray.controls; let i=index" [formGroupName]="i"
+            [ngStyle] = "{'display': (isAllGenSameSize === true && i> 0)?'none': 'flex' }">
+                <p style="margin: 10px 0 0 0">Generator Set  #<span>{{i+1}} </span></p>
+                <div class="col-md-3">
+                    <label for="ratedTerminalVoltage" class="form-label text-muted">Rated Terminal Voltage (volts)  <sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="ratedTerminalVoltageInput-{{i}}" min="0" placeholder="0" (input)="changeValues()" formControlName="Rated_Terminal_Voltage" class="form-control input-group-text w-25"
+                    [ngClass]="(item.get('Rated_Terminal_Voltage').value === null && item.get('Rated_Terminal_Voltage').pristine)?'border border-danger': ''" >
+                </div>
+                <div class="col-md-3">
+                    <label for="ratedTerminalCurrent" class="form-label text-muted">Rated Terminal Current (amps) <sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="ratedTerminalCurrentInput-{{i}}" min="0" placeholder="0" (input)="changeValues()" formControlName="Rated_Terminal_Current"  class="form-control input-group-text w-25"
+                    [ngClass]="(item.get('Rated_Terminal_Current').value === null && item.get('Rated_Terminal_Current').pristine)?'border border-danger': ''" >
+                </div>
+                <div class="col-md-3">
+                    <label for="registeredCapacity" class="form-label text-muted">Registered Capacity (kW) <sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="registeredCapacityInput-{{i}}" min="0" placeholder="0" (input)="changeValues()" formControlName="Registered_Capacity" class="form-control input-group-text w-25"
+                     [ngClass]="(item.get('Registered_Capacity').value === null && item.get('Registered_Capacity').pristine)?'border border-danger': ''">
+                </div>
+                <div class="col-md-3">
+                    <label for="powerRating" class="form-label text-muted">Power Rating (kVA) <sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="powerRatingInput-{{i}}" min="0" placeholder="0" (input)="changeValues()" formControlName="Power_Rating" class="form-control input-group-text w-25"
+                     [ngClass]="(item.get('Power_Rating').value === null && item.get('Power_Rating').pristine)?'border border-danger': ''">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="genIslandMode" class="form-label text-muted">
+                    <small>Will generation operate in island mode?<sup class="text-danger">*</sup></small>
+                    </label>
+                    <mat-radio-group aria-label="Select an option" id="genIslandModeOption-{{i}}"  formControlName="Island_Mode"  (change)="changeValues()">
+                    <mat-radio-button name="option" [value]=true class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=false  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-md-6">
+                    <label for="mpanNumber" class="form-label text-muted">
+                    <small>Do you require an export MPAN number?<sup class="text-danger">*</sup></small>
+                    </label>
+                    <mat-radio-group aria-label="Select an option" id="mpanNumberOption-{{i}}" formControlName="Export_MPAN" (change)= "changeValues()">
+                    <mat-radio-button name="option" [value]=true class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=false  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-md-6">
+                    <label for="genElectiOnsite" class="form-label text-muted">
+                    <small>Will generation supply electricity to onsite premises? <sup class="text-danger">*</sup></small>
+                    </label>
+                    <mat-radio-group aria-label="Select an option" id="genElectiOnsiteOption-{{i}}"  formControlName="Supply_Onsite_Premises" (change)= "changeValues()">
+                    <mat-radio-button name="option" [value]=true class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+                    <mat-radio-button name="option" [value]=false  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-md-6" *ngIf="item.get('Supply_Onsite_Premises').value === false">
+                    <label for="capacityOnsite" class="form-label text-muted">
+                    <small>What capacity is needed for the onsite premises? (kVA) <sup class="text-danger">*</sup></small>
+                    </label>
+                  <input type="number" id="ratedVoltage-{{i}}" min="0" (input)="changeValues()" formControlName="Capacity_Onsite_Premises" class="form-control input-group-text w-25"
+                   [ngClass]="(item.get('Capacity_Onsite_Premises')?.value === null && item.get('Capacity_Onsite_Premises')?.pristine)?'border border-danger': ''">
+                </div>
+                <mat-divider class="my-2"></mat-divider>
+            </div>
+
+        </div>
+    <!---Inverter section 1--->  
+<p id="note">How many inverters are you installing?</p>
+<div class="numberofPump my-3">
+    <div class="d-inline-block">
+        <button mat-icon-button (click)="reduceInstallationForm('inverter');changeValues()" class="input-group-text">
+        <mat-icon>keyboard_double_arrow_left</mat-icon>
+        </button>
+    </div>
+
+    <div class="d-inline-block">
+    <input id="inverterCountInput" name="inverterCount" readonly type="number" class="form-control input-group-text" formControlName="No_Inverters">
+    </div>
+
+    <div class="d-inline-block">
+    <button mat-icon-button (click)="addInstallationForm('inverter');changeValues()" class="input-group-text">
+        <mat-icon>keyboard_double_arrow_right</mat-icon>
+    </button>
+    </div>
+
+</div>
+<div class="col-12 mb-3" *ngIf="inverterCount > 1">
+    <p class="m-0">Are all the inverter sets of the same design / rating?</p>
+    <mat-radio-group aria-label="Select an option" id="option" formControlName="Inverter_Design" (change)="chooseOption('inverter');changeValues()">
+    <mat-radio-button name="option" [value]=true class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+    <mat-radio-button name="option" [value]=false  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+    </mat-radio-group>
+</div>
+<div formArrayName="inverterFormArray">
+            <div class="repeatedForm row g-3"  *ngFor="let item of inverterFormArray.controls; let i=index" [formGroupName]="i"
+            [ngStyle] = "{'display': (isAllInvSameSize === true && i> 0)?'none': 'flex' }">
+                <p style="margin: 10px 0 0 0">Inverter #<span>{{i+1}} </span></p>
+                <div class="col-md-3">
+                    <label for="maxExport" class="form-label text-muted">What is the rating of the inverter? (amps)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="inverterInput-{{i}}" min="0" (input)="changeValues()"
+                     formControlName="Inverter_Rating" placeholder="0"  class="form-control input-group-text w-25"
+                    [ngClass]="(item.get('Inverter_Rating').value === null && item.get('Inverter_Rating').pristine)?'border border-danger': ''" >
+                </div>
+                <mat-divider class="my-2"></mat-divider>
+            </div>
+    </div> 
+    </form>
+<!---Inverter section 1--->
+
+

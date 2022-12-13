@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+
+.fileInput{
+    display: inline-block;
+    //background-color: #ebebeb;
+ }
+
+.fileInput, .fileButton{
+    width: 24%;
+    margin: 5px !important;
+    border-radius: 0 !important;
+    padding: 8px !important;
+    background-color: #ebebeb;
+    position: relative !important;
+}
+
+input[type="file"]{ 
+    opacity: 0;
+}
+
+.disabled {
+
+    pointer-events: none;
+    opacity: .5;
+}
+
+.text-color-red{
+    color:  #ab1236 !important;
+}
+mat-icon {
+    color: #C81841;
+}
+.btn-danger{
+    background-color: #c81841;
+}
+
+.button-red{
+    color: #fff;
+    background-color: #c81841;
+}
+
+.bg-grey{
+    background-color: #ebebeb;
+
+}
+
+.text-bold{
+    color: #000;
+    font-weight:500;
+}
+.mat-button.mat-button-disabled.mat-button-disabled{
+    color: rgba(0,0,0,.8) !important;
+}

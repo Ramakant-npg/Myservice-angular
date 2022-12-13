@@ -1,0 +1,91 @@
+ 
+
+<ng-container >
+<div *ngFor="let item of installationFormArray.controls; let i = index" class="errorSection text text-danger my-2">
+<p *ngIf="isFormSubmitted && (item.get('Max_Export').value === null || item.get('Max_Export').value === 0)">Premises #<span>{{i +1}} </span> Please specify an export capacity </p>
+<p *ngIf="isFormSubmitted && (item.get('Rated_Current').value === null || item.get('Rated_Current').value === 0)">Premises #<span>{{i +1}} </span> Please specify a load </p>
+<p *ngIf="isFormSubmitted && (item.get('Rated_Voltage').value === null || item.get('Rated_Voltage').value === 0)">Premises #<span>{{i +1}} </span> Please specify a voltage </p>
+</div>
+</ng-container>
+<p id="note">How many generator sets are you installing?</p>
+
+ <form  [formGroup]="installationFormName" >
+ <div class="numberofPump my-3">
+    <div class="d-inline-block">
+        <button mat-icon-button (click)="reduceInstallationForm();changeValues()" class="input-group-text">
+        <mat-icon>keyboard_double_arrow_left</mat-icon>
+        </button>
+    </div>
+
+    <div class="d-inline-block">
+    <input id="installationCountInput" name="installationCount" readonly type="number" min="0" class="form-control input-group-text" formControlName="No_Generator_Sets">
+    </div>
+
+    <div class="d-inline-block">
+    <button mat-icon-button (click)="addInstallationForm();changeValues()" class="input-group-text">
+        <mat-icon>keyboard_double_arrow_right</mat-icon>
+    </button>
+    </div>
+
+</div>
+
+<div class="col-12 mb-3" *ngIf="installationCount > 1">
+    <p class="m-0">Are all the generator sets of the same size?</p>
+    <mat-radio-group aria-label="Select an option" id="option" formControlName="Generator_Size" (change)= "chooseOption();changeValues()">
+    <mat-radio-button name="option" [value]=true class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+    <mat-radio-button name="option" [value]=false  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+    </mat-radio-group>
+</div>
+        <div formArrayName="installationFormArray"  >
+            <div class="repeatedForm row g-3"  *ngFor="let item of installationFormArray.controls; let i=index" [formGroupName]="i"
+            [ngStyle] = "{'display': (Generator_Size === true && i> 0)?'none': 'flex' }"   >
+                <div class="col-md-4">
+                    <label for="maxExport" class="form-label text-muted">Max Export (kW) <sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="maxExportInput-{{i}}" min="1"  placeholder="0" (input)="changeValues()" formControlName="Max_Export" class="form-control input-group-text w-25" 
+                [ngClass]="((item.get('Max_Export').value === null || item.get('Max_Export').value === 0) && item.get('Max_Export').pristine)?'border border-danger': ''">
+                </div>
+                <div class="col-md-4">
+                    <label for="ratedCurrent" class="form-label text-muted">Rated Current (amps)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="ratingCurrentInput-{{i}}" min="1" placeholder="0" (input)="changeValues()" formControlName="Rated_Current"  class="form-control input-group-text w-25"
+                    [ngClass]="((item.get('Rated_Current').value === null || item.get('Rated_Current').value === 0) && item.get('Rated_Current').pristine)?'border border-danger': ''">
+                </div>
+                <div class="col-md-4">
+                    <label for="ratedVoltage" class="form-label text-muted">Rated Voltage (volts)</label>
+                    <input type="number" id="ratedVoltage-{{i}}" min="1" placeholder="0" (input)="changeValues()" formControlName="Rated_Voltage" class="form-control input-group-text w-25"
+                    [ngClass]="((item.get('Rated_Voltage').value === null || item.get('Rated_Voltage').value === 0) && item.get('Rated_Voltage').pristine)?'border border-danger': ''">
+                </div>
+                <mat-divider class="my-2"></mat-divider>
+            </div>
+        </div>
+
+        <div class="row">
+                <div class="col-md-12">
+                <label for="file" class="form-label text-muted d-block"><Small>You must submit a single line diagram of your proposed generation installation with this application, failure to do so may delay your quotation.</Small></label>
+                  <div class="fileInput">
+                    <!-- formControlName="Single_Line_Diagram" -->
+                  <input class="form-control input-group-text text-start"   type="file" id="fileUpload"  
+                  name="fileUpload" (change)="onChange($event);" />
+                  <span style="position: absolute; top:10px; min-width: 50px; min-height: 20px; display: inline-block;">
+                      <!-- {{installationFormName.controls['Single_Line_Diagram'].value}} -->
+                      {{file ? file.name : (fileName?fileName:'')}}
+                    </span>
+                   </div>
+                   <button mat-button color="warn" 
+                   type="button" class="btn btn-danger fileButton text-uppercase btn-sm uploadbtnStyle" 
+                   (click)="onUpload()"
+                   [disabled]="!file?.name">
+                        UPLOAD A FILE
+                    </button>
+                    <p *ngIf="!isValidFileType" class="text-danger">
+                    File type is not valid. Please upload valid file.
+                    </p>
+                    <p class="m-0"> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+                </div>
+                <mat-divider class="my-2"></mat-divider>
+
+        </div>
+
+
+    </form>

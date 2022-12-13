@@ -1,0 +1,41 @@
+.fileInput{
+    display: inline-block;
+    //background-color: #ebebeb;
+    width: 24%;
+    border: none;
+    background-color: #ebebeb;
+    margin-top: 4px !important;
+    margin-left: 10px !important;
+    font-style: italic !important;
+    padding: 0px 12px 3px 12px !important;
+ }
+
+::ng-deep.mat-button.mat-button-disabled.mat-button-disabled {
+    color: #FFFFFF !important;
+}
+
+.fileButton {
+    background-color: #ab1236;
+    color: #FFFFFF !important;
+    margin: 10px 10px 10px 10px !important;
+    border: none;
+    font-size: 13px;
+    font-family: Arial;
+    font-weight: 560;
+    padding: 2px 1px 3px 5px !important;
+    top: -4px;
+    opacity: 1;
+    vertical-align: -webkit-baseline-middle;
+    width: 14%;
+    border-radius: 4px !important;
+}
+
+input[type="file"]{ 
+    opacity: 0;
+}
+// .errorSection:nth-child(n+2) {
+//     //display: none;
+// }
+button:disabled {
+    cursor: not-allowed;
+}

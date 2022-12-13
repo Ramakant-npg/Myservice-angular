@@ -1,0 +1,92 @@
+<!----part 2 html-->
+<p class="mb-0"><span>Will you be installing any air source heat pumps including those used for under floor
+    heating or warm air system?</span>
+<em class="fa fa-info-circle float-right px-3" (click)="airInfo=!airInfo" matTooltip="What is an air source heat pump?"></em>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="airInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is an air source heat pump??</p>
+    <p>Air source heat pumps use the heat from the air surrounding your home to heat central heating systems and provide domestic hot water. We need to know about heat pumps as they have a motor which uses a lot of power on start-up.</p>
+</div>
+<div class="btn-group mb-2">
+<button  mat-button class="btn" [ngClass]="isShowAirSourceForm ? 'btn-danger' : 'btn-secondary'"  (click)="showAirSourceForm(true); changeValues()" [disabled]="enableDisableAirSourceButton">Yes</button>
+<button  mat-button class="btn" [ngClass]="!isShowAirSourceForm ? 'btn-danger' : 'btn-secondary'"  (click)="showAirSourceForm(false); changeValues()" [disabled]="enableDisableAirSourceButton">No</button>
+</div>
+<div class="error" *ngFor="let err of airFormArray.controls; let i=index">
+    <p *ngIf="formSubmitted && err.get('Current_Air_Pump').value === null">Please specify a starting current for Ground Source #{{i+1}}</p>
+    <p *ngIf="formSubmitted && err.get('Rating_Air_Pump').value === null">Please specify a pump rating for Ground Source #{{i+1}}</p>
+</div>
+<ng-container *ngIf="isShowAirSourceForm">
+<p><small id="groundSourceHeatPumpCount" class="form-text text-muted">How many pumps do you plan to
+    install?</small></p>
+
+</ng-container>
+<ng-container *ngIf="wanttoShowAirSourceForm === true">
+    <form  [formGroup]="airSourceForm">
+        <div class="numberofPump my-2">
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="reduceAirForm(); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+                </button>
+            </div>
+        
+            <div class="d-inline-block">
+            <input id="pumpCountInput" name="pumpcount" 
+            type="number" class="form-control input-group-text" formControlName="No_Air_Pump" readonly="true">
+            </div>
+        
+            <div class="d-inline-block">
+            <button mat-icon-button (click)="addAirForm(); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+            </div>
+        
+        </div>
+        <div formArrayName="airFormArray" *ngIf="airPumpCount>0" >
+            <div class="repeatedForm row g-3"  *ngFor="let gen of airFormArray.controls; let i=index" [formGroupName]="i">
+                <div class="col-md-3">
+                    <label for="phase" class="form-label text-muted ">Phase</label>
+    
+                    <div class="dropdown">
+                        <select formControlName="Phase_Air_Pump"  class="form-control input-group-text" (change)="changeValues()">
+                            <option *ngFor="let phase of phaseTypeList" [ngValue]="phase.id"> {{phase.name}}</option>
+                        </select>
+    
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="startingCurrent" class="form-label text-muted">Starting Current (amps)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="startingCurrent" min="0" placeholder="0" (input)="changeValues()"formControlName="Current_Air_Pump" class="form-control input-group-text" >
+                </div>
+                <div class="col-md-3">
+                    <label for="rating" class="form-label text-muted">Rating (KW)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="rating" placeholder="0" min="0" (input)="changeValues()" formControlName="Rating_Air_Pump"  class="form-control input-group-text">
+                </div>
+                <div class="col-md-3">
+                    <label for="model" class="form-label text-muted">Make and model</label>
+                    <input type="number" id="modelInput" placeholder="0" min="0"  (input)="changeValues()" formControlName="Model_Air_Pump" class="form-control input-group-text">
+                </div>
+                <div class="col-12 my-2"><Small>Does the air source heat pump comply with BS-EN 61000/3/2 and BS-EN 61000/3/3?</Small></div>
+    
+                <div class="col-12">
+                    <!-- <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="yesRadioOption" id="yesRadio"
+                            value="yes" formControlName="selectedBsNumber">
+                        <label class="form-check-label" for="yesRadioOption">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="noRadioOption" id="noRadio"
+                            value="no" formControlName="selectedBsNumber">
+                        <label class="form-check-label" for="noRadioOption">No</label>
+                    </div> -->
+                     <mat-radio-group aria-label="Select an option"  (change)="changeValues()" formControlName="BS_BN_Air_Pump">
+                    <mat-radio-button name="option" class="mx-2 px-0" [value]=true >Yes</mat-radio-button>
+                    <mat-radio-button name="option"  class="mx-2 px-0" [value]=false >No</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </form>
+</ng-container>

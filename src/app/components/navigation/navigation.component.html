@@ -1,0 +1,9 @@
+<div class="navtabs-container">
+  <nav mat-tab-nav-bar fxFlex fxLayout="row" fxLayoutAlign="center center" *ngFor="let item of templateList" >
+   <a mat-tab-link routerLink="/{{item.Name}}"  [queryParams]="{type:connectionType}" class="mt-0"
+     [ngClass]="(currentUrl === item.Name ? 'active' :'')" 
+     [ngClass]="!item.isValid ? 'disabled': '' ">
+      {{item.Name.split('_').join(' ')}} 
+    </a>
+  </nav>
+</div>

@@ -1,0 +1,86 @@
+
+<!----part 2 html-->
+<p class="mb-0"><span>Will you be installing any ground source heat pumps including those used for under floor
+    heating?</span>
+<em class="fa fa-info-circle float-right px-3" matTooltip="What is a ground source heat pump?" (click)="groundInfo=!groundInfo"></em>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="groundInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What is a ground source heat pump?</p>
+    <p>Ground source heat pumps extract heat from under your property to heat radiators, underfloor or warm air heating systems, and hot water. We need to know about heat pumps as they have a motor which uses a lot of power on start-up.</p>
+</div>
+<div class="btn-group mb-2">
+<button  mat-button class="btn " [ngClass]="isShowGroundSourceForm ? 'btn-danger' : 'btn-secondary'" (click)="showGroundSourceForm(true); changeValues()" [disabled]="enableDisableGroundButton">Yes</button>
+<button  mat-button class="btn " [ngClass]="!isShowGroundSourceForm ? 'btn-danger' : 'btn-secondary'" (click)="showGroundSourceForm(false); changeValues()" [disabled]="enableDisableGroundButton" >No</button>
+</div>
+<div class="error" *ngFor="let err of pumpFormArray.controls; let i=index">
+    <p *ngIf="formSubmitted && err.get('Current_Ground_Pump').value === null">Please specify a starting current for Ground Source #{{i+1}}</p>
+    <p *ngIf="formSubmitted && err.get('Rating_Ground_Pump').value === null">Please specify a pump rating for Ground Source #{{i+1}}</p>
+</div>
+<ng-container *ngIf="isShowGroundSourceForm">
+<p><small id="groundSourceHeatPumpCount" class="form-text text-muted">How many pumps do you plan to
+    install?</small></p>
+
+</ng-container>
+<ng-container *ngIf="wanttoShowGroundSourceForm === true">
+    <form  [formGroup]="groundSourceForm">
+        <div class="numberofPump my-2">
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="reducePumpForm(); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+                </button>
+            </div>
+        
+            <div class="d-inline-block">
+            <input id="pumpCountInput" name="pumpcount" type="number" readonly="true"
+            class="form-control input-group-text" formControlName="No_Ground_Pump">
+            </div>
+        
+            <div class="d-inline-block">
+            <button mat-icon-button (click)="addPumpForm(); changeValues()" class="input-group-text">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+            </div>
+        
+        </div>
+        <div formArrayName="pumpFormArray"  *ngIf="pumpCount>0">
+            <div class="repeatedForm row g-3"  *ngFor="let gen of pumpFormArray.controls; let i=index" [formGroupName]="i">
+                <div class="col-md-3">
+                    <label for="inputEmail4"  class="form-label text-muted ">Phase</label>
+                    <div class="dropdown">
+                        <select formControlName="Phase_Ground_Pump" class="form-control input-group-text" (change)="changeValues()">
+                            <option id="phase-{{phase.name}}-{{i}}" *ngFor="let phase of phaseTypeList" [ngValue]="phase.id"> {{phase.name}}</option>
+                        </select>
+    
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="startingCurrent" class="form-label text-muted">Starting Current (amps)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="startingCurrentInput-{{i}}" min="0" placeholder="0" (input)="changeValues()" formControlName="Current_Ground_Pump" class="form-control input-group-text" >
+                </div>
+                <div class="col-md-3">
+                    <label for="rating" class="form-label text-muted">Rating (KW)<sup
+                            class="text-danger">*</sup></label>
+                    <input type="number" id="ratingInput-{{i}}" min="0" placeholder="0" (input)="changeValues()" formControlName="Rating_Ground_Pump"  class="form-control input-group-text">
+                </div>
+                <div class="col-md-3">
+                    <label for="model" class="form-label text-muted">Make and model</label>
+                    <input type="number" id="modelInput-{{i}}" min="0" placeholder="0" (input)="changeValues()" formControlName="Model_Ground_Pump" class="form-control input-group-text">
+                </div>
+                <div class="col-12 my-2"><Small>Does the grund source heat pump comply with BS-EN 61000/3/2 and BS-EN 61000/3/3?</Small></div>
+    
+                <div class="col-12">
+                    <mat-radio-group aria-label="Select an option" (change)="changeValues()" id="optionRadio-{{i}}" 
+                    formControlName="BS_BN_Ground_Pump">
+                   <!-- {{gen.get('BS_BN_Ground_Pump').value === 1 ?true: false}} -->
+                    <mat-radio-button name="option" [value]=true class="mx-2 px-0" >Yes</mat-radio-button>
+                    <mat-radio-button name="option" [value]=false  class="mx-2 px-0">No</mat-radio-button>
+                    </mat-radio-group>
+
+                </div>
+              
+                <hr>
+            </div>
+        </div>
+    </form>
+</ng-container>

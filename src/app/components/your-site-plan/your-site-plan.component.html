@@ -1,0 +1,190 @@
+<div class="container" style="max-width: 1020px;">
+    <p><span style="color:#ab1236">*</span> Signifies mandatory fields</p>
+    <div class="error-container">
+        <p class="error" *ngIf="showMapError && formSubmitted">
+            Please show us the location of your connection
+        </p>
+        <p class="error" *ngIf="showUploadFileError && formSubmitted">
+            Please upload your site plan for your connection
+        </p>
+    </div>
+    <div>
+        <button mat-icon-button style="margin-top:-10px;" color="primary"
+         matTooltip="MPAN Info" (click)="mapInfo=!mapInfo">
+            <mat-icon>info</mat-icon>
+        </button>
+        <span style="margin-right: 15px;">Highlight the boundary of your site using the drawing tool</span>
+        <img src="../../../assets/apply-drawing-tool.png">
+    </div>
+    <div class="mapInfo" *ngIf="mapInfo"  [@slideInOut]>
+        <div style="display:flex;justify-content: space-evenly;">
+            <div>
+                <p>Click to create first point</p>
+                <img src="../../../assets/draw_help_1.png">
+            </div>
+            <div>
+                <p>Click to continue drawing region</p>
+                <img src="../../../assets/draw_help_2.png">
+            </div>
+            <div>
+                <p>Click/double click to finish</p>
+                <img src="../../../assets/draw_help_3.png">
+            </div>
+        </div>
+    </div>
+    <div class="plan-container" style="margin-bottom: 20px;">
+        <p>What plans do you need to provide with an application?</p>
+        <div style="display:flex;">
+            <div>
+                <button mat-icon-button style="margin-top:-10px;" color="primary"
+                    matTooltip="Boundary Info" (click)="showBoundaryInfo=!showBoundaryInfo">
+                    <mat-icon>info</mat-icon>
+                </button>
+                <span style="margin-right: 15px;">Boundary</span>
+            </div>
+            <div>
+                <button mat-icon-button style="margin-top:-10px;" color="primary"
+                        matTooltip="Estimate Info" (click)="showEstimateInfo=!showEstimateInfo">
+                    <mat-icon>info</mat-icon>
+                </button>
+                <span style="margin-right: 15px;">Estimate</span>  
+            </div>
+            <div>
+                <button mat-icon-button style="margin-top:-10px;" color="primary"
+                matTooltip="Quotation Info" (click)="showQuotationInfo=!showQuotationInfo">
+                   <mat-icon>info</mat-icon>
+                </button>
+                <span style="margin-right: 15px;">Quotation</span> 
+            </div>
+        </div>
+        <div class="planInfoSlide" [@slideInOut]>
+            <div class="mapInfo" style="margin-bottom: 10px;" *ngIf="showBoundaryInfo" >
+                <h3 style="margin-bottom: 10px;">Boundary</h3>
+                <p>{{boundaryDesc}}</p><br>
+                <p>{{boundaryDesc1}}</p><br>
+                <p>{{boundaryDesc2}}</p>
+            </div>
+            <div class="mapInfo" style="margin-bottom: 10px;" *ngIf="showEstimateInfo">
+                <h3 style="margin-bottom: 10px;">Estimate</h3>
+                <p>{{estimateDesc}}</p>
+            </div>
+            <div class="mapInfo" *ngIf="showQuotationInfo">
+                <h3 style="margin-bottom: 10px;">Quotation</h3>
+                <p>{{quotationDesc}}</p>
+            </div>
+        </div>
+    </div>
+    <div style="margin-bottom:20px;">
+        <button type="button" class="btn-style" (click)="resetMap()">CLEAR POINTERS</button>
+    </div>
+    <!-- Map Section -->
+    <div class="map-container">
+        <div class="map" #mapElement></div>
+    </div>
+
+    <div class="upload-container">
+        <h2>Please upload any site plans or photos to indicate your proposed work
+            <span style="color:#ab1236">*</span>
+        </h2>
+        <p>Our preference for site plans is for them to be at 1:500. However,
+             this is not a rule and you may upload hand drawn sketches with dimensions if you wish to (see info box).
+        </p>
+        <p style="margin-bottom: 5px;">Option to provide hand drawn sketches with dimensions.</p>
+        <form #uploadFileForm= "ngForm" style="margin-bottom:20px;">
+            <!-- <div *ngFor="let i of fileUploadIndex"> -->
+            <div style="display: flex;margin-bottom: 10px;">
+                <div style="width: 50%;">
+                    <div  [ngClass]="{'inputError': !isValidFile1 && formSubmitted}">
+                        <p class="uploadErroMessage" *ngIf="!isValidFile1 && formSubmitted">
+                            Invalid file extension
+                        </p>
+                        <div class="oneHalf">
+                            <input class="uploadMessage" type="text" [value]="File_Upload_Name" disabled>
+                        </div>
+                        <div class="secondHalf" >
+                            <input type="file" [pattern]="filePattern" (change)="onChange($event,'0')" hidden #file/>
+                            <button mat-button color="warn" type="button" class="uploadbtnStyle" (click)="file.click()">
+                                UPLOAD A FILE
+                            </button>
+                        </div>
+                        <p style="color: #737373; font-size: 13px; font-family: Arial; margin-left: 12px;clear:both">
+                            (allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif")
+                        </p>
+                    </div>
+                </div>
+                <div style="width: 50%;">
+                    <div [ngClass]="{'inputError': !isValidFile2 && formSubmitted}">
+                        <p class="uploadErroMessage" *ngIf="!isValidFile2 && formSubmitted">
+                            Invalid file extension
+                        </p>
+                        <div class="oneHalf">
+                            <input class="uploadMessage" type="text" [value]="File_Upload_Name_1" disabled>
+                        </div>
+                        <div class="secondHalf" >
+                            <input type="file" [pattern]="filePattern" (change)="onChange($event,'1')" hidden #file_1/>
+                            <button mat-button color="warn" type="button" class="uploadbtnStyle" (click)="file_1.click()">
+                                UPLOAD A FILE
+                            </button>
+                        </div>
+                        <p style="color: #737373; font-size: 13px; font-family: Arial; margin-left: 12px;clear:both">
+                            (allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif")
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div style="width: 50%;">
+                    <div [ngClass]="{'inputError': !isValidFile3 && formSubmitted}">
+                        <p class="uploadErroMessage" *ngIf="!isValidFile3&& formSubmitted">
+                            Invalid file extension
+                        </p>
+                        <div class="oneHalf">
+                            <input class="uploadMessage" type="text" [value]="File_Upload_Name_2" disabled>
+                        </div>
+                        <div class="secondHalf" >
+                            <input type="file" [pattern]="filePattern" (change)="onChange($event, '2')" hidden #file_2/>
+                            <button mat-button color="warn" type="button" class="uploadbtnStyle" (click)="file_2.click()">
+                                UPLOAD A FILE
+                            </button>
+                        </div>
+                        <p style="color: #737373; font-size: 13px; font-family: Arial; margin-left: 12px;clear:both">
+                            (allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif")
+                        </p>
+                    </div>
+                </div>
+                <div style="width: 50%;">
+                    <div [ngClass]="{'inputError': !isValidFile4 && formSubmitted}">
+                        <p class="uploadErroMessage" *ngIf="!isValidFile4 && formSubmitted">
+                            Invalid file extension
+                        </p>
+                        <div class="oneHalf">
+                            <input class="uploadMessage" type="text" [value]="File_Upload_Name_3" disabled>
+                        </div>
+                        <div class="secondHalf" >
+                            <input type="file" [pattern]="filePattern" (change)="onChange($event,'3')" hidden #file_3/>
+                            <button mat-button color="warn" type="button" class="uploadbtnStyle" (click)="file_3.click()">
+                                UPLOAD A FILE
+                            </button>
+                        </div>
+                        <p style="color: #737373; font-size: 13px; font-family: Arial; margin-left: 12px;clear:both">
+                            (allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif")
+                        </p>
+                    </div>
+                </div>
+            </div>  
+            <!-- </div> -->
+        </form>
+    </div>
+    <div class="action-btns">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress')">
+         SAVE AND CONTINUE
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0"  (click)="backToPreviousTemplate()">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="onSave('saveForLater', 'Paused')">
+         SAVE FOR LATER
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

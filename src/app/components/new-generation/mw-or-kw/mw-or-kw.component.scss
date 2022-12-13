@@ -1,0 +1,14 @@
+.error {
+    font-size: 11px;
+    color: #AB1236;
+}
+.deselect {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  color: white !important;
+  font-weight: 400;
+}

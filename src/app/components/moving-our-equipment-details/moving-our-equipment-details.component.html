@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="errors">
+        <p class="mandatoryCss"><span>*</span>Signifies mandatory fields</p>
+    </div>
+    <div class="error-container">
+        <p class="error" *ngIf="equipmentForm.controls['Proposed_Works_Description'].value === ''  && submittedForm">
+            Please provide us with the proposed works description
+        </p>
+        <!-- <p class="error" 
+            *ngIf="(Unknown_ValArray.length == 0 || Equipment_ValArray.length == 0) && submittedForm"> -->
+        <p class="error" 
+            *ngIf="((Equipment_ValArray.length < 1 && Unknown_ValArray.length == 0) || (Unknown_ValArray.length != 1 && Equipment_ValArray.length == 0) ) && submittedForm">
+            Please provide us with at least one type of equipment being diverted, or select "unknown"
+        </p>
+    </div>
+    <form [formGroup]="equipmentForm">
+        <div style="margin-bottom:20px;">
+            <label>What type of equipment do you require moving? <span style="color:#ab1236;">*</span></label>
+            <div *ngFor="let cat of equipmentList" [ngClass]="{'error-border': (Equipment_ValArray.length < 1 && Unknown_ValArray.length == 0) && submittedForm}">
+                <div>
+                    <input type="checkbox" class="regular-checkbox" name="contestabaleJoint"
+                            #checkAll (change)="onCheckboxChange(cat.id, $event)" [checked]="cat.isSelected"
+                            id="{{cat.id}}"
+                            >
+                            <label style="vertical-align: super;">{{cat.name}}</label>
+                </div>
+            </div>
+                <div style="margin-top:25px" [ngClass]="{'error-border': (Unknown_ValArray.length != 1 && Equipment_ValArray.length == 0) && submittedForm}">
+                <input type="checkbox" class="regular-checkbox" name="contestabaleJoint"
+                            #checkAll (change)="onUnknownCheckbox(5, $event)" [checked]="unknownList.isSelected"
+                            id="5"
+                            >
+                            <label style="vertical-align: super;">Unknown</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>What type of equipment do you require moving? <span style="color:#ab1236;">*</span></label><br>
+            <textarea type="text" rows="4" formControlName="Proposed_Works_Description" style="width:100%"
+                [ngClass]="{'input-error': equipmentForm.controls['Proposed_Works_Description'].hasError('required')  && submittedForm}" >
+            </textarea>
+        </div>
+    </form>
+    <div class="action-btns">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress')">
+         SAVE AND CONTINUE
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0"
+         (click)="backToPreviousTemplate()">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('saveForLater', 'Paused');">
+         SAVE FOR LATER
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

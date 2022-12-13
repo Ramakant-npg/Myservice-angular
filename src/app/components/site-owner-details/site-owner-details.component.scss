@@ -1,0 +1,101 @@
+.step, .mandate {
+    margin-top: 10px;
+}
+.firstQuest input {
+    border: none;
+    padding: 10px;
+    background-color: #ebebeb;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.microGenStyle input {
+    border: none;
+    background-color: #ebebeb;
+    width:90%;
+    font-size: 13.8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.microGenStyle label {
+    color: #737373;
+    font-size: 13.5px;
+}
+.headingTypText {
+    font-size:20px;
+    margin-top: 19px; 
+    font-weight: 550;
+}
+.microGenStyleCss {
+    margin-top:5px;
+    margin-bottom: 15px;
+}
+.secondQuest {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid #ebebeb;
+}
+.thirdQuest {
+    width: 100%;
+    display: flex;
+}
+.microGeneratorDetails {
+    width: 50%;
+    float: left;
+    flex: 1;
+}
+.microOwnerDetails {
+    width: 50%;
+    float: left;
+    flex: 1;
+}
+.microgneeratorHelper {
+    width: 50%;
+    float: left;
+    flex: 1;
+}
+.microOwnerHelper {
+    width: 50%;
+    float: left;
+}
+form {
+    font: 0.875em/1.42857  sans-serif;
+}
+.borderBottomStyle {
+    border-bottom: 1px solid #ebebeb;
+}
+.btnStyle {
+    background-color:#ab1236;
+    color:white;
+    margin: 10px 10px 10px 0px;
+    border: none; 
+    font-size: 14px; 
+    font-weight: 560;
+}
+.connections-caption {
+    font-size: 18px;
+    line-height: 1.3;
+    color: #000;
+    padding-top: 10px;
+}
+.heatingInfo {
+    background-color: #ebebeb;
+    color: #000;
+    padding: 10px 10px 10px 10px;
+    font-weight: 100;
+    font-size: 12.5px;
+    margin-bottom: 14px;
+    margin-top: 14px;
+    width: 90%;
+}
+.validation-style {
+    color: #ab1236;
+    font-size: 12px;
+}
+.contactDetailsNameCss {
+    line-height: 12.6px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

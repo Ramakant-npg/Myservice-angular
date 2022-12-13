@@ -1,0 +1,74 @@
+<!--- harmonic html-->
+<div>
+<p class="mb-0"><span>Will you be installing any equipment that may cause harmonic distortion?</span>
+    <em class="fa fa-info-circle float-right px-3" matTooltip="What equipment causes harmonic distortion?" (click)="harmonicInfo=!harmonicInfo"></em>
+</p>
+<div class="bg-grey p-2 my-2" *ngIf="harmonicInfo"  [@slideInOut]>
+    <p class="m-0 text-bold">What equipment causes harmonic distortion?</p>
+    <p> Typical equipment that could cause a problem if you are installing large numbers of them: </p>
+    <ul >
+        <li>Computers</li>
+            <li> Uninterrupted Power Supplies</li>
+                <li> Discharge Lighting (fluorescent, mercury, sodium, etc.)</li>
+                    <li> Battery Chargers</li>
+    </ul>
+        <p>These types of electronic equipment cause harmonic currents which can cause a variety of problems
+         that are sometimes difficult to attribute and eliminate. The heating effects of harmonic currents
+          can cause destruction of equipment, conductors, and fires. The results can be unpredictable legal 
+          and financial ramifications. Voltage distortions can lead to overheating of equipment, electronic
+           equipment failure, expensive downtime, and maintenance difficulties.</p>
+    <p class="m-0 text-bold">What is G5/4?</p>
+    <p>The G5/4 document was produced to protect electrical networks from VOLTAGE DISTORTION.
+         It details the maximum levels of harmonic distortion that electricity consumers are permitted
+          to export onto the distribution network. Therefore, consideration must be given to the regulatory 
+          requirements of ER G5/4 - 1 and the practical application of LV Harmonic mitigating equipment.
+           The document forms part of the supply agreement between the Electricity Company and the consumer.
+            Enforcement of the limits can include a refusal to supply your premises until 
+            it can be demonstrated that harmonic levels have been adequately addressed, 
+            which remains the responsibility of the consumer.</p>
+</div>
+<p class="mb-0"><small>Examples of equipment which could cause harmonic distortion include: uninterrupted power supplies, computer power units, discharge lighting, battery chargers, DC motor control.</small></p>
+</div>
+<div class="btn-group mb-3">
+<button  mat-button class="btn" [ngClass]="isShowharmonicForm ? 'btn-danger' : 'btn-secondary'"  (click)="showharmonicForm(true); changeValues()" [disabled]="enableDisableHarmonicButton">Yes</button>
+<button  mat-button class="btn" [ngClass]="!isShowharmonicForm ? 'btn-danger' : 'btn-secondary'"  (click)="showharmonicForm(false); changeValues()" [disabled]="enableDisableHarmonicButton">No</button>
+</div>
+
+<ng-container *ngIf="wanttoShowHarmonicForm">
+<p >Please provide details of the equipment that will affect the harmonics of the supply.</p>
+    <form  [formGroup]="harmonicForm">
+
+                <div class="col-md-12 mb-3">
+                    <label for="equipmentDetails" class="form-label text-muted">Please note your equipment must be G5/4 compliant.
+                    <sup
+                            class="text-danger">*</sup></label>
+                    <textarea type="textarea" rows="5" id="voltageInput"  (input)="changeValues()"  formControlName="Details_Harmonic_Distortion" class="form-control input-group-text text-start"></textarea>
+                </div>
+                
+
+                <div class="col-md-6 my-3">
+                    <label for="file" class="form-label text-muted d-block">Please upload harmonic data sheets:</label>
+                  <div class="fileInput">
+                    <input class="form-control input-group-text text-start" type="file" id="fileUpload"
+                        name="fileUpload" (change)="onChange($event)"    />
+                        
+                    <span style="position: absolute; top:10px"> {{file ? file.name : harmonicForm.get('File_Name')?.value ? harmonicForm.get('File_Name')?.value : ''}}</span>
+                   </div>
+                   <button mat-button  type="button" class="uploadbtnStyle fileButton btn btn-danger text-uppercase btn-sm" 
+                   (click)="onUpload(); changeValues()"
+                   [disabled]="!file?.name">
+                        UPLOAD A FILE
+                    </button>
+                    <p *ngIf="!isValidFileType" class="text-danger">
+                    File type is not valid. Please upload valid file.
+                    </p>
+                    <p> <small class="text-muted">(allowable file types: "doc,docx,pdf,jpg,jpeg,png,gif)</small></p>
+                    <ng-container *ngIf="uploadSuccess">
+                    Upload Percent: {{percentDone}}% <br />
+                    Upload Successful
+                    </ng-container>
+
+                </div>
+                <hr>
+    </form> 
+</ng-container>

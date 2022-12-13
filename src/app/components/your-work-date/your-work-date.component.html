@@ -1,0 +1,45 @@
+<div class="container">
+    <p><span style="color:red">*</span>Signifies mandatory fields</p>
+    <p class="validation-style" *ngIf="formSubmitted && idealDateValid == false">please specify when you would like your connection(s) to be made by</p>
+    <p class="validation-style" *ngIf="formSubmitted && expectedDateValid == false">please specify when you anticipate your connection(s) to be made by</p>
+    <div class="form-group">
+      <p class="titleHeading">When would you ideally like our work completed?<span style="color:red;">*</span></p>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <input matInput [matDatepicker]="picker"
+          [min]="minIdealDate"
+          [(ngModel)]="Work_Connection_Date"
+          (ngModelChange)="onIdealDateChange($event)"
+        >
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button (click)="picker.open()"><mat-icon>calendar_month</mat-icon></button>
+    </div>
+    <div class="form-group">
+      <p class="titleHeading">When do you expect to complete the works on site?<span style="color:red;">*</span></p>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <input matInput [matDatepicker]="picker1" 
+          [min]="minExpectedDate"
+          [(ngModel)]="Exp_Work_Conn_Date"
+          (ngModelChange)="onExpectedDateChange($event)"
+        >
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button (click)="picker1.open()"><mat-icon>calendar_month</mat-icon></button>
+
+    </div>
+
+    <div class="action-btns">
+      <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress')">
+       SAVE AND CONTINUE
+      </button>
+      <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0"  class="btnStyle" (click)="backToPreviousTemplate()">Back</button>
+      <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" class="btnStyle"  (click)="onSave('saveForLater', 'Paused');">
+       SAVE FOR LATER
+      </button>
+      <button  mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+       REQUEST A CALLBACK 
+      </button>
+  </div>
+    
+</div>
+

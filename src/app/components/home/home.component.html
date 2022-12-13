@@ -1,0 +1,13 @@
+<h4 *ngIf="location !== 'myservice.nptest.net'">Home Page</h4>
+
+<div class="home-container">
+    <h2>Connections Services</h2>
+    <ul class="list-group list-group-horizontal">
+        <li *ngFor="let item of connectionData" class="list-group-item">
+            <span (click)="setConnectionType(item.name);">
+                <img src="./assets/network-diversion_unchecked.png" alt="">
+                <h3>{{item.description}}</h3>
+            </span>
+        </li>
+    </ul>
+</div>

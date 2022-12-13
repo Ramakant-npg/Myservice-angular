@@ -1,0 +1,127 @@
+<div class="container">
+    <div class="mandate"><span style="color:#ab1236">*</span> Signifies mandatory fields
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Hazard_Flag == null">Please select whether there any existing water courses, culverts or drainage ditches on or around the site</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Preservation_Flag == null">Please select whether there any trees or hedges on site that are protected by preservation orders</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Classification_Flag == null">Please select whether the site contain any substances hazardous to health or the environment</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Digging_Flag == null">Please select if you require us to do any on site digging or excavation</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Flooding_Flag == null">Please select the likelihood of flooding from rivers and the sea on the development</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Water_Flag == null">Please select if the site listed under any other classification such as: historical site, conservation area, listed building or a site of special interest</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Water_Flag == 0 && Site_Water_Details == null">Please enter the site classification details</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Hazard_Flag == 0 && Site_Hazard_Details == null">Please enter the site water details</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Preservation_Flag == 0 && Site_Preservation_Details == null">Please enter the site preservation details</span></p>
+        <p><span class="validation-style" *ngIf="formSubmitted && Site_Classification_Flag == 0 && Site_Classification_Details == null">Please enter the site hazard details</span></p>
+    </div>
+    <div class="questions">
+        <div class="form-group">
+            <p class="firstQuest">Is the site listed under any other classification such as: historical site, 
+                conservation area, listed building or a site of special interest? <span style="color:#ab1236">*</span>
+            </p>
+            <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="Site_Water_Flag">
+                <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option.id">
+                    {{option.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="form-group" *ngIf="Site_Water_Flag == 0" [@slideInOut]>
+                <p style="font-size: 13px;color: #737373; margin-top: 15px;">Please provide details:</p>
+                <textarea rows="7" cols="120" [(ngModel)]="Site_Water_Details"></textarea>
+            </div>
+        </div>
+        <div class="borderCss"></div>
+        <div class="form-group">
+            <p>Are there any trees or hedges on site that are protected by preservation orders? <span style="color:#ab1236">*</span>
+            </p>
+            <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="Site_Preservation_Flag">
+                <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option.id">
+                    {{option.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="form-group" *ngIf="Site_Preservation_Flag == 0" [@slideInOut]>
+                <p style="font-size: 13px;color: #737373; margin-top: 15px;">Please provide details:</p>
+                <textarea rows="7" cols="120" [(ngModel)]="Site_Preservation_Details"></textarea>
+            </div>
+        </div>
+        <div class="borderCss"></div>
+        <div class="form-group">
+            <p>Are there any existing water courses, culverts or drainage ditches on or around the site? <span style="color:#ab1236">*</span>
+            </p>
+            <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="Site_Hazard_Flag">
+                <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option.id">
+                    {{option.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="form-group" *ngIf="Site_Hazard_Flag == 0" [@slideInOut]>
+                <p style="font-size: 13px;color: #737373; margin-top: 15px;">Please provide details:</p>
+                <textarea rows="7" cols="120" [(ngModel)]="Site_Hazard_Details"></textarea>
+            </div>
+        </div>
+        <div class="borderCss"></div>
+        <div class="form-group">
+            <p>Does the site contain any hazardous substances to health or the environment such as asbestos, hydrocarbons? <span style="color:#ab1236">*</span>
+            </p>
+            <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="Site_Classification_Flag">
+                <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option.id">
+                    {{option.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="form-group" *ngIf="Site_Classification_Flag == 0" [@slideInOut]>
+                <p style="font-size: 13px;color: #737373; margin-top: 15px;">Please provide details:</p>
+                <textarea rows="7" cols="120" [(ngModel)]="Site_Classification_Details"></textarea>
+            </div>
+        </div>
+        <div class="borderCss"></div>
+        <div class="form-group">
+            <p>What is the likelihood of flooding from rivers and the sea on your development?  <span style="color:#ab1236">*</span>
+            </p>
+            <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="Site_Flooding_Flag">
+                <mat-radio-button class="example-radio-button" *ngFor="let option of diffOptions" [value]="option.id">
+                    {{option.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="form-group" >
+                <p style="font-size: 13px;color: #737373; margin-top: 15px;">Further information can be found on the environment agency website:</p>
+                <p style="font-size: 13px;color: #737373; margin-top: 5px;">(<a style="color: #737373;" href="https://www.gov.uk/prepare-for-a-flood/find-out-if-youre-at-risk" target="_blank">https://www.gov.uk/prepare-for-a-flood/find-out-if-youre-at-risk</a>)</p>
+            </div>
+        </div>
+        <div class="borderCss"></div>
+        <div class="form-group">
+            <p>Do you require us to do any on site digging or excavation? <span style="color:#ab1236">*</span>
+            </p>
+            <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="Site_Digging_Flag">
+                <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option.id">
+                    {{option.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="borderCss"></div>
+    </div>
+    <div class="action-btns">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSubmit('isSubmit', 'InProgress')">
+         SAVE AND CONTINUE
+        </button>
+        <button *ngIf="navIndex!==0" mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="backToPreviousTemplate()">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSubmit('saveForLater', 'Paused')">
+         SAVE FOR LATER
+        </button>
+        <button  mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

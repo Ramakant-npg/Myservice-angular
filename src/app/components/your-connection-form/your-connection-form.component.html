@@ -1,0 +1,202 @@
+<div class="container">
+    <div class="mandate"><span style="color:#ab1236">*</span> Signifies mandatory fields
+        <!-- <p><span class="validation-style" *ngIf="submittedForm && houseConnection.value >= 1 && houseHeating.value == '--Please Choose --'">Please specify the type of heating for the house connections specified</span></p>
+        <p><span class="validation-style" *ngIf="submittedForm && houseConnection.value == 0 && flatConnection.value == 0">Please specify a number of connections more than zero</span></p>
+        <p><span class="validation-style" *ngIf="submittedForm && isTempRequired.value == null">Please indicate whether you need a temporary connection</span></p>
+        <p><span class="validation-style" *ngIf="submittedForm && isTempRequired.value == 'Yes' && TempDaysRequired == null">Please specify the length of time required on your temporary connection</span></p>
+        <p><span class="validation-style" *ngIf="submittedForm && isTempRequired.value == 'Yes' && Temp_Load == null" >Please specify the load required on your temporary connection</span></p>
+        <p><span class="validation-style" *ngIf="submittedForm && flatConnection.value >= 1 && flatLoad.value == null">Please specify the load required for the flat/apartment connections specified</span></p>
+        <p><span class="validation-style" *ngIf="submittedForm && flatConnection.value >= 1 && flatHeating.value == '--Please Choose --'">Please specify the type of heating for the flat/apartment connections specified</span></p> -->
+    </div>
+    
+    <div class="row">
+        <form class="form" #connectionForm="ngForm">
+            <div class="form-group">
+                <p class="titleHeading">Would you like a new point of connection or additional load for an existing point of connection?</p>
+                <mat-radio-group
+                        aria-labelledby="example-radio-group-label"
+                        class="example-radio-group"
+                        name="connectionType"
+                        #connectionType="ngModel"
+                        [(ngModel)]="Poctype">
+                        <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option.id">
+                            {{option.name}}
+                        </mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="increasedLoad" *ngIf="Poctype === false">
+                <div class="form-group">
+                    <p class="subSection">According to our records, the Meter Point Administration Number (MPAN) for the site address you have supplied could not be found.
+                    Please enter your mpan number below, you can find your mpan number by contacting your electricity supplier.</p>
+                </div>
+                <div class="form-group">
+                    <p class="innerTitleHeading1">MPAN Number <span style="color: red">*</span>
+                        <button mat-icon-button color="primary" matTooltip="What is my MPAN number and how do I find it?" (click)="mpanInfo=!mpanInfo">
+                            <mat-icon>info</mat-icon>
+                        </button>
+                    </p>
+                    <div class="mpanInfo" *ngIf="mpanInfo"  [@slideInOut]>
+                        <p style="font-weight: bold;">What is an MPAN and how do I find it?</p>
+                        <p>An MPAN (Meter Point Administration Number) is a unique number to the property’s electricity meter, essentially a reference number for your meter. It is found on your electricity bill issued by a supplier. If you don’t have a bill you can call your supplier and ask for you MPAN number, they should be able to either tell you the full 13 digit number or arrange to send it to you.</p>
+                    </div>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control"
+                            [ngClass]="{'inputError': (mpan?.errors?.['required'] && formSubmitted) || (mpan.dirty && mpan?.errors?.['pattern'] && formSubmitted) }"
+                                [(ngModel)]="Poc_Mpan" name="mpan" #mpan="ngModel" [pattern]="mpanPattern"  required>
+                            <small *ngIf="mpan?.errors?.['required'] && formSubmitted" style="color:red">
+                                MPAN is required
+                            </small>
+                            <small *ngIf="formSubmitted && mpan.dirty && mpan?.errors?.['pattern']" style="color:red">MPAN number must be 13 characters long</small>
+                            <p><small *ngIf="checkMPAN() && formSubmitted" style="color:red">MPAN number must begin with either 15 or 23. (if your MPAN does not, you are not in our area and need to contact your Distribution Network Operator)</small></p>
+                        </div>  
+                </div>
+                <div class="borderBottomStyle"></div>
+                <div class="form-group">
+                    <p class="innerTitleHeading1">What is the existing load of your current supply? <span style="color: red">*</span></p>
+                    <div class="microGenStyleCss">
+                        <input type="number" class="form-control text-standard-load"
+                            [ngClass]="{'inputError': existingLoad?.errors?.['min'] && formSubmitted}"
+                            [(ngModel)]="Existing_Load_Current_Supply" name="existingLoad" 
+                            #existingLoad="ngModel" min="1" required>
+                        <p class="kWCss">kW</p>
+                        <small *ngIf="(existingLoad?.errors?.['min']) && formSubmitted" style="color:red">
+                            Existing Load is required
+                        </small>
+                    </div>
+                </div>
+                <div class="borderBottomStyle"></div>
+                <div class="form-group">
+                    <p class="innerTitleHeading1">What do you need the total increased load to be? <span style="color: red">*</span></p>
+                    <div class="microGenStyleCss">
+                        <input type="number" class="form-control text-standard-load"
+                            [ngClass]="{'inputError': increasedLoad?.errors?.['min'] && formSubmitted}"
+                            [(ngModel)]="Total_Increased_Load" name="increasedLoad" 
+                            #increasedLoad="ngModel" min="0.1" required>
+                        <p class="kWCss">kW</p>
+                        <small *ngIf="(increasedLoad?.errors?.['min']) && formSubmitted" style="color:red">
+                            Total Increased Load is required
+                        </small>
+                    </div>
+                </div>
+                <div class="borderBottomStyle"></div>
+                <div class="form-group">
+                    <p class="innerTitleHeading1">What is the reason for the increased load? <span style="color: red">*</span></p>
+                    <div class="microGenStyleCss">
+                        <textarea rows="7" name="reasonIncreasedLoad" 
+                        [ngClass]="{'inputError': reasonIncreasedLoad?.errors?.['required'] && formSubmitted}"
+                        #reasonIncreasedLoad="ngModel" [(ngModel)]="Reason_For_Increased_Load" required>
+                        </textarea>
+                    </div>
+                    <small *ngIf="reasonIncreasedLoad?.errors?.['required'] && formSubmitted" style="color:red">
+                        Reason for Increased Load is required
+                    </small>
+                </div>
+                <div class="borderBottomStyle"></div>
+            </div>
+            <div class="newPOintConnection" *ngIf="Poctype === true">
+                <div class="row">
+                    <div class="form-group">
+                        <p class="innerTitleHeading2">How many connections do you plan to install?</p>
+                        <div class="microGenStyleCss">
+                            <button mat-icon-button (click)="decrease()">
+                                <mat-icon>do_disturb_on</mat-icon>
+                            </button>
+                            <input name="connectionPlan" #connectionPlan="ngModel" 
+                                type="text" class="textfield--standard" 
+                                [(ngModel)]="Connections_Plan_To_Install" >
+                            <button mat-icon-button (click)="increase()">
+                                <mat-icon>add_circle</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="borderBottomStyle"></div>
+                    <div class="form-group">
+                        <p class="innerTitleHeading1">What is the total load required for your point of connection? <span style="color: #AB1236;">*</span></p>
+                        <div class="microGenStyleCss">
+                            <input type="number" class="form-control text-standard-load"
+                                [ngClass]="{'inputError': totalLoad?.errors?.['min'] && formSubmitted}"
+                                [(ngModel)]="Total_Load_Required" name="totalLoad" min="0.1" #totalLoad="ngModel" 
+                                required>
+                            <p class="kWCss">kW</p>
+                            <small *ngIf="(totalLoad?.errors?.['min']) && formSubmitted" style="color:red">
+                                Total Load is required
+                            </small>
+                        </div>
+                    </div>
+                    <div class="borderBottomStyle"></div>
+                    <div class="form-group">
+                        <p class="innerTitleHeading1">Do you wish to carry out the contestable final closing joint connection where applicable? <span style="color: #AB1236;">*</span></p>
+                        <div class="microGenStyleCss" [ngClass]="{'inputErrorCheck': (Poc_Contestable.length == 0) && formSubmitted}" *ngFor="let cat of categories; let i=index">
+                            <input type="checkbox" class="checkBoxCss" name="contestabaleJoint"
+                            #checkAll (change)="onChange(cat.id, checkAll.checked)" [checked]="cat.isSelected"
+                            id="{{cat.id}}"
+                            >
+                            <label class="form-check-label" for="{{cat.id}}">
+                                {{cat.name}}
+                            </label>
+                        </div>
+                        <small *ngIf="(Poc_Contestable.length == 0) && formSubmitted" style="color:red">
+                            Contestable final closing joint connection is required
+                        </small>
+                    </div>
+                    <div class="borderBottomStyle"></div>
+                    <div class="form-group">
+                        <p class="innerTitleHeading1">Do you need a temporary connection?</p>
+                        <mat-radio-group
+                                aria-labelledby="example-radio-group-label"
+                                class="example-radio-group1"
+                                name="temporaryConnection"
+                                #temporaryConnection="ngModel"
+                                [(ngModel)]="Poc_Temporary_Connection">
+                                <mat-radio-button class="example-radio-button1" *ngFor="let option of connections" [value]="option.id">
+                                    {{option.name}}
+                                </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="borderBottomStyle"></div>
+                    <div class="form-group" *ngIf="Poc_Temporary_Connection == 0">
+                        <p class="innerTitleHeading1">Temporary load </p>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control text-standard-load"
+                                [(ngModel)]="Poc_Temporary_Load" name="PoctempLoad" #tempLoad="ngModel" 
+                                required>
+                            <!-- <p class="kWCss">kW</p>
+                            <small *ngIf="(totalLoad?.errors?.['min']) && formSubmitted" style="color:red">
+                                Total Load is required
+                            </small> -->
+                        </div>
+                        <div class="borderBottomStyle"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <p class="innerTitleHeading1">Please provide details of which company will be adopting the electrical network after installation. <span style="color: red">*</span></p>
+                <div class="microGenStyleCss">
+                    <select name="companyAdopting" #companyAdopting="ngModel" 
+                        [(ngModel)]="Company_Adopting_EN" class="select--standard" 
+                        [ngClass]="{'inputError': companyAdopting?.errors?.['required'] && formSubmitted}" required>
+                        <option *ngFor="let option of dropDownOptions" [value]="option.id">
+                            {{option.name}}
+                        </option>
+                    </select>
+                </div>
+                <small *ngIf="(companyAdopting?.errors?.['required']) && formSubmitted" style="color:red">
+                    Details for which company is adopting electrical is required
+                </small>
+            </div>
+            <div class="borderBottomStyle"></div>
+        </form>
+    </div>
+    <div class="action-btns">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSubmit('isSubmit', 'InProgress')">
+         SAVE AND CONTINUE
+        </button>
+        <button *ngIf="navIndex!==0" mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="backToPreviousTemplate()">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSubmit('saveForLater', 'Paused')">
+         SAVE FOR LATER
+        </button>
+        <button  mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

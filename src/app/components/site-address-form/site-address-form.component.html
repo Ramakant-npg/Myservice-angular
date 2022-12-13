@@ -1,0 +1,309 @@
+<div class="container">
+    <div style="margin-bottom: 10px;"><span style="color:#ab1236">*</span> Signifies mandatory fields</div>
+    <div *ngFor="let item of questionsList">
+        <small style="color:red;">Please select one radio button for: {{item}}</small>
+    </div>
+    <div class="error-container">
+        <div *ngIf="showOwnerInfoForm">
+            <p *ngIf="firstName == '' && formSubmitted">
+                Please provide us owner first name.
+            </p>
+            <p *ngIf="surname == '' && formSubmitted">
+            Please provide us owner surname.
+            </p>
+            <p *ngIf="propertyName == '' && formSubmitted">
+            Please provide us owner property name/number.
+            </p>
+            <p *ngIf="addressLine2 == '' && formSubmitted">
+            Please provide us owner adress line.
+            </p>
+            <p *ngIf="addressLine3 == '' && formSubmitted">
+                Please provide us owner adress line.
+            </p>
+            <p *ngIf="postcode == '' && formSubmitted">
+                Please provide us owner postcode.
+            </p>
+            <p *ngIf="ownerPostcodeError && formSubmitted">
+                Invalid owner postcode.
+            </p>
+        </div>
+        <p *ngIf="Postcode?.errors?.['required'] && formSubmitted">
+           Please provide us site postcode.
+        </p>
+        <!-- <p *ngIf="Postcode?.errors?.['pattern'] && formSubmitted">
+            Invalid site postcode
+        </p> -->
+        <p *ngIf="siteName.errors?.['required'] && formSubmitted">
+           Please provide us site name.
+        </p>
+        <p *ngIf="SiteStreet.errors?.['required'] && formSubmitted">
+           Please provide us site street.
+        </p>
+        <p *ngIf="City.errors?.['required'] && formSubmitted">
+           Please provide us site city/ region.
+        </p>
+    </div>
+    <p style="font-size:16px;margin-top: 20px;">
+        Do you have your own internal reference that you would like us to use to refer to your project?
+    </p>
+    <input type="text" name="customerRef" [(ngModel)]="Customer_Reference" (keyup)="checkName(Customer_Reference, 'project')"
+    style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;margin-bottom: 20px;" 
+    placeholder="E.g. Project 123abc"/>
+    <p *ngIf="!projectCheck && Customer_Reference != ''" style="color: red; font-size: 12px;">
+        Only Alphabet and Number are allowed
+    </p>
+    <div class="ques-container" *ngFor="let quest of siteAddresQuesList">
+        <div *ngIf="quest.showQuestion">
+            <p style="font-size:16px">
+            {{quest.question}} <span style="color:#ab1236">*</span>
+            </p>
+            <div>
+                <mat-radio-group class="radio-group" style="margin-top:0px;" [value]="quest.selectedAnswer" >
+                    <div style="display: flex;">
+                        <mat-radio-button class="radio-btn" style="margin: 5px;width:200px;" [value]="quest.trueAnswer" (change)="onYesBtnClick('Yes', quest)">
+                        {{quest.trueAnswer}}
+                        </mat-radio-button>
+                        <p style="width:50%" *ngIf="quest.trueDescription">{{quest.trueDescription}}</p>
+                    </div>
+                    <div style="display: flex;">
+                        <mat-radio-button class="radio-btn" style="margin: 10px 5px 5px 5px;width: 200px;"
+                        [value]="quest.falseAnswer"
+                        (change)="onNoBtnClick('No', quest)"> 
+                            {{quest.falseAnswer}}
+                        </mat-radio-button>
+                        <p style="width:50%" *ngIf="quest.falseDescription">{{quest.falseDescription}}</p>
+                    </div>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div>
+
+    <div class="owner-info-container" style="margin-bottom: 20px;" *ngIf="showOwnerInfoForm">
+        <span style="margin-bottom:20px;">You must provide details of the owner/occupier below. Failure to provide this information will result in a delay in the provision of your quotation.</span>
+        <h2 style="margin-bottom:20px;">Owner/Occupier Information</h2>
+        <form #ownerInfoForm="ngForm">
+            <div class="form-group">
+                <label>Full Company Name if available</label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkName(companyName, 'fullComName')" 
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="companyName" name="companyName">
+                    <small *ngIf="companyName != '' && !ownerFullComCheck" style="color: red;">
+                        Only Alphabets, Dots and Numbers are allowed
+                    </small>
+                </div> 
+            </div>
+            <div class="form-group">
+                <label>Title</label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkName(title, 'title')" 
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="title" name="title">
+                        <small *ngIf="title != '' && !ownerTitleCheck" style="color: red;">
+                            Please provide a suitable title 
+                        </small>
+                </div> 
+            </div>
+            <div class="form-group">
+                <label>First Name <span style="color:#ab1236">*</span></label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkName(firstName, 'fName')" 
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="firstName" name="FirstName" #FirstName="ngModel" required>
+                    <small *ngIf="FirstName?.errors?.['required'] && formSubmitted" style="color:red">
+                        mandatory field.
+                    </small>
+                    <small *ngIf="firstName != null && !ownerFirstnameCheck" style="color:red">
+                        Only Alphabet and Number are Allowed.
+                    </small>
+                </div> 
+            </div>
+            <div class="form-group">
+                <label>Surname <span style="color:#ab1236">*</span></label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkName(surname, 'lName')"
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="surname" name="Surname" #Surname="ngModel" required>
+                    <small *ngIf="Surname?.errors?.['required'] && formSubmitted" style="color:red">
+                        mandatory field.
+                    </small>
+                    <small *ngIf="surname != null && !ownerSurnnameCheck" style="color:red">
+                        Only Alphabet and Number are Allowed.
+                    </small>
+                </div> 
+            </div>
+            <div class="form-group">
+                <label>Property name/number<span style="color:#ab1236">*</span></label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkAddress(propertyName, 'property')"
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="propertyName" name="PropertyName" #PropertyName="ngModel" required>
+                    <small *ngIf="PropertyName?.errors?.['required'] && formSubmitted" style="color:red">
+                        mandatory field.
+                    </small>
+                    <small *ngIf="propertyName != '' && !ownerProperyCheck " style="color:red">
+                        Only Alphabet, Numbers, / , ., - are allowed
+                    </small> 
+                </div> 
+            </div>
+            <div class="form-group">
+                <label>Address line 2 <span style="color:#ab1236">*</span></label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkAddress(addressLine2, 'addLine2')"
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="addressLine2" name="AddressLine2" #AddressLine2="ngModel" required>
+                    <small *ngIf="AddressLine2?.errors?.['required'] && formSubmitted" style="color:red">
+                        mandatory field.
+                    </small>
+                    <small *ngIf="addressLine2 != '' && !ownerAddress2Check " style="color:red">
+                        Only Alphabet, Numbers, / , ., - are allowed
+                    </small>
+                </div> 
+            </div>
+            <div class="form-group">
+                <label>Address line 3 <span style="color:#ab1236">*</span></label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkAddress(addressLine3, 'addLine3')"
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="addressLine3" name="AddressLine3" #AddressLine3="ngModel" required>
+                    <small *ngIf="AddressLine3?.errors?.['required'] && formSubmitted" style="color:red">
+                       mandatory field.
+                    </small>
+                    <small *ngIf="addressLine3 != '' && !ownerAddress3Check " style="color:red">
+                        Only Alphabet, Numbers, / , ., - are allowed
+                    </small>
+                </div> 
+            </div>
+            <div class="form-group">
+                <label>Address line 4</label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkAddress(addressLine4, 'addLine4')"
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="addressLine4" name="addressLine4">
+                </div> 
+                <small *ngIf="addressLine4 != '' && !ownerAddress4Check " style="color:red">
+                    Only Alphabet, Numbers, / , ., - are allowed
+                </small>
+            </div>
+            <div class="form-group">
+                <label>Postcode<span style="color:#ab1236">*</span></label>
+                <div style="margin-top:5px;margin-bottom: 20px;">
+                    <input type="text" class="form-control" (keyup)="checkAddress(postcode, 'ownerPost')"
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 40%;"
+                        [(ngModel)]="postcode" name="Postcode" #Postcode="ngModel" 
+                       required>
+                    <small *ngIf="Postcode?.errors?.['required'] && formSubmitted" style="color:red">
+                       mandatory field.
+                    </small>
+                    <small *ngIf="postcode != '' && !ownerWPostCode" style="color:red">
+                        Invalid owner postcode
+                    </small>
+                </div> 
+            </div>
+        </form>
+    </div>
+
+    <div class="site-address-form" style="display:flex;justify-content:flex-start;">
+        <div class="address-form" style="width: 50%; margin-right: 30px;">
+            <h2 style="margin-bottom: 10px;">Site Address</h2>
+            <p style="margin-bottom: 10px;">This is where you want the new connection</p>
+            <form #siteAddressForm="ngForm">
+                <div class="form-group">
+                    <label>Site name/Plot number<span style="color:#ab1236">*</span></label>
+                    <div style="margin-top:5px;margin-bottom: 20px;">
+                        <input type="text" class="form-control" (change)="checkAddress(siteAdressFormData.Site_Name, 'site')"
+                            style="border: none;padding: 10px;background-color: #ebebeb;width: 100%;"
+                            #siteName="ngModel" [(ngModel)]="siteAdressFormData.Site_Name" name="siteName"  required>
+                        <small *ngIf="siteName.errors?.['required'] && formSubmitted" style="color:red">
+                            mandatory field.
+                        </small>
+                        <small *ngIf="siteAdressFormData?.Site_Name != '' && !siteCheck" style="color:red">
+                            Only Alphabet, Numbers, / , ., - are allowed
+                        </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Site street<span style="color:#ab1236">*</span></label>
+                    <div style="margin-bottom: 20px;">
+                        <input type="text" (change)="checkAddress(siteAdressFormData.Site_Street, 'street')"
+                        class="form-control" #SiteStreet="ngModel" [(ngModel)]="siteAdressFormData.Site_Street"
+                        style="border: none;padding: 10px;background-color: #ebebeb;width: 100%;"
+                        name="SiteStreet" required>
+                        <small *ngIf="SiteStreet.errors?.['required'] && formSubmitted" style="color:red">
+                            mandatory field.
+                        </small>
+                        <small *ngIf="siteAdressFormData?.Site_Street != '' && !streetCheck" style="color:red">
+                            Only Alphabet, Numbers, / , ., - are allowed
+                        </small>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>City/Region<span style="color:#ab1236">*</span></label>
+                    <div style="margin-bottom: 20px;">
+                        <input type="text" class="form-control" (change)="checkCity(siteAdressFormData.Site_City, 'city')"
+                        #City="ngModel" [(ngModel)]="siteAdressFormData.Site_City" name="City"
+                            style="border: none;padding: 10px;background-color: #ebebeb;width: 100%;"
+                            required>
+                        <small *ngIf="City.errors?.['required'] && formSubmitted" style="color:red">
+                            mandatory field.
+                        </small> 
+                        <small *ngIf="siteAdressFormData.Site_City != '' && !cityCheck" style="color:red">
+                            Only Alphabet Allowed.
+                        </small> 
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label>Postcode<span style="color:#ab1236">*</span></label>
+                    <div style="margin-bottom: 20px;">
+                        <input type="text" class="form-control" #Postcode="ngModel" [(ngModel)]="siteAdressFormData.Site_Postcode"
+                            style="border: none;padding: 10px;background-color: #ebebeb;width: 100%;" [maxlength]="8"
+                            name="Postcode" [pattern]="postCodePattern" required>
+                        <small *ngIf="Postcode?.errors?.['required'] && formSubmitted" style="color:red">
+                            mandatory field.
+                        </small>
+                        <small *ngIf="Postcode?.dirty && Postcode?.errors?.['pattern']" style="color:red">
+                            Invalid site postcode
+                        </small>
+                    </div>  
+                </div>
+            </form>
+        </div>
+        <div class="address-actions">
+            <h2 style="margin-bottom: 20px;">Would you like to use your correspondence address as your site address?</h2>
+            <button   mat-button  class="btn btn-danger text-uppercase btn-sm m-2 d-none">CHANGE MY ADDRESS</button>
+            <span class="d-none">(opens in new window)</span>
+            <div>
+                <button  mat-button  class="btn btn-danger text-uppercase btn-sm m-2" (click)="correspondAddressClick()">
+                    USE MY CORRESPONDENCE ADDRESS
+                </button>
+            </div>
+            <div style="margin-top: 20px;">
+                <h2>Your correspondence address</h2>
+                <div>{{correspondAddress.Site_Name}}</div>
+                <div>{{correspondAddress.Site_Street}}</div>
+                <div>{{correspondAddress.Site_City}}</div>
+                <div>{{correspondAddress.Site_Postcode}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="action-btns">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress')"
+        [disabled]="!projectCheck || !streetCheck || !siteCheck || !cityCheck 
+        || !ownerFullComCheck || !ownerTitleCheck || !ownerFirstnameCheck
+        || !ownerSurnnameCheck || !ownerProperyCheck || !ownerAddress2Check || !ownerAddress3Check 
+        || !ownerAddress4Check || (!ownerWPostCode) || Postcode?.dirty && Postcode?.errors?.['pattern']">
+         SAVE AND CONTINUE
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0" (click)="backToPreviousTemplate()">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="onSave('saveForLater', 'Paused');"
+        [disabled]="!projectCheck || !streetCheck || !siteCheck 
+        || !cityCheck || !ownerFullComCheck || !ownerTitleCheck
+        || !ownerFirstnameCheck || !ownerSurnnameCheck || !ownerProperyCheck || !ownerAddress2Check
+        || !ownerAddress3Check || !ownerAddress4Check || (!ownerWPostCode) || (Postcode?.dirty && Postcode?.errors?.['pattern'])">
+         SAVE FOR LATER 
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

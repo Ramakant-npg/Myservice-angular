@@ -1,0 +1,98 @@
+.titleHeading {
+    text-align: left;
+    font: normal normal bold 16px/18px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+.container {
+    min-width: 1020px;
+    font-family: Arial;
+}
+.errors {
+    margin-top: 10px;
+}
+.mandatoryCss{
+    text-align: left;font: normal normal normal 15px/17px Arial;
+    letter-spacing: 0px;
+    color: #606060;
+}
+.mandatoryCss span {
+    color: #AB1236;
+}
+.mainForm {
+    width: 95.5%;
+}
+.row{
+    display: flex;
+    width: 98.5%;
+    margin-top: 25px;
+}
+.oneHalf {
+    flex: 1;
+    float: right;
+    width: 50%;
+}
+.secondHalf {
+    flex: 1;
+    float: left;
+    width: 50%;
+}
+.microGenStyle {
+    margin-left: 18px;
+}
+.microGenStyle input {
+    border: none;
+    background-color: #ebebeb;
+    width:90%;
+    font-size: 12.8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.microGenStyle label {
+    color: #737373;
+    font-size: 12.5px;
+}
+.microGenStyleCss {
+    margin-top:0px;
+    margin-bottom: 13px;
+}
+.btnStyle {
+    background-color:#ab1236;
+    color:white;
+    margin: 10px 10px 10px 0px;
+    border: none; 
+    font-size: 14px; 
+    font-weight: 560;
+}
+.connections-caption {
+    font-size: 18px;
+    line-height: 1.3;
+    color: #000;
+    padding-top: 10px;
+}
+.contactDetailsNameCss {
+    line-height: 11.6px;
+    color: #737373;
+}
+.btnStyle {
+    background-color:#ab1236;
+    color:#FFFFFF;
+    margin: 10px 10px 10px 0px;
+    border: none; 
+    font-size: 13px; 
+    font-family: Arial;
+    font-weight: 560;
+}
+.raisedBtnStyle {
+    color: #ab1236;
+    border-color: #ab1236 !important;
+    font-size: 13px;
+    font-family: Arial;
+    font-weight: 560;
+}
+.action-btns{
+    margin-top: 15px;
+}
+.inputError {
+    border: 1.5px solid #ab1236 !important;
+}

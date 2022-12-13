@@ -1,0 +1,108 @@
+
+<div class="container">
+    <!----New Generation html-->
+    <!-- <p class="bg bg-danger text-white p-2 rounded my-2"><small>New Generation</small></p> -->
+    <!-- <p><small>STEP <span class="text-danger">5</span> of 11</small></p> -->
+    <p><small><span class="text-danger">*</span>Signifies mandatory fields</small></p>
+    <small *ngIf="formSubmitted && (isConnectGenEqup == null || isConnectGenEqup == undefined)"><span class="text-danger">Please select either of the option</span></small>
+    <!---section 1-->
+    <div class="generation-one">
+    <p class=" my-1  h6">Will you be connecting generation equipment to your premises? E.g PV cells (solar panels), wind turbine <span class="text-danger">*</span>
+      <em class="fa fa-info-circle float-right px-3" matTooltip="How does this information help?" (click)="newGenInfo=!newGenInfo"></em>
+    </p>
+    <div class="bg-grey p-2 my-2" *ngIf="newGenInfo"  [@slideInOut]>
+      <p class="m-0 text-bold">How does this information help?</p>
+      <p> If you are planning to install a generator, or multiple generators, we will need the full technical details of the equipment and its location. The connections process can change depending on the size of generation equipment to be installed.</p>
+    </div>
+      <div class="col-12 mb-3">
+          <mat-radio-group aria-label="Select an option" id="radioOption_one" [(ngModel)]="isConnectGenEqup" (change)= "chooseOptionFromFirst( isConnectGenEqup)">
+          <mat-radio-button name="option" value="yes" class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+          <mat-radio-button name="option" value="no"  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+          </mat-radio-group>
+      </div>
+    </div>
+
+    <!---section 2-->
+    <div class="generation-one" *ngIf="isShowAllGenOption" >
+    <p class="my-1 h6">Is the generation equipment you are connecting to each premises rated at more than 3.68kW?</p>
+      <div class="col-12 mb-3">
+          <mat-radio-group aria-label="Select an option" id="radioOption_two" [(ngModel)]="isGenEqupMoreThanThree" (change)= "chooseOptionFromSecond( isGenEqupMoreThanThree)">
+          <mat-radio-button name="option" value="yes" class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+          <mat-radio-button name="option" value="no"  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+          </mat-radio-group>
+      </div>
+      <div *ngIf="isShowMoreThanThreeForm">
+      <app-more-than-three-kw (allMoreThanThreeHundredData)="getAllThreeHunFormData($event)"></app-more-than-three-kw>
+      </div>
+    </div>
+
+  <!---section 3-->
+    <div class="generation-one"  *ngIf="isShowAllGenOption && isShowMoreThanTwoHunOption">
+    <p class="my-1 h6">Is the generation equipment you are connecting to each premises rated at more than 200kW?</p>
+      <div class="col-12 mb-3">
+          <mat-radio-group aria-label="Select an option" id="radioOption_three" [(ngModel)]="isGenEqupMoreThanTwoHun" (change)= "chooseOptionFromThird( isGenEqupMoreThanTwoHun)">
+          <mat-radio-button name="option" value="yes" class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+          <mat-radio-button name="option" value="no"  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+          </mat-radio-group>
+      </div>
+      <div *ngIf="isShowMoreThanTwoHunForm">
+        <app-more-than-two-hundred-kw (allMoreThanTwoHundredData)="getAllFormData($event)"></app-more-than-two-hundred-kw>
+      </div>
+    </div>
+
+  <!---section 4-->
+    <div class="generation-one" *ngIf="isShowAllGenOption && isShowStandbyOption">
+    <p class="my-1 h6">Is this generation equipment for standby purposes? i.e not connected in parallel with our network</p>
+      <div class="col-12 mb-3">
+          <mat-radio-group aria-label="Select an option" id="radioOption_fourth" [(ngModel)]="isGenEqupMForStandby" (change)= "chooseOptionFromFourth( isGenEqupMForStandby)">
+          <mat-radio-button name="option" value="yes" class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+          <mat-radio-button name="option" value="no"  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+          </mat-radio-group>
+      </div>
+      <div class="col-md-12" *ngIf="isShowStandbyForm">
+      <small>If the generation you are installing is available as a back up or an alternative to the Northern Powergrid supply then it should not be connected in parallel.
+
+If the generation is for standby purposes only then you must install equipment to ensure that the generation plant cannot be connected in parallel to a Northern Powergrid system in accordance with ESQC regulation 21 and The Requirements for Electrical Installations, BS7671.</small>
+</div>
+    </div>
+
+  <!---section 5-->
+    <div class="generation-one" *ngIf="isShowAllGenOption && isShowRunMoreThanFiveMinOption">
+    <p class="my-1  h6">Will your generation run for more than 5 minutes per month?</p>
+      <div class="col-12 mb-3">
+          <mat-radio-group aria-label="Select an option" id="radioOption_fifth" [(ngModel)]="isGenRunMoreThanFiveMin" (change)= "chooseOptionFromFive(isGenRunMoreThanFiveMin)" >
+          <mat-radio-button name="option" value="yes" class="m-0 px-0" ><small class="text-muted">Yes</small></mat-radio-button>
+          <mat-radio-button name="option" value="no"  class="mx-2 px-0"><small class="text-muted">NO</small></mat-radio-button>
+          </mat-radio-group>
+      </div>
+      <div class="col-md-12" *ngIf="isShowRunMoreThanFiveMinForm">
+      <small>
+      If the total period of parallel operation is less than 5 minutes in any given month, and is for generation plant testing purposes only, the requirements for interface protection may be relaxed. We will provide details of the protection required as part of your formal quotation.
+    </small>
+    </div>
+    </div>
+
+    <!---section 5-->
+    <div class="generation-one" *ngIf="isShowAllGenOption && isShowApplyInMwOrKwOption">
+    <p class="my-1  h6">Would you like to apply in megawatts or kilowatts?</p>
+      <div class="col-12 mb-3">
+          <mat-radio-group aria-label="Select an option" id="radioOption_six" [(ngModel)]="isApplyInMwOrKw" (change)="showMwKwForm()">
+          <mat-radio-button name="option" value="mw" class="m-0 px-0" ><small class="text-muted">MW</small></mat-radio-button>
+          <mat-radio-button name="option" value="kw"  class="mx-2 px-0"><small class="text-muted">KW</small></mat-radio-button>
+          </mat-radio-group>
+      </div>
+      <div class="col-md-12" *ngIf="isShowApplyInMwOrKwForm">
+        <label>Preferred Connection Point Voltage?(V)</label>
+<input type="number" id="preferConVoltage"  [(ngModel)]="preferConVoltage" class="form-control input-group-text w-25 mb-2" >
+
+      <app-mw-or-kw [isMworKw]="isApplyInMwOrKw" (allMWOrKwData)="getAllMwOrKwFormData($event)"></app-mw-or-kw>
+    </div>
+    </div>
+
+    <div class="">
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="saveAndContinue('isSubmit', 'InProgress')">Save and Continue</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" *ngIf="navIndex!==0" >Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="saveAndContinue('saveForLater', 'Paused')">Save for later</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">Request A Callback</button>
+      </div>
+</div>

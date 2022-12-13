@@ -1,0 +1,17 @@
+.form-control {
+    border: none;
+    padding: 10px;
+    background-color: #ebebeb;
+    // width: 100%;
+}
+
+.errors-container {
+    p {
+        color: red;
+        margin-bottom: 2px;
+    }
+}
+
+.input-error {
+    border: 1px solid #ab1236 !important;
+}

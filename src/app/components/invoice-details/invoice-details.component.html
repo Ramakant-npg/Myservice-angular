@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="errors">
+        <p class="mandatoryCss"><span>*</span>Signifies mandatory fields</p>
+    </div>
+    <div class="mainForm">
+        <p class="titleHeading">Please provide invoice details below or identify where they are the same as your correspondence address. These details will be used throughout the Connections process to issue all relevant invoices for your project and will be where we invoice the Connection Offer Expense, if your scheme falls within a chargeable category.</p>
+        <div class="row">
+            <div class="oneHalf">
+                <p class="titleHeading">Invoice Details</p>
+                <form class="microGenStyle" #invoiceDetailsForm="ngForm">
+                    <div class="form-group">
+                        <label>Customer Name <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkName(Customer_Name, 'name')"
+                                [ngClass]="{'inputError': customerName?.errors?.['required'] && formSubmitted}"
+                                name="customerName" #customerName="ngModel" [(ngModel)]="Customer_Name"  required>
+                                <small *ngIf="customerName?.errors?.['required'] && formSubmitted" style="color:red">
+                                    Customer Name is required.
+                                </small>
+                                <small *ngIf="Customer_Name != '' && !custNameCheck" style="color:red">
+                                    Only Alphabet and Number are Allowed.
+                                </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name (If applicable)</label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkName(Company_Name, 'comp')"
+                                [(ngModel)]="Company_Name" name="companyName" #companyName="ngModel">
+                                <small *ngIf="Company_Name != '' && !compNameCheck" style="color:red">
+                                    Special Characters not allowed
+                                </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Property Name/Number <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAddress(Customer_Property_Name, 'property')"
+                                [ngClass]="{'inputError': customerPropertyName?.errors?.['required'] && formSubmitted}"
+                                [(ngModel)]="Customer_Property_Name" name="customerPropertyName" #customerPropertyName="ngModel" required>
+                            <small *ngIf="customerPropertyName?.errors?.['required'] && formSubmitted" style="color:red">
+                                Property Name/Number is required.
+                            </small>
+                            <small *ngIf="Customer_Property_Name != '' && !propertyCheck" style="color:red">
+                                Only Alphabet, Numbers, / , ., - are allowed
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Address 2 <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAddress(Customer_Address, 'address2')"
+                                [ngClass]="{'inputError': customerAddress?.errors?.['required'] && formSubmitted}"
+                                [(ngModel)]="Customer_Address" name="customerAddress" #customerAddress="ngModel" required>
+                            <small *ngIf="customerAddress?.errors?.['required'] && formSubmitted" style="color:red">
+                                Address 2 is required.
+                            </small>
+                            <small *ngIf="Customer_Address != '' && !address2Check" style="color:red">
+                                Only Alphabet, Numbers, / , ., - are allowed
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Town <span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAddress(Customer_Town, 'town')"
+                                [ngClass]="{'inputError': customerTown?.errors?.['required'] && formSubmitted}" 
+                                [(ngModel)]="Customer_Town" name="customerTown" #customerTown="ngModel" required>
+                            <small *ngIf="customerTown?.errors?.['required'] && formSubmitted" style="color:red">
+                                Town is required.
+                            </small>
+                            <small *ngIf="Customer_Town != '' && !townCheck" style="color:red">
+                                Only Alphabet Allowed.
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Country </label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkAddress(Customer_Country, 'country')"
+                                [(ngModel)]="Customer_Country" 
+                                name="customerCountry" 
+                                #customerCountry="ngModel" 
+                            />
+                            <small *ngIf="Customer_Country != '' && !countryCheck" style="color:red">
+                                Only Alphabet Allowed.
+                            </small>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <label>Post Code<span style="color:#ab1236">*</span></label>
+                        <div class="microGenStyleCss">
+                            <input type="text" class="form-control" (keyup)="checkPostCode(Customer_Postcode)"
+                                [ngClass]="{'inputError': (Postcode?.errors?.['required'] || (!postCheck)) && formSubmitted}" 
+                                [(ngModel)]="Customer_Postcode" name="Postcode" #Postcode="ngModel" required>
+                            <small *ngIf="formSubmitted && Postcode?.errors?.['required']" style="color:red">
+                                Postcode is required.
+                            </small>
+                            <small *ngIf="Customer_Postcode != '' && !postCheck" style="color:red">Invalid Postcode</small>
+                        </div> 
+                    </div>
+                </form>
+            </div>
+            <div class="secondHalf">
+                <p class="titleHeading">Would you like to use your correspondence address as your invoice details?</p>
+                
+                <div class="form-group">
+                    <button mat-button color="warn" class="btnStyle" (click)="populateDetails()">
+                     USE MY CORRESPONDENCE ADDRESS
+                    </button>
+                </div>
+                <div class="form-group">
+                    <p class="connections-caption">Your correspondence address</p>
+                    <p class="contactDetailsNameCss">{{dummyContactDetails.custFirstName}} {{dummyContactDetails.custSurName}}</p>
+                    <p class="contactDetailsNameCss">{{dummyContactDetails.custCompanyName}}</p>
+                    <!-- <p class="contactDetailsNameCss">{{dummyContactDetails.}}</p> -->
+                    <p class="contactDetailsNameCss">{{dummyContactDetails.Site_Name}}</p>
+                    <p class="contactDetailsNameCss">{{dummyContactDetails.Site_Street}}</p>
+                    <p class="contactDetailsNameCss">{{dummyContactDetails.Site_City}}</p>
+                    <p class="contactDetailsNameCss">{{dummyContactDetails.Site_Postcode}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="action-btns">
+
+	<button  *ngIf="(navIndex === templateList?.length-1 )" mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'Submitted')"
+        [disabled]="!custNameCheck || !compNameCheck || !propertyCheck || !address2Check || !townCheck || !countryCheck || !postCheck ">
+         Submit
+        </button>
+
+        <button *ngIf="(navIndex !== templateList?.length-1 )" mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="onSave('isSubmit', 'InProgress')"
+        [disabled]="!custNameCheck || !compNameCheck || !propertyCheck || !address2Check || !townCheck || !countryCheck || !postCheck ">
+         SAVE AND CONTINUE
+        </button>
+        <button *ngIf="navIndex!==0" mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="backToPreviousTemplate()">Back</button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2"  (click)="onSave('saveForLater', 'Paused');"
+        [disabled]="!custNameCheck || !compNameCheck || !propertyCheck || !address2Check || !townCheck || !countryCheck || !postCheck ">
+         SAVE FOR LATER
+        </button>
+        <button mat-button class="btn btn-danger text-uppercase btn-sm me-2" (click)="goToCallBackTemplate()">
+         REQUEST A CALLBACK 
+        </button>
+    </div>
+</div>

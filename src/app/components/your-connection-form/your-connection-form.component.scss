@@ -1,0 +1,177 @@
+.container {
+    min-width: 1020px;
+}
+.mandate {
+    margin-top: 10px;
+}
+.form {
+    margin-top: 18px;
+}
+.newPOintConnection {
+    margin-top: 10px;
+}
+.titleHeading {
+    text-align: left;
+    font: normal normal bold 16px/18px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+.innerTitleHeading {
+    text-align: left;
+    font: normal normal bold 16px/17px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+.innerTitleHeading1 {
+    text-align: left;
+    font: normal normal bold 15px/16px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+    margin-top: 15px; 
+    padding-bottom: 6px;
+}
+.innerTitleHeading2 {
+    text-align: left;
+    font: normal normal bold 15px/16px Arial;
+    letter-spacing: 0px;
+    opacity: 1;
+    margin-top: 35px; 
+    padding-bottom: 6px; 
+}
+.innerTitleHeading1 button {
+    margin-top: -4px;
+}
+.example-radio-button {
+    top: 573px;
+    left: 460px;
+    width: 20%;
+    height: 20px;
+    opacity: 1;
+}
+.example-radio-button1 {
+    top: 573px;
+    left: 460px;
+    width: 6.5%;
+    height: 20px;
+    opacity: 1;
+}
+.mpanInfo {
+    background-color: #ebebeb;
+    color: #000;
+    padding: 10px 10px 10px 10px;
+    font-weight: 100;
+    font-size: 12.5px;
+    margin-bottom: 14px;
+    margin-top: -10px;
+    width: 90%;
+}
+:host ::ng-deep .mat-radio-outer-circle {
+    background-color: #EAEAEA;
+    border: none;
+    opacity: 1;
+}
+.inputErrorCheck {
+    border: 1.5px solid #ab1236 !important;
+    width: 90%;
+}
+.inputError {
+    border: 1.5px solid #ab1236 !important;
+}
+:host ::ng-deep .mat-radio-ripple {
+    display: none;
+}
+:host ::ng-deep .mat-radio-inner-circle {
+    background-color: #AB1236 !important;
+}
+:host ::ng-deep .mat-radio-label-content {
+    text-align: left;
+    font: normal normal  15px/16px Arial;
+    color: #737373 !important;
+    letter-spacing: 0px;
+    color: #171717;
+    opacity: 1;
+}
+.heatingInfo {
+    width: 90%;
+}
+.microGenStyleCss input {
+    border: none;
+    background-color: #ebebeb;
+    width:45%;
+    font-size: 13.8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: -8px;
+}
+.microGenStyleCss label {
+    padding: 4px 4px 4px 4px;
+    width: 90%;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.text-standard-load {
+    width: 8.5% !important;
+}
+.kWCss {
+    margin-top:-27px !important;
+    margin-left: 100px;
+    color: #737373;
+}
+textarea {
+    background-color: #ebebeb;
+    border: none;
+    margin-top: 5px;
+    padding: 8px 0px 10px 10px;
+    width: 90%;
+}
+.subSection {
+    padding-top: 25px;
+    padding-bottom: 13.5px;
+    width: 90%;
+    font-size: 13.5px;
+    color: #737373 !important;
+}
+// .subSection1 {
+//     // padding-top: 25px;
+//     padding-bottom: 13.5px;
+//     width: 92.5%;
+//     font-size: 13.5px;
+//     color: #737373 !important;
+// }
+.select--standard {
+    height: 36px;
+    border: 0;
+    background-color:#ebebeb;
+    padding: 10px 10px 10px 10px;
+    font-size: 13px;
+}
+.validation-style {
+    color: #ab1236;
+    font-size: 12px;
+}
+.borderBottomStyle {
+    border-bottom: 1px solid #ebebeb;
+    width: 90%;
+    margin-top: 20px;
+}
+mat-icon {
+    color: #AB1236;
+}
+.textfield--standard {
+    width: 5% !important;
+    padding: 10px 10px 10px 10px !important;
+}
+.checkBoxCss {
+    width: 3% !important;
+}
+.btnStyle {
+    background-color:#ab1236;
+    color:white;
+    margin: 10px 10px 10px 0px;
+    border: none; 
+    font-size: 14px; 
+    font-weight: 560;
+}
